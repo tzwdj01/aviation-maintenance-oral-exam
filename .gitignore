@@ -1,0 +1,17 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+node_modules/
+dist/
+*.tsbuildinfo
+backend/*.db
+backend/.pytest_cache/
+scripts/qualification/qualification_v2_output*/
+scripts/qualification/.env
