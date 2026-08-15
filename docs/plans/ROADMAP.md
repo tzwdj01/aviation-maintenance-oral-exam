@@ -10,16 +10,13 @@
 ## 主线路线
 
 ```text
-Phase 0  Project Governance & Architecture Baseline   ← 当前阶段（本次完成）
+Phase 0  Project Governance & Architecture Baseline
    │
    ▼
-Sprint 1A  Model-Independent Core + Multi-Provider Foundation
+Sprint 1A  Model-Independent Core + Multi-Provider Foundation   ✅ Architecture/Code Gate PASS
    │
    ▼
-Architecture / Code Gate
-   │
-   ▼
-Sprint 1B  MiMo Speech Integration
+Sprint 1B  MiMo Speech Production Integration   ← 当前（Sprint Transition APPROVED）
    │
    ▼
 Speech Gate
@@ -52,9 +49,10 @@ Sprint 5   Pilot / Canary / Controlled Rollout
 
 | 阶段 | 状态 |
 | --- | --- |
-| Phase 0 | ✅ 完成（Governance Gate 审查中） |
-| Sprint 1A | 基础实现已在 `feature/sprint-1a-multi-provider-foundation`，待 Architecture/Code Gate |
-| Sprint 1B–5 | 未开始（待批准） |
+| Phase 0 | ✅ 完成（Governance Gate 通过） |
+| Sprint 1A | ✅ 完成（Architecture/Code Gate PASS，已合并至 `main`） |
+| Sprint 1B | 🚧 当前（Sprint Transition APPROVED；Speech Gate 待过） |
+| Sprint 1C–5 | 未开始（待批准） |
 
 ## Gate 定义
 

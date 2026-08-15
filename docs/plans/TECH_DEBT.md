@@ -15,7 +15,7 @@ Phase 0 审阅发现的、**不构成本阶段业务修改范围**但需后续�
   `DEEPSEEK_DEFAULT_MODEL` / `OPENAI_DEFAULT_MODEL`（`docs/CONFIGURATION.md`）。
 - **处理**：Phase 0 已在 `backend/app/core/config.py` 通过 `AliasChoices` 支持规范名（legacy 名仍可用），
   未破坏现有 `.env`。
-- **后续**：在进入 Sprint 1A Gate 前，确认是否移除 legacy 名（需人工批准；影响 `.env` 用户）。
+- **后续**：legacy 名在 Sprint 1A 保持兼容未移除；作为独立配置规范化任务保留，待人工批准（影响 `.env` 用户）。
 
 ## 2. main 分支为空，工作内容在 feature 分支
 
