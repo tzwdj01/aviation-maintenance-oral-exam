@@ -1,5 +1,10 @@
 # 评分与动态追问设计
 
+> Status: ACTIVE
+> Owner: 评分与题库治理负责人
+> Last Reviewed: 2026-08-16（Phase 0 Governance Baseline）
+> Source of Truth For: 评分语义、Evidence 规则、Critical Error 语义、追问决策、能力报告
+
 ## 1. 不可突破的治理边界
 
 正式标准只包括版本化的 `must_have_points`、`important_points` 和 `critical_errors`。LLM 只能将回答映射到这些预定义 ID；不得新增标准答案、得分点或 Critical Error。语义等价表达允许被识别，但每项正式判断必须关联可验证的 `EvidenceSpan`。

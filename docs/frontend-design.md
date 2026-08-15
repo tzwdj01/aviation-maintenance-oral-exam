@@ -1,5 +1,10 @@
 # 前端页面与交互设计
 
+> Status: ACTIVE
+> Owner: 前端负责人
+> Last Reviewed: 2026-08-16（Phase 0 Governance Baseline）
+> Source of Truth For: 前端架构、页面清单、工作台交互、复核与可访问性
+
 ## 1. 前端架构
 
 React + TypeScript + Vite 使用按业务域组织的 `features/`：`auth`、`exams`、`question-bank`、`vocabulary`、`review`、`reports`。API Client 集中管理认证、`request_id`、幂等键、错误转换和轮询；录音封装为独立模块，页面不直接处理浏览器媒体 API 细节。严格 TypeScript，禁止 `any` 逃逸关键考试状态。

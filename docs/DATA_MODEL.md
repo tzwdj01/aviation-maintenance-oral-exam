@@ -1,5 +1,10 @@
 # 数据模型设计
 
+> Status: ACTIVE
+> Owner: 数据架构负责人
+> Last Reviewed: 2026-08-16（Phase 0 Governance Baseline）
+> Source of Truth For: 数据库实体、约束、索引、快照、保留与安全策略
+>
 > Sprint 1A 实施说明：模型使用 UUID、UTC 时间戳和 SQLAlchemy 可移植 JSON/UUID 类型；运行中的
 > Attempt 存储计划、题目版本、Rubric、Prompt bundle 与 LLMProfile 快照。Provider 名称使用可验证
 > 字符串而非封闭数据库 enum，以便未来增加厂商，同时业务层对已知状态严格校验。

@@ -1,6 +1,13 @@
 # 考试状态机设计（唯一规范）
 
-本文件是考试状态的唯一规范。`PRD.md` 与 `architecture.md` 只引用本文件，不维护另一套状态枚举。状态以服务端为唯一事实来源；`RECORDING` 只是浏览器 UI 状态，绝不持久化为业务状态。
+> Status: ACTIVE
+> Owner: 考试编排负责人
+> Last Reviewed: 2026-08-16（Phase 0 Governance Baseline）
+> Source of Truth For: `ExamAttemptState` 与 `AttemptItemState` 的全部状态与迁移（唯一规范）
+
+本文件是考试状态的唯一规范。`PRD.md` 与 `ARCHITECTURE.md` 只引用本文件，不维护另一套状态枚举。状态以服务端为唯一事实来源；`RECORDING` 只是浏览器 UI 状态，绝不持久化为业务状态。
+
+状态新增/修改必须经过 ADR（见 `adr/README.md`）或明确架构变更授权；业务代码不得随意增加数据库状态。
 
 ## 1. ExamAttemptState
 

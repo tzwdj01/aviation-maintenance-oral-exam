@@ -1,5 +1,10 @@
 # 多 Provider 设计（Sprint 1A）
 
+> Status: ACTIVE
+> Owner: AI/Provider 架构负责人
+> Last Reviewed: 2026-08-16（Phase 0 Governance Baseline）
+> Source of Truth For: Sprint 1A 多 Provider 架构决策、Provider 注册表、Structured Output 契约、开发检查
+
 ## 决策
 
 评分业务不依赖任何厂商 SDK 或 HTTP 负载。`EvaluationProvider` 和 `SpeechProvider` 是唯一的

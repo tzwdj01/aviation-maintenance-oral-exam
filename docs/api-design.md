@@ -1,5 +1,10 @@
 # REST API 设计
 
+> Status: ACTIVE
+> Owner: 后端架构负责人
+> Last Reviewed: 2026-08-16（Phase 0 Governance Baseline）
+> Source of Truth For: REST API v1 端点、响应契约与约定
+
 ## 1. 约定
 
 - 根路径：`/api/v1`；JSON 使用 `snake_case`；音频上传使用 `multipart/form-data`。

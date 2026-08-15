@@ -1,5 +1,9 @@
 # MiMo 集成架构
 
+> Status: **SUPERSEDED**（Phase 0 Governance Baseline 已将其内容合并拆分，本文件保留原文作为历史记录，不再作为 Source of Truth）
+> Superseded By: `docs/providers/mimo-speech.md`（ASR/TTS）与 `docs/providers/mimo-llm.md`（LLM 评估）
+> 通用安全/可靠性/审计原则已并入 `docs/ARCHITECTURE.md`、`docs/SECURITY.md`、`docs/CONFIGURATION.md`。
+
 > Sprint 1A 修订：MiMo 的 ASR/TTS 继续由 `SpeechProvider` Adapter 调用；MiMo LLM 虽有
 > `EvaluationProvider` 适配器，但因 Full Qualification 为 `FAILED`，只能诊断、不得正式评分。
 > DeepSeek/OpenAI 与 MiMo 并列注册，治理细节见 [multi-provider-design.md](multi-provider-design.md)。

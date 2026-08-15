@@ -1,5 +1,10 @@
 # 航空维修放行人员 AI 口试系统 PRD
 
+> Status: ACTIVE
+> Owner: 产品负责人
+> Last Reviewed: 2026-08-16（Phase 0 Governance Baseline）
+> Source of Truth For: 产品需求、角色、功能范围、验收标准、成功指标
+
 ## 1. 产品概述
 
 本系统用于模拟航空维修放行人员口试。考生通过语音作答，系统将回答转写、按预先维护的结构化评分标准评分，并针对知识缺口进行有限次追问，最终输出可人工复核的考试结果。
@@ -55,7 +60,7 @@
 - 考试计划应定义题目范围、题目数量、及格规则和是否允许重听。
 - 每次考试必须引用不可变的题目版本和评分规则快照。
 - 支持主问题及最多 2 次追问；追问只补充当前题目的评估，不得替换主问题标准。
-- 考试和题目状态必须严格采用 [exam-state-machine.md](/Users/lucky/Documents/ChatGPT/放行人员口试/docs/exam-state-machine.md) 定义的 `ExamAttemptState` 与 `AttemptItemState`；本 PRD 不维护第二套状态枚举。
+- 考试和题目状态必须严格采用 [EXAM_STATE_MACHINE.md](EXAM_STATE_MACHINE.md) 定义的 `ExamAttemptState` 与 `AttemptItemState`；本 PRD 不维护第二套状态枚举。
 
 ### 5.2 语音交互
 

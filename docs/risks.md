@@ -1,5 +1,10 @@
 # 技术风险与缓解措施
 
+> Status: ACTIVE
+> Owner: 项目治理负责人
+> Last Reviewed: 2026-08-16（Phase 0 Governance Baseline）
+> Source of Truth For: 技术风险登记与缓解措施
+
 | 风险 | 影响 | V1 缓解与验收信号 |
 | --- | --- | --- |
 | ASR 误识别航空术语或口音 | 知识点/关键错误误判 | 版本化词典、原文与标准化文并存、金标音频、低置信度复核 |

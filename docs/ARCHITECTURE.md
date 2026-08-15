@@ -1,5 +1,10 @@
 # 系统架构与 API 设计
 
+> Status: ACTIVE
+> Owner: 系统架构负责人
+> Last Reviewed: 2026-08-16（Phase 0 Governance Baseline）
+> Source of Truth For: 系统架构、分层边界、Provider 抽象、多阶段评分编排、REST API 契约
+>
 > Sprint 1A 更新：评估 LLM 通过 `LLMProfile` 快照选择可插拔 Provider。MiMo 保留语音栈；其
 > `mimo-v2.5` 评估 Profile 因 Full Qualification 失败而不可作为正式 Judge。详见
 > [multi-provider-design.md](multi-provider-design.md)。
@@ -49,25 +54,34 @@ flowchart LR
 
 ## 4. 考试状态机
 
-考试状态的唯一规范是 [exam-state-machine.md](/Users/lucky/Documents/ChatGPT/放行人员口试/docs/exam-state-machine.md)。架构层仅约束：服务端持久化 `ExamAttemptState` 与 `AttemptItemState`、使用 `state_version` 进行乐观并发控制；浏览器的 `RECORDING` 仅是 UI 状态；所有外部调用失败进入规范中定义的可恢复路径，绝不静默给分。
+考试状态的唯一规范是 [EXAM_STATE_MACHINE.md](EXAM_STATE_MACHINE.md)。架构层仅约束：服务端持久化 `ExamAttemptState` 与 `AttemptItemState`、使用 `state_version` 进行乐观并发控制；浏览器的 `RECORDING` 仅是 UI 状态；所有外部调用失败进入规范中定义的可恢复路径，绝不静默给分。
 
 ## 5. 项目目录结构
 
-以下为目标目录结构；本次仅创建 `docs/` 中的设计文档。
+以下为目标目录结构（Phase 0 已将 `docs/` 统一为治理体系；实现目录已部分落地）。
 
 ```text
 .
 ├── docs/
+│   ├── README.md                  # 文档索引
 │   ├── PRD.md
-│   ├── architecture.md
-│   ├── data-model.md
-│   ├── scoring-design.md
-│   ├── exam-state-machine.md
-│   ├── mimo-integration.md
+│   ├── ARCHITECTURE.md            # Source of Truth
+│   ├── DATA_MODEL.md              # Source of Truth
+│   ├── SCORING.md                 # Source of Truth
+│   ├── EXAM_STATE_MACHINE.md      # Source of Truth
+│   ├── CONFIGURATION.md           # Source of Truth
+│   ├── SECURITY.md                # Source of Truth
+│   ├── TESTING.md                 # Source of Truth
+│   ├── DEPLOYMENT.md              # Source of Truth
+│   ├── RELEASE.md                 # Source of Truth
 │   ├── api-design.md
 │   ├── frontend-design.md
-│   ├── testing-strategy.md
-│   └── risks.md
+│   ├── multi-provider-design.md
+│   ├── risks.md
+│   ├── providers/                 # Provider 能力与协议
+│   ├── qualification/             # 模型资格认证
+│   ├── adr/                       # 架构决策记录
+│   └── plans/                     # Roadmap / Current Sprint / Backlog / Tech Debt
 ├── backend/
 │   ├── app/
 │   │   ├── api/v1/             # 路由与请求/响应 schema
