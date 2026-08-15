@@ -11,7 +11,9 @@ class LLMProfileCreate(BaseModel):
     display_name: str = Field(min_length=1, max_length=256)
     enabled: bool = True
     is_default: bool = False
-    qualification_status: str = "UNTESTED"
+    # qualification_status is intentionally NOT accepted on create: a client must not
+    # self-assert qualification (API_AVAILABLE != QUALIFIED). The endpoint always
+    # creates profiles as UNTESTED; governed qualification workflows change the status.
 
 
 class LLMProfilePatch(BaseModel):

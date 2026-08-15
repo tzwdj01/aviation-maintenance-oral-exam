@@ -19,7 +19,9 @@ def list_profiles(db: Session = Depends(get_db)) -> list[LLMProfile]:
 
 @router.post("", response_model=LLMProfileRead, status_code=status.HTTP_201_CREATED)
 def create_profile(payload: LLMProfileCreate, db: Session = Depends(get_db)) -> LLMProfile:
-    profile = LLMProfile(**payload.model_dump(), qualification_summary={})
+    # Qualification is governed: every new profile starts UNTESTED and cannot be
+    # self-asserted by the caller (docs/qualification/MODEL_QUALIFICATION.md).
+    profile = LLMProfile(**payload.model_dump(), qualification_status="UNTESTED", qualification_summary={})
     if profile.is_default:
         for other in db.scalars(select(LLMProfile)):
             other.is_default = False

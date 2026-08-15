@@ -49,3 +49,32 @@ Phase 0 审阅发现的、**不构成本阶段业务修改范围**但需后续�
 - **处理**：Phase 0 仅格式化新增/修改文件（`core/config.py`、`tests/test_config.py`），
   未批量重排既有代码（避免大范围无关 diff）。
 - **后续**：经人工批准后，单独提交一次 `ruff format` 全量排版，再启用 CI 格式门槛。
+
+## 7. /admin 路由缺少管理员鉴权（Sprint 1A Conformance Review）
+
+- **现状**：`/api/v1/admin/llm-profiles` 仅依赖 `get_db`，匿名调用者可创建/修改 Profile 并改变默认评估模型。
+  已修复最严重的部分：创建时强制 `UNTESTED`（禁止自证 qualification）。完整鉴权/RBAC 需要用户模型，超出 Sprint 1A 范围。
+- **Gate 条件**：任何非开发环境的公开部署前必须补齐 admin 鉴权/RBAC（列入 Sprint 2 认证与 RBAC）。
+
+## 8. 状态迁移的 state_version 检查未在数据库层原子化
+
+- **现状**：`app/exam/state_machine.py` 的乐观锁检查是内存级比较；并发事务可在提交时互相覆盖。
+  Sprint 1A 尚无 attempt 变更端点，此路径当前不可达。
+- **后续**：实现考试编排端点时，必须用条件更新（`UPDATE ... WHERE state_version = expected`）原子化持久化，
+  拒绝零行更新（`docs/EXAM_STATE_MACHINE.md` §3）。
+
+## 9. 术语标准化多次出现仅记录首个映射（P2，PR #1 评审）
+
+- **现状**：`app/normalization/normalizer.py` 对同一 alias 多次出现时 `str.replace` 替换全部，但只记录首个偏移，
+  且长度变化的替换会漂移后续坐标，审计映射不完整。
+- **后续**：逐次出现地应用替换并相对原文记录坐标（保证每个标准化都可逆、可追溯）。
+
+## 10. 幂等并发预留未序列化（P2，PR #1 评审）
+
+- **现状**：`execute_idempotently` 在并发新 key 下可能双执行 handler；唯一键冲突时一方失败而非重放。
+- **后续**：先预留/锁定幂等键再执行 handler，令竞争者等待或读取已完成记录（`docs/EXAM_STATE_MACHINE.md` §3）。
+
+## 11. 前端开发代理/CORS 未配置（P2，PR #1 评审）
+
+- **现状**：Vite 开发服务器与 API 不同源，`frontend/src/api.ts` 默认调用 `localhost:8000`，无 CORS/代理时浏览器拦截。
+- **后续**：配置 scoped 开发 CORS 或 Vite dev proxy（Sprint 3 前端工作台落地时一并处理）。
