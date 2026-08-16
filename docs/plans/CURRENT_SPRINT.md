@@ -2,18 +2,22 @@
 
 > Status: ACTIVE
 > Owner: 项目治理负责人
-> Last Reviewed: 2026-08-16（Sprint 1A → Sprint 1B Transition）
+> Last Reviewed: 2026-08-16（Sprint 1B → Sprint 1C Transition）
 > Source of Truth For: 当前 Sprint 范围与完成定义
 
 > 未来任何 Codex 任务结束后不得自行修改本文件进入下一 Sprint；只有用户明确批准才能修改。
 
 ## 当前状态（Sprint Transition — APPROVED）
 
-- **Previous Sprint**: Sprint 1A — Model-Independent Core + Multi-Provider Foundation
-- **Previous Gate**: PASS（Architecture / Code Gate 已人工批准，`SPRINT_1A_APPROVED = YES`；PR #1 已以 merge commit 合并至 `main`）
+- **Previous Sprint**: Sprint 1B — MiMo Speech Production Integration
+- **Previous Gate**: **CONDITIONAL_PASS**（Speech Gate 已人工批准，`SPRINT_1B_APPROVED = YES`；
+  PR #4 已以 merge commit 合并至 `main`，merge commit `6ab873f`）
 - **Status**: **APPROVED**
-- **Next Approved Sprint**: **Sprint 1B — MiMo Speech Production Integration**
-- 本次变更为治理文档状态转换（`docs: advance project to sprint 1b`），不含 Sprint 1B 业务代码。
+- **Next Approved Sprint**: **Sprint 1C — Multi-LLM Judge Qualification**
+- **保留**：`SECOND_SPEAKER_VALIDATION = DEFERRED`（经人工批准延期；**不是 Sprint 1C blocker**，
+  但仍是 Pilot / Canary / Production 前的硬性 Gate，登记于
+  `docs/qualification/SPEECH_QUALIFICATION.md`、`docs/plans/TECH_DEBT.md`）
+- 本次变更为治理文档状态转换（`docs: advance project to sprint 1c`），不含 Sprint 1C 业务代码。
 
 ## Sprint 1A（已完成 — 历史定义，仅供追溯）
 
@@ -70,7 +74,10 @@ Architecture / Code Gate（人工）— 已 PASS。
 
 Gate 通过后停止，等待人工批准进入 Sprint 1B。
 
-## Sprint 1B — MiMo Speech Production Integration（当前）
+## Sprint 1B — MiMo Speech Production Integration（已完成 — 历史定义，仅供追溯）
+
+> Sprint 1B 已通过 Speech Gate（`CONDITIONAL_PASS`，`SPRINT_1B_APPROVED = YES`）并合并至
+> `main`（merge commit `6ab873f`）。以下定义保留历史，不再作为当前工作范围。
 
 ### Goal
 
@@ -123,3 +130,83 @@ Speech Gate（人工）：核对 MiMo 语音可用性、审计完整性、无 Se
 ### Stop Condition
 
 Speech Gate 通过或人工批准进入 Sprint 1C 前停止；禁止自动开始 Sprint 1C。
+
+## Sprint 1C — Multi-LLM Judge Qualification（当前）
+
+### Goal
+
+在完全相同的 Golden Dataset、Rubric、Evidence、Critical Error 和 Prompt Bundle 条件下，
+对 **MiMo / DeepSeek / OpenAI** 三个评估 Provider 执行**独立、可复现、可审计**的
+Formal Judge Qualification，确定各模型作为正式评分 Judge 的资格边界
+（`docs/qualification/MODEL_QUALIFICATION.md`）。
+
+### 必须保持的原则
+
+- AI 不拥有标准答案；AI 不直接生成正式 numeric score；server-side deterministic scoring
+- Evidence quote 由服务端 exact-match 并计算 offset；Critical Error 不允许后续 AI 自动清除
+- Attempt 在 `READY` 时锁定 provider/model/profile/prompt/qualification snapshot
+- `API_AVAILABLE ≠ QUALIFIED`；禁止 Silent Provider Failover
+- 不得为某 Provider PASS 修改 Golden labels 或降低 Qualification threshold
+
+### In Scope
+
+- MiMo / DeepSeek / OpenAI 评估 Provider 的独立 Qualification 运行
+- 同一 Golden Dataset benchmark harness（Question / Rubric Snapshot / Evidence rules /
+  Critical Error rules / Prompt Bundle / evaluation schema / qualification thresholds 全量对齐）
+- Prompt Bundle versioning
+- structured-output contract verification（`extra="forbid"` schema 校验）
+- evidence validation（quote exact-match + offset）
+- CE benchmark / follow-up benchmark / decision stability benchmark
+- 指标化结果（与 `docs/qualification/MODEL_QUALIFICATION.md` 一致，不另建第二套标准）：
+  Coverage Exact Agreement、Major Disagreement、Evidence Validity、Critical Error Recall、
+  Critical Error Precision、Follow-up Accuracy、Answer Leakage、Prompt Injection Resistance、
+  Structured Output Validity、Decision Stability、Latency（P50/P95）、Provider Failure Rate
+- 资格登记与更新：`LLMProfile.qualification_status` / `qualification_summary`、
+  `docs/qualification/MODEL_QUALIFICATION.md`、`docs/qualification/qualification-history.md`
+- 可复现与审计：运行脚本、manifest、results、metrics 入库（不含 Key）
+
+### Out of Scope（Sprint 1C 不负责）
+
+- Speech remediation
+- 第二说话人 Speech Qualification（S02，`DEFERRED` — 非 1C blocker，仍为
+  Pilot/Canary/Production 前硬 Gate）
+- Sprint 1D full orchestration
+- 完整考试 UI
+- Question Bank 管理
+- RBAC 大规模开发
+- RAG
+- 自动题目生成
+- Production deployment
+- Pilot / Canary
+- Sprint 2+
+
+### Dependencies
+
+- Sprint 1B（已完成并合并 `main`；Speech Gate `CONDITIONAL_PASS`）
+- MiMo / DeepSeek / OpenAI 真实 Key（仅环境 / Secret Manager 注入；禁止入库）
+- 版本化 Golden Dataset / Rubric / Evidence / Critical Error / Prompt Bundle
+- `docs/qualification/MODEL_QUALIFICATION.md`、`docs/TESTING.md`、`docs/adr/0003-*`、`docs/adr/0005-*`
+
+### Definition of Done
+
+- 三个 Provider 在同一 Golden/Rubric/Evidence/CE/Prompt 条件下的 Qualification 运行完成
+- 每 Provider 的指标与资格结论登记（`QUALIFIED` / `CONDITIONAL` / `FAILED` 等）
+- 正式考试只允许使用通过 Model Qualification Gate 的模型
+- 真实 Key 不入仓库；无 Secret 泄漏
+
+### Required Tests
+
+- 现有后端测试继续通过
+- Qualification 指标计算与 manifest 确定性单测
+- Golden labels 不可变（不得为通过而修改金标）
+- Fake Provider 离线 Qualification 垂直切片
+- 真实 Provider 调用为本地可选验证，不进 CI 默认流程（`docs/TESTING.md`）
+
+### Gate
+
+Model Qualification Gate（人工）：核对三 Provider 资格结论、Golden 对齐、审计完整性、
+无 Secret 泄漏、无架构偏离。
+
+### Stop Condition
+
+Model Qualification Gate 通过或人工批准进入 Sprint 1D 前停止；禁止自动开始 Sprint 1D。
