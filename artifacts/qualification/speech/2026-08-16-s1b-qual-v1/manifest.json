@@ -1,0 +1,456 @@
+{
+  "asr_cases": [
+    {
+      "case_id": "asr-01",
+      "category": "A_plain_chinese",
+      "condition": "normal",
+      "expected_terms": [
+        "维修",
+        "放行"
+      ],
+      "source": "tts",
+      "text_hash": "e4564748b1337f4820f651fb3ce8824373c657cdaa7d74836ad8661caf5bc98c"
+    },
+    {
+      "case_id": "asr-02",
+      "category": "A_plain_chinese",
+      "condition": "normal",
+      "expected_terms": [
+        "起落架"
+      ],
+      "source": "tts",
+      "text_hash": "95ac14215ca29346768b77576e242b681300b64df9f295e746404ba9da53a6da"
+    },
+    {
+      "case_id": "asr-03",
+      "category": "A_plain_chinese",
+      "condition": "normal",
+      "expected_terms": [
+        "工作单",
+        "签署"
+      ],
+      "source": "tts",
+      "text_hash": "f8057d01c1b18196c93d8c7b8d0cdb09298b1dd791e87ad5c8c24c19270fc0e4"
+    },
+    {
+      "case_id": "asr-04",
+      "category": "B_abbreviations",
+      "condition": "normal",
+      "expected_terms": [
+        "MEL",
+        "故障保留"
+      ],
+      "source": "tts",
+      "text_hash": "74df1f41bbbeb5c667890ec8365ab3a0906e7a915aeb6347a0c4f50a2e43a6b7"
+    },
+    {
+      "case_id": "asr-05",
+      "category": "B_abbreviations",
+      "condition": "normal",
+      "expected_terms": [
+        "AMM",
+        "FIM"
+      ],
+      "source": "tts",
+      "text_hash": "aa8fadd323fbf041370a63da2f29523a86f24df727514f6bc6efdf33a34e8c32"
+    },
+    {
+      "case_id": "asr-06",
+      "category": "B_abbreviations",
+      "condition": "normal",
+      "expected_terms": [
+        "CDL"
+      ],
+      "source": "tts",
+      "text_hash": "bd16919405e7e8c0dda44e5cf2d5ed7c402b8c137ee14d8368205905188f66f5"
+    },
+    {
+      "case_id": "asr-07",
+      "category": "B_abbreviations",
+      "condition": "normal",
+      "expected_terms": [
+        "TSM"
+      ],
+      "source": "tts",
+      "text_hash": "db7b28a355cb57b5af955d0259e50aaf9877d5bf6862c2cb495f36974d42fecf"
+    },
+    {
+      "case_id": "asr-08",
+      "category": "B_abbreviations",
+      "condition": "normal",
+      "expected_terms": [
+        "IPC"
+      ],
+      "source": "tts",
+      "text_hash": "52282fd9a78f1ded7045b4bdd595ce7d6e618a85673653f8dbbfcb78751d6c85"
+    },
+    {
+      "case_id": "asr-09",
+      "category": "B_abbreviations",
+      "condition": "normal",
+      "expected_terms": [
+        "MPD"
+      ],
+      "source": "tts",
+      "text_hash": "6fb0b4c4bc89c8fbe0a7fc015aa2b02d5566e35e8738dc53dd4fcb2d5863f996"
+    },
+    {
+      "case_id": "asr-10",
+      "category": "B_abbreviations",
+      "condition": "normal",
+      "expected_terms": [
+        "AD",
+        "SB"
+      ],
+      "source": "tts",
+      "text_hash": "4f218edc6f26b7c19ede0425bd5eb65c75820ad72b354cacddfae0dcad61ab7d"
+    },
+    {
+      "case_id": "asr-11",
+      "category": "B_abbreviations",
+      "condition": "normal",
+      "expected_terms": [
+        "EO",
+        "维修记录"
+      ],
+      "source": "tts",
+      "text_hash": "8c0ed2e733c73ccc78ed4051a3542cc568977e840f770358f9dadc02632ee2d6"
+    },
+    {
+      "case_id": "asr-12",
+      "category": "B_abbreviations",
+      "condition": "normal",
+      "expected_terms": [
+        "ETOPS"
+      ],
+      "source": "tts",
+      "text_hash": "c8e0ddad2a90648a97da577f52d62422a71b8b901c80e86f8edc28dca59953de"
+    },
+    {
+      "case_id": "asr-13",
+      "category": "B_abbreviations",
+      "condition": "normal",
+      "expected_terms": [
+        "APU"
+      ],
+      "source": "tts",
+      "text_hash": "207b796224069d629c5d66199d2616f8488cf97275402dc40799976922430030"
+    },
+    {
+      "case_id": "asr-14",
+      "category": "C_aircraft_engine",
+      "condition": "normal",
+      "expected_terms": [
+        "B737NG"
+      ],
+      "source": "tts",
+      "text_hash": "86bca9f47b9f1c483824ac5ce18a0a4d1605388eaa19139aa6c323edb9f4ee09"
+    },
+    {
+      "case_id": "asr-15",
+      "category": "C_aircraft_engine",
+      "condition": "normal",
+      "expected_terms": [
+        "B737-800"
+      ],
+      "source": "tts",
+      "text_hash": "d8d38b3f6acf9629850b9ffb1e9481de86fd666dc321073ee3eb263e1eed3d2e"
+    },
+    {
+      "case_id": "asr-16",
+      "category": "C_aircraft_engine",
+      "condition": "normal",
+      "expected_terms": [
+        "A330"
+      ],
+      "source": "tts",
+      "text_hash": "9fc8fd8b8877a96b07195be0f2ee7feaa5665114b113f1336123bac21902ab48"
+    },
+    {
+      "case_id": "asr-17",
+      "category": "C_aircraft_engine",
+      "condition": "normal",
+      "expected_terms": [
+        "CFM56"
+      ],
+      "source": "tts",
+      "text_hash": "6ee2388de048e4732694e06b05a053c2d8558f52744a73d6b461eaa7ab8434c1"
+    },
+    {
+      "case_id": "asr-18",
+      "category": "C_aircraft_engine",
+      "condition": "normal",
+      "expected_terms": [
+        "CFM56-7B"
+      ],
+      "source": "tts",
+      "text_hash": "1de63db228da2e04633378dfc5174b42e2c7686b33c043415a2f4167aeef008a"
+    },
+    {
+      "case_id": "asr-19",
+      "category": "D_chinese_terms",
+      "condition": "normal",
+      "expected_terms": [
+        "放行人员",
+        "维修放行"
+      ],
+      "source": "tts",
+      "text_hash": "e0ecb9494034c27f8a00c72dd406714921b0cb28d983c7c156946367f0b36317"
+    },
+    {
+      "case_id": "asr-20",
+      "category": "D_chinese_terms",
+      "condition": "normal",
+      "expected_terms": [
+        "故障保留"
+      ],
+      "source": "tts",
+      "text_hash": "62e5a1f41d2df0d7c1e7937fdfa9ed03c45c5d55d4e2d892755f14e17e126353"
+    },
+    {
+      "case_id": "asr-21",
+      "category": "D_chinese_terms",
+      "condition": "normal",
+      "expected_terms": [
+        "适航指令"
+      ],
+      "source": "tts",
+      "text_hash": "35fa602aba687c8c1438b6acecc73f66aa365d3811bb4db2bd8c240c01037ba8"
+    },
+    {
+      "case_id": "asr-22",
+      "category": "D_chinese_terms",
+      "condition": "normal",
+      "expected_terms": [
+        "最低设备清单"
+      ],
+      "source": "tts",
+      "text_hash": "a9c3a42f3ac567221baada31d3ef334825d9f1d993c88f3dfdfdc9cd9b325548"
+    },
+    {
+      "case_id": "asr-23",
+      "category": "D_chinese_terms",
+      "condition": "normal",
+      "expected_terms": [
+        "维修方案"
+      ],
+      "source": "tts",
+      "text_hash": "e4d6c4a36be2c3f4ce048cef1f497ccf16cc4d0a9c73e8ad1b0011d51e803e7d"
+    },
+    {
+      "case_id": "asr-24",
+      "category": "D_chinese_terms",
+      "condition": "normal",
+      "expected_terms": [
+        "工程指令"
+      ],
+      "source": "tts",
+      "text_hash": "0e0ebdf59826b96b52f20aada96c0a83ffbc2727453127a363ba61805fce388a"
+    },
+    {
+      "case_id": "asr-25",
+      "category": "E_mixed",
+      "condition": "normal",
+      "expected_terms": [
+        "MEL",
+        "故障保留"
+      ],
+      "source": "tts",
+      "text_hash": "162a69ed4e934f5f98a06ddbe9f69b819f5364f65dd068b918d23d858c00d0a9"
+    },
+    {
+      "case_id": "asr-26",
+      "category": "E_mixed",
+      "condition": "normal",
+      "expected_terms": [
+        "AMM",
+        "FIM"
+      ],
+      "source": "tts",
+      "text_hash": "f73b6a44a9fc57854cd57a97a417f8e481575d6dafddfb079026a6e51c815560"
+    },
+    {
+      "case_id": "asr-27",
+      "category": "E_mixed",
+      "condition": "normal",
+      "expected_terms": [
+        "CFM56-7B"
+      ],
+      "source": "tts",
+      "text_hash": "61bee0adac025336a1479dcd539d3e81a019ff993725671866f2b52a095b04c4"
+    },
+    {
+      "case_id": "asr-h1",
+      "category": "F_human",
+      "condition": "normal",
+      "expected_terms": [
+        "维修放行",
+        "维修记录"
+      ],
+      "source": "human",
+      "text_hash": "b36c78ae8237aa81d246be105330765bfd2cb1c311d45f510aa9bede879a4c16"
+    },
+    {
+      "case_id": "asr-h2",
+      "category": "F_human",
+      "condition": "fast",
+      "expected_terms": [
+        "MEL",
+        "故障保留"
+      ],
+      "source": "human",
+      "text_hash": "74df1f41bbbeb5c667890ec8365ab3a0906e7a915aeb6347a0c4f50a2e43a6b7"
+    },
+    {
+      "case_id": "asr-h3",
+      "category": "F_human",
+      "condition": "paused",
+      "expected_terms": [
+        "AMM",
+        "FIM"
+      ],
+      "source": "human",
+      "text_hash": "aa8fadd323fbf041370a63da2f29523a86f24df727514f6bc6efdf33a34e8c32"
+    },
+    {
+      "case_id": "asr-h4",
+      "category": "F_human",
+      "condition": "accent",
+      "expected_terms": [
+        "CFM56-7B"
+      ],
+      "source": "human",
+      "text_hash": "c6159165efa850f669dea63b1db69fb47763515f335dc47c6d6ed080e0f992cf"
+    },
+    {
+      "case_id": "asr-h5",
+      "category": "F_human",
+      "condition": "noise",
+      "expected_terms": [
+        "B737NG",
+        "起落架"
+      ],
+      "source": "human",
+      "text_hash": "20d2a52a7868b8b4c9d7b09feebdc9182e103597771278f8cf561de610da85c0"
+    }
+  ],
+  "dataset_version": "speech-qual-2026-08-16-v1",
+  "normalizer_ruleset_version": "builtin-v1",
+  "run_id": "2026-08-16-s1b-qual-v1",
+  "tts_cases": [
+    {
+      "case_id": "tts-01",
+      "category": "TTS_plain",
+      "condition": "normal",
+      "expected_terms": [
+        "维修放行"
+      ],
+      "source": "tts",
+      "text_hash": "24de928b03966b6a25fba46c6af394242fbf980931d51e214c528d9785d9ee3a"
+    },
+    {
+      "case_id": "tts-02",
+      "category": "TTS_abbreviations",
+      "condition": "normal",
+      "expected_terms": [
+        "MEL",
+        "故障保留"
+      ],
+      "source": "tts",
+      "text_hash": "74df1f41bbbeb5c667890ec8365ab3a0906e7a915aeb6347a0c4f50a2e43a6b7"
+    },
+    {
+      "case_id": "tts-03",
+      "category": "TTS_abbreviations",
+      "condition": "normal",
+      "expected_terms": [
+        "AMM",
+        "FIM"
+      ],
+      "source": "tts",
+      "text_hash": "aa8fadd323fbf041370a63da2f29523a86f24df727514f6bc6efdf33a34e8c32"
+    },
+    {
+      "case_id": "tts-04",
+      "category": "TTS_aircraft_engine",
+      "condition": "normal",
+      "expected_terms": [
+        "CFM56-7B"
+      ],
+      "source": "tts",
+      "text_hash": "0979117f1c53cd4b6cca5ccaaf0b03163da38cc4e68675624de34950d833f7c8"
+    },
+    {
+      "case_id": "tts-05",
+      "category": "TTS_aircraft_engine",
+      "condition": "normal",
+      "expected_terms": [
+        "B737NG",
+        "A330"
+      ],
+      "source": "tts",
+      "text_hash": "ad5e50f485c693c1da5bf0711c3bc76b9bce41db206ef32aa2897c32f7ac2d59"
+    },
+    {
+      "case_id": "tts-06",
+      "category": "TTS_mixed",
+      "condition": "normal",
+      "expected_terms": [
+        "MPD",
+        "维修记录"
+      ],
+      "source": "tts",
+      "text_hash": "ec9d5aaf6ae6245c0d86c8039f6dc404e602cff0dd323fd0def4380e59c679ca"
+    },
+    {
+      "case_id": "tts-07",
+      "category": "TTS_mixed",
+      "condition": "normal",
+      "expected_terms": [
+        "AD",
+        "SB",
+        "EO"
+      ],
+      "source": "tts",
+      "text_hash": "09be7dd73f6e36e9d1ad8fad171e9664c8b9e831ccf7ec18b8e1ebfe52e755a1"
+    },
+    {
+      "case_id": "tts-08",
+      "category": "TTS_mixed",
+      "condition": "normal",
+      "expected_terms": [
+        "ETOPS",
+        "APU"
+      ],
+      "source": "tts",
+      "text_hash": "38f74ac003f06f8e50e3cc36b249d49f1b6cfc0591ff158ec0a9442a52ae05b5"
+    },
+    {
+      "case_id": "tts-09",
+      "category": "TTS_long",
+      "condition": "normal",
+      "expected_terms": [
+        "放行人员",
+        "维修记录",
+        "故障保留",
+        "最低设备清单",
+        "适航指令",
+        "放行"
+      ],
+      "source": "tts",
+      "text_hash": "bab66581e91692dbfba0bce1c3b163481e6cc1c52218a2da09c1cfe68bb064bd"
+    },
+    {
+      "case_id": "tts-10",
+      "category": "TTS_terms",
+      "condition": "normal",
+      "expected_terms": [
+        "最低设备清单",
+        "维修方案"
+      ],
+      "source": "tts",
+      "text_hash": "bb2cf2244209582364037125ad330ac863290fafbde91c92fa024c3c53a2e614"
+    }
+  ],
+  "vocabulary_version": "builtin"
+}
