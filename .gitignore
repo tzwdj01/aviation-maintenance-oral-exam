@@ -15,3 +15,7 @@ backend/*.db
 backend/.pytest_cache/
 scripts/qualification/qualification_v2_output*/
 scripts/qualification/.env
+# Qualification generated audio never enters the repository; only hashes/metadata are committed.
+artifacts/qualification/speech/**/*.wav
+artifacts/qualification/speech/**/*.mp3
+artifacts/qualification/speech/**/*.m4a

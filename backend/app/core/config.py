@@ -22,6 +22,20 @@ class Settings(BaseSettings):
     mimo_tts_model: str = "mimo-v2.5-tts"
     mimo_voicedesign_enabled: bool = False
     mimo_voiceclone_enabled: bool = False
+    mimo_asr_language: str = "auto"
+    mimo_tts_voice: str = "mimo_default"
+    mimo_tts_style_prompt: str = "请使用清晰、自然、专业的中文口试考官语气。"
+    speech_render_profile_version: str = "render-v1"
+
+    # Media / audio artifacts (docs/CONFIGURATION.md §1)
+    media_storage_dir: str = "./media"
+    media_max_size_bytes: int = Field(default=20 * 1024 * 1024, gt=0)
+    media_allowed_mime_types: list[str] = Field(
+        default_factory=lambda: ["audio/wav", "audio/mpeg", "audio/mp3"]
+    )
+    media_max_duration_seconds: int = Field(default=120, gt=0)
+    media_access_url_ttl_seconds: int = Field(default=3600, gt=0)
+    media_url_secret: SecretStr | None = None
 
     deepseek_base_url: str = Field(
         default="https://api.deepseek.com",

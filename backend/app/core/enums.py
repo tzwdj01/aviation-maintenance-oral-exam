@@ -37,6 +37,15 @@ class AnswerType(StrEnum):
     RE_RECORDING = "RE_RECORDING"
 
 
+class AudioPurpose(StrEnum):
+    """Purpose of a stored audio artifact (docs/DATA_MODEL.md §3 `media_assets`)."""
+
+    QUESTION_TTS = "QUESTION_TTS"
+    CANDIDATE_ANSWER = "CANDIDATE_ANSWER"
+    FOLLOW_UP_TTS = "FOLLOW_UP_TTS"
+    VOICE_REFERENCE = "VOICE_REFERENCE"
+
+
 class CriticalErrorResult(StrEnum):
     NOT_TRIGGERED = "NOT_TRIGGERED"
     TRIGGERED = "TRIGGERED"

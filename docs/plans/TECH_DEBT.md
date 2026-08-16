@@ -78,3 +78,14 @@ Phase 0 审阅发现的、**不构成本阶段业务修改范围**但需后续�
 
 - **现状**：Vite 开发服务器与 API 不同源，`frontend/src/api.ts` 默认调用 `localhost:8000`，无 CORS/代理时浏览器拦截。
 - **后续**：配置 scoped 开发 CORS 或 Vite dev proxy（Sprint 3 前端工作台落地时一并处理）。
+
+## 12. S02 第二说话人验证 DEFERRED（Pilot/Canary 前硬 Gate）
+
+- **现状**：`SECOND_SPEAKER_VALIDATION = DEFERRED`（经人工批准本阶段延期）；
+  `C:\Users\Lucky\Documents\speech-qualification-human\S02\S02_case01.wav` 为 44 字节
+  空占位（duration_ms=0），未构成有效样本。S01 单说话人结论为 `CONDITIONAL_PASS`。
+- **影响**：语音资格目前仅覆盖单说话人；跨说话人鲁棒性未验证。
+- **硬性 Gate**：在任何 Pilot / Canary / Production 部署前，必须完成至少第二名
+  自愿说话人 S02 的 Qualification；不得在后续被遗忘或删除。
+- **登记**：同步于 `docs/qualification/SPEECH_QUALIFICATION.md` §2.1 与
+  `docs/qualification/qualification-history.md` §7。

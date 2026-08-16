@@ -1,0 +1,122 @@
+[
+  {
+    "case_id": "S01-case01",
+    "consent": true,
+    "duration_seconds": 5.97,
+    "peak_dbfs": -5.08,
+    "recorded_at": "2026-08-16T14:02:49.5040514+08:00",
+    "rms_dbfs": -27.56,
+    "sha256": "1846878014000373a128e9de1c045b346aeeb9ea74818f9d601efd9b61b73765",
+    "silence_check": "PASS",
+    "size_bytes": 191084,
+    "text": "请说明 MEL 的作用，以及故障保留的基本要求。"
+  },
+  {
+    "case_id": "S01-case02",
+    "consent": true,
+    "duration_seconds": 5.73,
+    "peak_dbfs": -7.56,
+    "recorded_at": "2026-08-16T14:03:45.7143817+08:00",
+    "rms_dbfs": -29.73,
+    "sha256": "908e28fd26fa60a6d5f1065625d09c65fb917fdc2ef8d06d0ec75e81453bc95f",
+    "silence_check": "PASS",
+    "size_bytes": 183404,
+    "text": "执行维修工作前应查询 AMM 和相关工程文件。"
+  },
+  {
+    "case_id": "S01-case03",
+    "consent": true,
+    "duration_seconds": 5.34,
+    "peak_dbfs": -5.33,
+    "recorded_at": "2026-08-16T14:03:56.1832691+08:00",
+    "rms_dbfs": -26.96,
+    "sha256": "3e86feb48809dc42b85d0cd84fe85916e19695a26cd6975fc56fa10a643baba2",
+    "silence_check": "PASS",
+    "size_bytes": 170924,
+    "text": "如果故障无法按照 FIM 排除，应如何进一步处理？"
+  },
+  {
+    "case_id": "S01-case04",
+    "consent": true,
+    "duration_seconds": 5.31,
+    "peak_dbfs": -6.89,
+    "recorded_at": "2026-08-16T14:04:08.1159156+08:00",
+    "rms_dbfs": -27.92,
+    "sha256": "b7de2d4e98a2767b22d0ef7c65b264eeb3cde43b9908af24fd3b5dbdb8b59dab",
+    "silence_check": "PASS",
+    "size_bytes": 169964,
+    "text": "维修人员应按照 MPD 要求执行相应维修项目。"
+  },
+  {
+    "case_id": "S01-case05",
+    "consent": true,
+    "duration_seconds": 5.93,
+    "peak_dbfs": -5.16,
+    "recorded_at": "2026-08-16T14:04:17.8951153+08:00",
+    "rms_dbfs": -30.29,
+    "sha256": "027e25ab5f77c456f711ceca3fcf3374811a905e2c5f738ee7a9e447ae65a989",
+    "silence_check": "PASS",
+    "size_bytes": 189804,
+    "text": "发现适航指令适用时，应确认 AD 的执行状态。"
+  },
+  {
+    "case_id": "S01-case06",
+    "consent": true,
+    "duration_seconds": 5.56,
+    "peak_dbfs": -8.58,
+    "recorded_at": "2026-08-16T14:04:36.2507582+08:00",
+    "rms_dbfs": -31.84,
+    "sha256": "92418338f742aa91feb50216f0233860f4aac82c90e8604cd92f460ae0bdd964",
+    "silence_check": "PASS",
+    "size_bytes": 177964,
+    "text": "请说明 SB 与适航指令之间的区别。"
+  },
+  {
+    "case_id": "S01-case07",
+    "consent": true,
+    "duration_seconds": 6.9,
+    "peak_dbfs": -3.13,
+    "recorded_at": "2026-08-16T14:04:56.7123126+08:00",
+    "rms_dbfs": -26.32,
+    "sha256": "6e25129dc20d30445bfec0a278882ff3282e7585020e6b719b34444cc033f2fa",
+    "silence_check": "PASS",
+    "size_bytes": 220844,
+    "text": "该飞机为 B737-800，发动机型号为 CFM56-7B。"
+  },
+  {
+    "case_id": "S01-case08",
+    "consent": true,
+    "duration_seconds": 6.02,
+    "peak_dbfs": -4.68,
+    "recorded_at": "2026-08-16T14:05:10.4114353+08:00",
+    "rms_dbfs": -27.2,
+    "sha256": "c478f4c5fadb04a7d2a305e673b2d1dc2cd721e1fd60ba4139933d4487647d0c",
+    "silence_check": "PASS",
+    "size_bytes": 192684,
+    "text": "B737NG 飞机完成维修后，应如何进行维修放行？"
+  },
+  {
+    "case_id": "S01-case09",
+    "consent": true,
+    "duration_seconds": 5.07,
+    "peak_dbfs": -4.41,
+    "recorded_at": "2026-08-16T14:05:21.8858681+08:00",
+    "rms_dbfs": -25.61,
+    "sha256": "86183a166f26404573a76cede2b33e3289e1d0c9515673b53eb39206c7cba56c",
+    "silence_check": "PASS",
+    "size_bytes": 162284,
+    "text": "最低设备清单 MEL 是故障保留的重要依据之一。"
+  },
+  {
+    "case_id": "S01-case10",
+    "consent": true,
+    "duration_seconds": 5.1,
+    "peak_dbfs": -8.03,
+    "recorded_at": "2026-08-16T14:09:07.1831949+08:00",
+    "rms_dbfs": -28.87,
+    "sha256": "6a23511921774b89dd6948b926c0270468e66f2b91ebf031112a2623b0cea578",
+    "silence_check": "PASS",
+    "size_bytes": 163244,
+    "text": "请说明维修记录签署和放行人员授权的基本要求。"
+  }
+]

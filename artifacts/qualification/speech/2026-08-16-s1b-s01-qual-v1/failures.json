@@ -1,0 +1,8 @@
+[
+  {
+    "case_id": "tts-06",
+    "category": "TTS_mixed",
+    "reason": "invalid TTS audio: audio exceeds maximum duration of 120 seconds",
+    "status": "FAILED"
+  }
+]

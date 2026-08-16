@@ -29,6 +29,26 @@ Provider 文档描述**协议与能力**；本文件描述**本项目使用哪�
 | `MIMO_TTS_MODEL` | TTS 模型 | `mimo-v2.5-tts` |
 | `MIMO_VOICEDESIGN_ENABLED` | Voice Design 功能门控 | `false` |
 | `MIMO_VOICECLONE_ENABLED` | Voice Clone 功能门控 | `false` |
+| `MIMO_ASR_LANGUAGE` | ASR 识别语言（官方契约 `auto`/`zh`/`en`） | `auto` |
+| `MIMO_TTS_VOICE` | TTS 内置音色（`mimo_default` 等） | `mimo_default` |
+| `MIMO_TTS_STYLE_PROMPT` | TTS 朗读风格/发音指导（官方契约 `user` 消息） | 清晰自然专业中文口试考官语气 |
+
+### Speech Rendering（Sprint 1B remediation）
+
+| 变量 | 说明 | 默认 |
+| --- | --- | --- |
+| `SPEECH_RENDER_PROFILE_VERSION` | TTS 派生渲染文本的版本化 Profile（`render-v1` 拼读航空缩写/型号；canonical 文本永不修改） | `render-v1` |
+
+### Media / Audio（Sprint 1B 新增）
+
+| 变量 | 说明 | 默认 |
+| --- | --- | --- |
+| `MEDIA_STORAGE_DIR` | 本地开发音频存储目录（生产走 StorageAdapter 抽象） | `./media` |
+| `MEDIA_MAX_SIZE_BYTES` | 单段音频最大字节数（服务端校验） | `20971520`（20 MB） |
+| `MEDIA_ALLOWED_MIME_TYPES` | 允许的音频 MIME 列表 | `["audio/wav","audio/mpeg"]` |
+| `MEDIA_MAX_DURATION_SECONDS` | 单段音频最大时长（秒） | `120` |
+| `MEDIA_ACCESS_URL_TTL_SECONDS` | 受控音频访问 URL 有效期（秒） | `3600` |
+| `MEDIA_URL_SECRET` | 受控访问 URL 签名密钥（Secret；开发缺省用进程内临时密钥） | （环境注入） |
 
 ### DeepSeek（评估 Provider）
 

@@ -1,0 +1,13 @@
+[
+  {
+    "case_id": "S01-case09",
+    "false_corrections": [],
+    "kind": "review_warning",
+    "normalized_text": "最低设备清单（MEL）是故障保留的重要依据之一。",
+    "raw_transcript": "最低设备清单（MEL）是故障保留的重要依据之一。",
+    "ruleset_version": "builtin-v1",
+    "warnings": [
+      "Low-confidence candidate 'L' retained without replacement (possible aviation term; review required)"
+    ]
+  }
+]

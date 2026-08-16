@@ -1,0 +1,300 @@
+{
+  "cases": [
+    {
+      "case_id": "S01-case01",
+      "condition": "normal",
+      "expected_aviation_terms": [
+        "MEL",
+        "故障保留"
+      ],
+      "expected_transcript": "请说明 MEL 的作用，以及故障保留的基本要求。",
+      "false_corrections": [],
+      "latency_ms": 859,
+      "normalization_mappings": [],
+      "normalized_matched_terms": [],
+      "normalized_similarity": 0.8,
+      "normalized_transcript": "请说明MER的作用以及故障法流的基本要求。",
+      "provider_error": null,
+      "raw_matched_terms": [],
+      "raw_similarity": 0.8,
+      "raw_transcript": "请说明MER的作用以及故障法流的基本要求。",
+      "retries": 0,
+      "speaker_alias": "S01",
+      "status": "SUCCESS",
+      "warnings": []
+    },
+    {
+      "case_id": "S01-case02",
+      "condition": "normal",
+      "expected_aviation_terms": [
+        "AMM",
+        "维修"
+      ],
+      "expected_transcript": "执行维修工作前应查询 AMM 和相关工程文件。",
+      "false_corrections": [],
+      "latency_ms": 765,
+      "normalization_mappings": [],
+      "normalized_matched_terms": [
+        "AMM",
+        "维修"
+      ],
+      "normalized_similarity": 0.8695652173913043,
+      "normalized_transcript": "执行维修工作前，应查询AMM和相应的工程文件。",
+      "provider_error": null,
+      "raw_matched_terms": [
+        "AMM",
+        "维修"
+      ],
+      "raw_similarity": 0.8695652173913043,
+      "raw_transcript": "执行维修工作前，应查询AMM和相应的工程文件。",
+      "retries": 0,
+      "speaker_alias": "S01",
+      "status": "SUCCESS",
+      "warnings": []
+    },
+    {
+      "case_id": "S01-case03",
+      "condition": "normal",
+      "expected_aviation_terms": [
+        "FIM"
+      ],
+      "expected_transcript": "如果故障无法按照 FIM 排除，应如何进一步处理？",
+      "false_corrections": [],
+      "latency_ms": 655,
+      "normalization_mappings": [],
+      "normalized_matched_terms": [],
+      "normalized_similarity": 0.8979591836734694,
+      "normalized_transcript": "如果故障无法按照SIM排除，应该如何进一步处理？",
+      "provider_error": null,
+      "raw_matched_terms": [],
+      "raw_similarity": 0.8979591836734694,
+      "raw_transcript": "如果故障无法按照SIM排除，应该如何进一步处理？",
+      "retries": 0,
+      "speaker_alias": "S01",
+      "status": "SUCCESS",
+      "warnings": []
+    },
+    {
+      "case_id": "S01-case04",
+      "condition": "normal",
+      "expected_aviation_terms": [
+        "MPD",
+        "维修"
+      ],
+      "expected_transcript": "维修人员应按照 MPD 要求执行相应维修项目。",
+      "false_corrections": [],
+      "latency_ms": 765,
+      "normalization_mappings": [],
+      "normalized_matched_terms": [
+        "维修"
+      ],
+      "normalized_similarity": 0.9090909090909091,
+      "normalized_transcript": "维修人员应按照MTD要求执行相应维修项目。",
+      "provider_error": null,
+      "raw_matched_terms": [
+        "维修"
+      ],
+      "raw_similarity": 0.9090909090909091,
+      "raw_transcript": "维修人员应按照MTD要求执行相应维修项目。",
+      "retries": 0,
+      "speaker_alias": "S01",
+      "status": "SUCCESS",
+      "warnings": []
+    },
+    {
+      "case_id": "S01-case05",
+      "condition": "normal",
+      "expected_aviation_terms": [
+        "AD",
+        "适航指令"
+      ],
+      "expected_transcript": "发现适航指令适用时，应确认 AD 的执行状态。",
+      "false_corrections": [],
+      "latency_ms": 813,
+      "normalization_mappings": [],
+      "normalized_matched_terms": [
+        "AD"
+      ],
+      "normalized_similarity": 0.9090909090909091,
+      "normalized_transcript": "发现失航指令适用时，应确认AD的执行状态。",
+      "provider_error": null,
+      "raw_matched_terms": [
+        "AD"
+      ],
+      "raw_similarity": 0.9090909090909091,
+      "raw_transcript": "发现失航指令适用时，应确认AD的执行状态。",
+      "retries": 0,
+      "speaker_alias": "S01",
+      "status": "SUCCESS",
+      "warnings": []
+    },
+    {
+      "case_id": "S01-case06",
+      "condition": "fast",
+      "expected_aviation_terms": [
+        "SB",
+        "适航指令"
+      ],
+      "expected_transcript": "请说明 SB 与适航指令之间的区别。",
+      "false_corrections": [],
+      "latency_ms": 734,
+      "normalization_mappings": [],
+      "normalized_matched_terms": [
+        "SB"
+      ],
+      "normalized_similarity": 0.8235294117647058,
+      "normalized_transcript": "请说明SB与释行指令之间的区别。",
+      "provider_error": null,
+      "raw_matched_terms": [
+        "SB"
+      ],
+      "raw_similarity": 0.8235294117647058,
+      "raw_transcript": "请说明SB与释行指令之间的区别。",
+      "retries": 0,
+      "speaker_alias": "S01",
+      "status": "SUCCESS",
+      "warnings": []
+    },
+    {
+      "case_id": "S01-case07",
+      "condition": "fast",
+      "expected_aviation_terms": [
+        "B737-800",
+        "CFM56",
+        "CFM56-7B"
+      ],
+      "expected_transcript": "该飞机为 B737-800，发动机型号为 CFM56-7B。",
+      "false_corrections": [],
+      "latency_ms": 905,
+      "normalization_mappings": [],
+      "normalized_matched_terms": [],
+      "normalized_similarity": 0.9310344827586207,
+      "normalized_transcript": "该飞机为B-737-800，发动机型号为CF56-7B。",
+      "provider_error": null,
+      "raw_matched_terms": [],
+      "raw_similarity": 0.9310344827586207,
+      "raw_transcript": "该飞机为B-737-800，发动机型号为CF56-7B。",
+      "retries": 0,
+      "speaker_alias": "S01",
+      "status": "SUCCESS",
+      "warnings": []
+    },
+    {
+      "case_id": "S01-case08",
+      "condition": "pause",
+      "expected_aviation_terms": [
+        "B737NG",
+        "维修放行",
+        "维修",
+        "放行"
+      ],
+      "expected_transcript": "B737NG 飞机完成维修后，应如何进行维修放行？",
+      "false_corrections": [],
+      "latency_ms": 703,
+      "normalization_mappings": [
+        {
+          "confidence": 1.0,
+          "end_char": 6,
+          "normalization_rule": "LAYER_1_EXACT_ALIAS",
+          "normalized_fragment": "B737NG",
+          "raw_fragment": "B七三七NG",
+          "start_char": 0
+        }
+      ],
+      "normalized_matched_terms": [
+        "B737NG",
+        "维修放行",
+        "维修",
+        "放行"
+      ],
+      "normalized_similarity": 0.96,
+      "normalized_transcript": "B737NG飞机完成维修后，应该如何进行维修放行？",
+      "provider_error": null,
+      "raw_matched_terms": [
+        "维修放行",
+        "维修",
+        "放行"
+      ],
+      "raw_similarity": 0.84,
+      "raw_transcript": "B七三七NG飞机完成维修后，应该如何进行维修放行？",
+      "retries": 0,
+      "speaker_alias": "S01",
+      "status": "SUCCESS",
+      "warnings": []
+    },
+    {
+      "case_id": "S01-case09",
+      "condition": "mild_office_noise",
+      "expected_aviation_terms": [
+        "MEL",
+        "故障保留",
+        "最低设备清单"
+      ],
+      "expected_transcript": "最低设备清单 MEL 是故障保留的重要依据之一。",
+      "false_corrections": [],
+      "latency_ms": 703,
+      "normalization_mappings": [],
+      "normalized_matched_terms": [
+        "MEL",
+        "故障保留",
+        "最低设备清单"
+      ],
+      "normalized_similarity": 0.9166666666666666,
+      "normalized_transcript": "最低设备清单（MEL）是故障保留的重要依据之一。",
+      "provider_error": null,
+      "raw_matched_terms": [
+        "MEL",
+        "故障保留",
+        "最低设备清单"
+      ],
+      "raw_similarity": 0.9166666666666666,
+      "raw_transcript": "最低设备清单（MEL）是故障保留的重要依据之一。",
+      "retries": 0,
+      "speaker_alias": "S01",
+      "status": "SUCCESS",
+      "warnings": [
+        "Low-confidence candidate 'L' retained without replacement (possible aviation term; review required)"
+      ]
+    },
+    {
+      "case_id": "S01-case10",
+      "condition": "mild_office_noise",
+      "expected_aviation_terms": [
+        "维修记录",
+        "签署",
+        "放行人员",
+        "维修",
+        "放行"
+      ],
+      "expected_transcript": "请说明维修记录签署和放行人员授权的基本要求。",
+      "false_corrections": [],
+      "latency_ms": 733,
+      "normalization_mappings": [],
+      "normalized_matched_terms": [
+        "维修记录",
+        "签署",
+        "放行人员",
+        "维修",
+        "放行"
+      ],
+      "normalized_similarity": 1.0,
+      "normalized_transcript": "请说明维修记录签署和放行人员授权的基本要求。",
+      "provider_error": null,
+      "raw_matched_terms": [
+        "维修记录",
+        "签署",
+        "放行人员",
+        "维修",
+        "放行"
+      ],
+      "raw_similarity": 1.0,
+      "raw_transcript": "请说明维修记录签署和放行人员授权的基本要求。",
+      "retries": 0,
+      "speaker_alias": "S01",
+      "status": "SUCCESS",
+      "warnings": []
+    }
+  ],
+  "ruleset_version": "builtin-v1",
+  "run_id": "2026-08-16-s1b-human-s01-v1"
+}

@@ -17,6 +17,24 @@ MiMo Speech 是当前项目的**核心语音 Provider**，由 `SpeechProvider` �
 历史 Qualification 结论：`mimo-v2.5-asr` 曾为 `CONDITIONAL_PASS`，`mimo-v2.5-tts` 曾为 `PASS`
 （详见 [`docs/qualification/qualification-history.md`](../qualification/qualification-history.md)）。
 
+## 1.1 官方契约确认（2026-08-16，Sprint 1B）
+
+真实 Provider 接入前已核对 `mimo.mi.com/docs` 当前官方契约（更新 2026-07-17）：
+
+- 端点：`POST /v1/chat/completions`；认证 `Authorization: Bearer <key>` 或 `api-key: <key>`。
+- **ASR `mimo-v2.5-asr`**：`messages[].content[].input_audio.data` 为 data URL，
+  **仅支持 mp3/wav**；`asr_options.language`（`auto`/`zh`/`en`）；转写在
+  `choices[0].message.content`。请求体不含 `stream` 字段。
+- **TTS `mimo-v2.5-tts`**：`assistant` 消息 = 目标合成文本（必需）；`audio.format` 默认 `wav`；
+  `audio.voice` 为内置音色（`mimo_default`、冰糖、茉莉、苏打、白桦、Mia、Chloe、Milo、Dean）；
+  音频在 `choices[0].message.audio.data`（base64）。
+- **Voice Clone `mimo-v2.5-tts-voiceclone`**：`audio.voice` 必需，为 mp3/wav 音频样本的 base64。
+- **Voice Design `mimo-v2.5-tts-voicedesign`**：`user` 消息 = 音色设计文本（必需）；
+  **`audio.voice` 不被支持**（Qualification V2 的 HTTP 400 即由此字段导致）；
+  `audio.optimize_text_preview` 仅该模型支持。
+
+实现以本契约为准；禁止猜测未被官方文档支持的字段。
+
 ## 2. 配置契约
 
 真实 Key 只存在于服务端环境变量（`.env` / CI Secret / Secret Manager），**禁止写入仓库**。
