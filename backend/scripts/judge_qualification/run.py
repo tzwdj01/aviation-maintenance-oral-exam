@@ -1,8 +1,12 @@
-"""Sprint 1C Judge Qualification runner (Formal-Run Ready).
+"""Sprint 1C Judge Qualification runner (Formal-Run Ready, harness v2).
 
 Usage:
-    python -m scripts.judge_qualification.run --providers mimo,deepseek,openai [--fake]
+    python -m scripts.judge_qualification.run --providers mimo,deepseek [--fake]
         --run-id <id> --output-root artifacts/qualification/judge --stability-runs 3
+    python -m scripts.judge_qualification.run --providers mimo,deepseek
+        --run-id <id> --output-root artifacts/qualification/judge --resume
+    python -m scripts.judge_qualification.run --providers mimo,deepseek
+        --run-id <id> --output-root artifacts/qualification/judge --reassemble-only
 
 Formal-run invariants (docs/qualification/MODEL_QUALIFICATION.md):
 - Every provider receives the SAME TRUSTED_EVALUATION_CONTEXT (rubric, CE rules, evidence
@@ -10,9 +14,26 @@ Formal-run invariants (docs/qualification/MODEL_QUALIFICATION.md):
   candidate answer only in a separate UNTRUSTED_CANDIDATE_DATA boundary.
 - A SMOKE stage must pass before the full run; failure => PROVIDER_SMOKE_FAILED.
 - Each stability case is run >=3 times; decision stability covers coverage + CE + follow-up.
-- The manifest pins golden/prompt/schema hashes + gate version + code commit + a
-  stability-subset hash; providers must share the same hashes or the run is
+- The manifest pins golden/prompt/schema hashes + gate version + harness version + code
+  commit + a stability-subset hash; providers must share the same hashes or the run is
   QUALIFICATION_INVALID_RUN.
+
+Harness v2 — checkpoint / resume (Sprint 1C reliability):
+- Every case-run (provider + case_id + stability_run_number) is atomically persisted to
+  ``checkpoints/<provider>/<case_id>/run-<n>.json`` immediately after it completes
+  (temp file -> fsync/close -> atomic replace). No case-run work is lost if the process
+  terminates mid-run.
+- ``--resume`` revalidates EVERY existing checkpoint against the current frozen inputs
+  (golden version+hash, prompt bundle version+hash, schema version+hash, gate version,
+  stability-subset hash, harness version, provider, exact model). Any mismatch ->
+  REFUSE_RESUME / QUALIFICATION_RESUME_MISMATCH; old checkpoints are never mixed into a
+  new run.
+- Completed persisted case-runs are SKIP_COMPLETED (no provider call). An incomplete
+  case-run is re-executed in full (case-run is the atomic unit; no partial-pass recovery).
+- When all case-runs are present, results.json / metrics.json / failures.json /
+  decision-stability / report.md / manifest.json are rebuilt deterministically from the
+  checkpoints (``--reassemble-only`` rebuilds without any provider call).
+- Checkpoints never contain credentials: every persisted payload is ``redact()``-ed.
 """
 
 from __future__ import annotations
@@ -20,8 +41,10 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
+import os
 import subprocess
 import time
+from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -79,6 +102,22 @@ PROVIDER_METHOD = {
     "FINAL_ASSESSMENT": "final_assessment",
 }
 SCHEMA_VERSION = "eval-schema-v1"
+JUDGE_QUALIFICATION_HARNESS_VERSION = "judge-harness-v2"
+
+# Fields that define Qualification semantics and therefore gate resume compatibility.
+# ``code_commit_sha`` is recorded for audit only; the compatible resume marker is the
+# harness version (a code change that alters Qualification semantics must bump it).
+FROZEN_RESUME_FIELDS = (
+    "golden_dataset_version",
+    "golden_dataset_hash",
+    "prompt_bundle_version",
+    "prompt_bundle_hash",
+    "schema_version",
+    "schema_hash",
+    "qualification_gate_version",
+    "stability_subset_hash",
+    "harness_version",
+)
 
 FAKE_PAYLOADS: dict[str, dict[str, Any]] = {
     "COVERAGE": {
@@ -91,6 +130,137 @@ FAKE_PAYLOADS: dict[str, dict[str, Any]] = {
     "FOLLOW_UP": {"should_ask": False, "target_point_ids": [], "follow_up_question": None, "reason": "无需追问"},
     "FINAL_ASSESSMENT": {"initial_mastery": "ADEQUATE", "final_mastery": "ADEQUATE", "prompt_dependency": "A", "qualitative_summary": "掌握充分"},
 }
+
+
+class QualificationResumeMismatch(RuntimeError):
+    """Frozen qualification inputs changed since a checkpoint was written (REFUSE_RESUME)."""
+
+    def __init__(self, message: str) -> None:
+        super().__init__(message)
+        self.code = "QUALIFICATION_RESUME_MISMATCH"
+
+
+@dataclass(frozen=True)
+class FrozenInputs:
+    """Immutable snapshot of every input that defines a Formal Run's semantics."""
+
+    golden_dataset_version: str
+    golden_dataset_hash: str
+    prompt_bundle_version: str
+    prompt_bundle_hash: str
+    schema_version: str
+    schema_hash: str
+    qualification_gate_version: str
+    stability_subset_size: int
+    stability_subset_ids: list[str]
+    stability_subset_hash: str
+    harness_version: str
+    code_commit_sha: str
+
+    def as_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+def _build_frozen_inputs(
+    *,
+    golden_hash: str,
+    bundle_hash: str,
+    schema_hash_value: str,
+    stability_size: int,
+    stability_ids: list[str],
+    commit_sha: str,
+) -> FrozenInputs:
+    return FrozenInputs(
+        golden_dataset_version=DATASET_VERSION,
+        golden_dataset_hash=golden_hash,
+        prompt_bundle_version=PROMPT_BUNDLE_VERSION,
+        prompt_bundle_hash=bundle_hash,
+        schema_version=SCHEMA_VERSION,
+        schema_hash=schema_hash_value,
+        qualification_gate_version=MODEL_QUALIFICATION_GATE_VERSION,
+        stability_subset_size=stability_size,
+        stability_subset_ids=stability_ids,
+        stability_subset_hash=stability_subset_hash(GOLDEN_CASES, stability_size),
+        harness_version=JUDGE_QUALIFICATION_HARNESS_VERSION,
+        code_commit_sha=commit_sha,
+    )
+
+
+def _checkpoint_root(output_dir: Path, run_id: str) -> Path:
+    return output_dir / run_id / "checkpoints"
+
+
+def _atomic_write_json(path: Path, payload: dict[str, Any]) -> None:
+    """Write JSON atomically: temp file -> fsync/close -> atomic replace."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(f"{path.name}.tmp-{os.getpid()}")
+    with open(tmp, "w", encoding="utf-8") as fh:
+        fh.write(json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True))
+        fh.flush()
+        os.fsync(fh.fileno())
+    os.replace(tmp, path)
+
+
+def _load_checkpoint(path: Path) -> dict[str, Any] | None:
+    if not path.exists():
+        return None
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+
+
+def _smoke_checkpoint_path(provider_dir: Path) -> Path:
+    return provider_dir / "smoke.json"
+
+
+def _case_checkpoint_path(provider_dir: Path, case_id: str, run_number: int) -> Path:
+    return provider_dir / case_id / f"run-{run_number}.json"
+
+
+def _validate_frozen(stored: dict[str, Any], current: FrozenInputs) -> str | None:
+    """Return a description of the first frozen-input mismatch, or None if compatible."""
+    for field in FROZEN_RESUME_FIELDS:
+        if stored.get(field) != getattr(current, field):
+            return f"{field}: checkpoint={stored.get(field)!r} current={getattr(current, field)!r}"
+    return None
+
+
+def _validate_resume_checkpoints(
+    checkpoint_root: Path,
+    frozen: FrozenInputs,
+    model_by_provider: dict[str, str],
+) -> None:
+    """Validate every existing checkpoint's provider/model/frozen inputs (REFUSE_RESUME).
+
+    Any mismatch raises QualificationResumeMismatch; old checkpoints are never mixed into
+    a new Formal Run.
+    """
+    if not checkpoint_root.exists():
+        return
+    problems: list[str] = []
+    for provider_dir in sorted(checkpoint_root.iterdir()):
+        if not provider_dir.is_dir():
+            continue
+        provider = provider_dir.name
+        for path in sorted(provider_dir.rglob("*.json")):
+            checkpoint = _load_checkpoint(path)
+            if checkpoint is None:
+                problems.append(f"{path}: unreadable checkpoint")
+                continue
+            stored_provider = checkpoint.get("provider")
+            stored_model = checkpoint.get("model")
+            stored_frozen = checkpoint.get("frozen_inputs") or {}
+            if stored_provider != provider:
+                problems.append(f"{path}: provider={stored_provider!r} != dir {provider!r}")
+            expected_model = model_by_provider.get(provider)
+            if expected_model is not None and stored_model != expected_model:
+                problems.append(f"{path}: model={stored_model!r} != current {expected_model!r}")
+            mismatch = _validate_frozen(stored_frozen, frozen)
+            if mismatch is not None:
+                problems.append(f"{path}: {mismatch}")
+    if problems:
+        raise QualificationResumeMismatch("; ".join(problems))
 
 
 def _git_head() -> str:
@@ -311,6 +481,7 @@ async def run_qualification(
     providers: tuple[str, ...],
     stability_runs: int = 3,
     max_cases: int | None = None,
+    resume: bool = False,
 ) -> Path:
     cases = GOLDEN_CASES if max_cases is None else GOLDEN_CASES[:max_cases]
     stability_size = stability_subset_size(len(GOLDEN_CASES))
@@ -320,6 +491,46 @@ async def run_qualification(
     schema_hash_value = _schema_hash_value()
     commit_sha = _git_head()
     generated_at = datetime.now(UTC).isoformat()
+    frozen = _build_frozen_inputs(
+        golden_hash=golden_hash,
+        bundle_hash=bundle_hash,
+        schema_hash_value=schema_hash_value,
+        stability_size=stability_size,
+        stability_ids=stability_ids,
+        commit_sha=commit_sha,
+    )
+    checkpoint_root = _checkpoint_root(output_dir, run_id)
+    model_by_provider = {provider: _model_for(settings, provider) for provider in providers}
+
+    existing_checkpoints = list(checkpoint_root.rglob("*.json")) if checkpoint_root.exists() else []
+    if not resume and existing_checkpoints:
+        raise RuntimeError(
+            f"checkpoints already exist for run {run_id} ({existing_checkpoints[0].parent}); "
+            "pass --resume to continue or choose a new run_id"
+        )
+    if resume:
+        _validate_resume_checkpoints(checkpoint_root, frozen, model_by_provider)
+    manifest_path = output_dir / run_id / "manifest.json"
+    if not manifest_path.exists():
+        manifest_path.parent.mkdir(parents=True, exist_ok=True)
+        manifest_path.write_text(
+            json.dumps(
+                {
+                    "run_id": run_id,
+                    "run_status": "RUNNING",
+                    "run_validity": "PENDING",
+                    **frozen.as_dict(),
+                    "stability_runs": stability_runs,
+                    "generated_at": generated_at,
+                    "providers": list(providers),
+                },
+                ensure_ascii=False,
+                indent=2,
+                sort_keys=True,
+            ),
+            encoding="utf-8",
+        )
+
     providers_metrics: dict[str, dict[str, Any]] = {}
     per_provider_results: dict[str, Any] = {}
 
@@ -334,7 +545,8 @@ async def run_qualification(
             print(f"[{provider}] NOT_RUN (credentials not configured)")
             continue
         instance = _build_provider(settings, provider, fake_payloads=FAKE_PAYLOADS if provider == "fake" else None)
-        smoke = await smoke_provider(instance, GOLDEN_CASES[0])
+        provider_dir = checkpoint_root / provider
+        smoke = await _smoke_with_checkpoint(instance, provider, provider_dir, frozen, _model_for(settings, provider))
         if smoke["status"] != "PASS":
             providers_metrics[provider] = {
                 "status": "PROVIDER_SMOKE_FAILED",
@@ -346,16 +558,15 @@ async def run_qualification(
             continue
         print(f"[{provider}] smoke PASS")
 
-        records_by_case: list[list[dict[str, Any]]] = []
-        primary: list[dict[str, Any]] = []
-        for case in cases:
-            runs = []
-            for run_index in range(stability_runs):
-                record = await _run_case_once(instance, case)
-                runs.append(record)
-                print(f"[{provider}] {case['case_id']} run{run_index + 1} -> {record['status']}")
-            records_by_case.append(runs)
-            primary.append(runs[0])
+        records_by_case, primary = await _run_case_runs(
+            instance,
+            provider,
+            provider_dir,
+            cases,
+            stability_runs,
+            frozen,
+            _model_for(settings, provider),
+        )
 
         metrics = summarize_provider(primary)
         metrics["decision_stability"] = decision_stability_multipass(records_by_case)
@@ -376,10 +587,139 @@ async def run_qualification(
             "records_by_case": records_by_case,
         }
 
+    return _assemble_outputs(
+        run_id=run_id,
+        output_dir=output_dir,
+        frozen=frozen,
+        providers_metrics=providers_metrics,
+        per_provider_results=per_provider_results,
+        model_by_provider=model_by_provider,
+        stability_runs=stability_runs,
+        cases_count=len(cases),
+        generated_at=generated_at,
+    )
+
+
+async def _smoke_with_checkpoint(
+    instance: Any,
+    provider: str,
+    provider_dir: Path,
+    frozen: FrozenInputs,
+    model: str,
+) -> dict[str, Any]:
+    """Persist the smoke result so a resumed run reuses a proven PASS without another call."""
+    smoke_path = _smoke_checkpoint_path(provider_dir)
+    existing = _load_checkpoint(smoke_path)
+    if existing is not None:
+        mismatch = _validate_frozen(existing.get("frozen_inputs") or {}, frozen)
+        if mismatch is not None:
+            raise QualificationResumeMismatch(f"smoke checkpoint: {mismatch}")
+        if existing.get("model") != model:
+            raise QualificationResumeMismatch(
+                f"smoke checkpoint model mismatch: {existing.get('model')!r} != {model!r}"
+            )
+        smoke = existing.get("smoke") or {}
+        if smoke.get("status") == "PASS":
+            print(f"[{provider}] smoke PASS (resumed from checkpoint)")
+            return smoke
+    smoke = await smoke_provider(instance, GOLDEN_CASES[0])
+    _atomic_write_json(
+        smoke_path,
+        {
+            "provider": provider,
+            "model": model,
+            "frozen_inputs": frozen.as_dict(),
+            "smoke": redact(smoke),
+        },
+    )
+    return smoke
+
+
+async def _run_case_runs(
+    instance: Any,
+    provider: str,
+    provider_dir: Path,
+    cases: list[dict[str, Any]],
+    stability_runs: int,
+    frozen: FrozenInputs,
+    model: str,
+) -> tuple[list[list[dict[str, Any]]], list[dict[str, Any]]]:
+    """Run every case-run, persisting each checkpoint atomically as it completes.
+
+    A persisted successful/complete case-run is SKIP_COMPLETED (no provider call). An
+    incomplete case-run is re-executed in full; the case-run is the atomic resume unit.
+    """
+    records_by_case: list[list[dict[str, Any]]] = []
+    primary: list[dict[str, Any]] = []
+    for case in cases:
+        runs: list[dict[str, Any]] = []
+        for run_index in range(1, stability_runs + 1):
+            path = _case_checkpoint_path(provider_dir, case["case_id"], run_index)
+            checkpoint = _load_checkpoint(path)
+            if checkpoint is not None and checkpoint.get("record") is not None:
+                runs.append(checkpoint["record"])
+                print(f"[{provider}] {case['case_id']} run{run_index} -> SKIP_COMPLETED (resume)")
+                continue
+            record = await _run_case_once(instance, case)
+            record = {**record, "stability_run_number": run_index}
+            _atomic_write_json(
+                path,
+                {
+                    "provider": provider,
+                    "model": model,
+                    "frozen_inputs": frozen.as_dict(),
+                    "record": redact(record),
+                },
+            )
+            runs.append(record)
+            print(f"[{provider}] {case['case_id']} run{run_index} -> {record['status']}")
+        records_by_case.append(runs)
+        primary.append(runs[0])
+    return records_by_case, primary
+
+
+def _run_status(
+    providers_metrics: dict[str, dict[str, Any]],
+    per_provider_results: dict[str, Any],
+    cases_count: int,
+    stability_runs: int,
+) -> str:
+    run_providers = [p for p, m in providers_metrics.items() if m.get("status") == "RUN"]
+    if not run_providers:
+        return "NO_RUN_PROVIDERS"
+    for provider in run_providers:
+        data = per_provider_results.get(provider)
+        if not isinstance(data, dict):
+            return "PARTIAL"
+        total = sum(len(runs) for runs in data.get("records_by_case", []))
+        if total < cases_count * stability_runs:
+            return "PARTIAL"
+    return "COMPLETED"
+
+
+def _assemble_outputs(
+    *,
+    run_id: str,
+    output_dir: Path,
+    frozen: FrozenInputs,
+    providers_metrics: dict[str, dict[str, Any]],
+    per_provider_results: dict[str, Any],
+    model_by_provider: dict[str, str],
+    stability_runs: int,
+    cases_count: int,
+    generated_at: str,
+) -> Path:
+    """Deterministically rebuild final artifacts from the (checkpoint-backed) results."""
     run_providers = [p for p, m in providers_metrics.items() if m.get("status") == "RUN"]
     if run_providers:
         identity = {
-            (golden_hash, bundle_hash, MODEL_QUALIFICATION_GATE_VERSION, SCHEMA_VERSION, schema_hash_value)
+            (
+                frozen.golden_dataset_hash,
+                frozen.prompt_bundle_hash,
+                frozen.qualification_gate_version,
+                frozen.schema_version,
+                frozen.schema_hash,
+            )
         }
         run_validity = "VALID" if len(identity) == 1 else "QUALIFICATION_INVALID_RUN"
     else:
@@ -393,18 +733,20 @@ async def run_qualification(
 
     manifest = {
         "run_id": run_id,
+        "run_status": _run_status(providers_metrics, per_provider_results, cases_count, stability_runs),
         "run_validity": run_validity,
-        "golden_dataset_version": DATASET_VERSION,
-        "golden_dataset_hash": golden_hash,
-        "prompt_bundle_version": PROMPT_BUNDLE_VERSION,
-        "prompt_bundle_hash": bundle_hash,
-        "qualification_gate_version": MODEL_QUALIFICATION_GATE_VERSION,
-        "schema_version": SCHEMA_VERSION,
-        "schema_hash": schema_hash_value,
-        "code_commit_sha": commit_sha,
-        "stability_subset_size": stability_size,
-        "stability_subset_ids": stability_ids,
-        "stability_subset_hash": stability_subset_hash(GOLDEN_CASES, stability_size),
+        "golden_dataset_version": frozen.golden_dataset_version,
+        "golden_dataset_hash": frozen.golden_dataset_hash,
+        "prompt_bundle_version": frozen.prompt_bundle_version,
+        "prompt_bundle_hash": frozen.prompt_bundle_hash,
+        "qualification_gate_version": frozen.qualification_gate_version,
+        "schema_version": frozen.schema_version,
+        "schema_hash": frozen.schema_hash,
+        "harness_version": frozen.harness_version,
+        "code_commit_sha": frozen.code_commit_sha,
+        "stability_subset_size": frozen.stability_subset_size,
+        "stability_subset_ids": frozen.stability_subset_ids,
+        "stability_subset_hash": frozen.stability_subset_hash,
         "stability_runs": stability_runs,
         "generated_at": generated_at,
         "providers": {
@@ -412,15 +754,16 @@ async def run_qualification(
                 "run_id": run_id,
                 "run_validity": m.get("run_validity", m.get("status")),
                 "provider": p,
-                "model": _model_for(settings, p),
-                "dataset_version": DATASET_VERSION,
-                "dataset_hash": golden_hash,
-                "prompt_bundle_version": PROMPT_BUNDLE_VERSION,
-                "prompt_bundle_hash": bundle_hash,
-                "gate_version": MODEL_QUALIFICATION_GATE_VERSION,
-                "schema_version": SCHEMA_VERSION,
-                "schema_hash": schema_hash_value,
-                "code_commit": commit_sha,
+                "model": model_by_provider.get(p),
+                "dataset_version": frozen.golden_dataset_version,
+                "dataset_hash": frozen.golden_dataset_hash,
+                "prompt_bundle_version": frozen.prompt_bundle_version,
+                "prompt_bundle_hash": frozen.prompt_bundle_hash,
+                "gate_version": frozen.qualification_gate_version,
+                "schema_version": frozen.schema_version,
+                "schema_hash": frozen.schema_hash,
+                "harness_version": frozen.harness_version,
+                "code_commit": frozen.code_commit_sha,
                 "timestamp": generated_at,
                 "smoke_result": (per_provider_results.get(p) or {}).get("smoke_result"),
             }
@@ -465,6 +808,110 @@ async def run_qualification(
     return output
 
 
+def _load_case_checkpoints(
+    provider_dir: Path,
+    cases: list[dict[str, Any]],
+    stability_runs: int,
+) -> tuple[list[list[dict[str, Any]]], list[dict[str, Any]]] | None:
+    """Rebuild records_by_case + primary strictly from persisted checkpoints."""
+    if not provider_dir.exists():
+        return None
+    records_by_case: list[list[dict[str, Any]]] = []
+    any_found = False
+    for case in cases:
+        runs: list[dict[str, Any]] = []
+        for run_index in range(1, stability_runs + 1):
+            checkpoint = _load_checkpoint(_case_checkpoint_path(provider_dir, case["case_id"], run_index))
+            if checkpoint is not None and checkpoint.get("record") is not None:
+                runs.append(checkpoint["record"])
+                any_found = True
+        records_by_case.append(runs)
+    if not any_found:
+        return None
+    primary = [
+        (runs[0] if runs else {"case_id": case["case_id"], "status": "NOT_RUN"})
+        for case, runs in zip(cases, records_by_case, strict=True)
+    ]
+    return records_by_case, primary
+
+
+def reassemble_run(
+    *,
+    run_id: str,
+    output_dir: Path,
+    settings: Settings,
+    providers: tuple[str, ...],
+    stability_runs: int = 3,
+    max_cases: int | None = None,
+) -> Path:
+    """Rebuild final artifacts from persisted checkpoints without any provider call."""
+    cases = GOLDEN_CASES if max_cases is None else GOLDEN_CASES[:max_cases]
+    stability_size = stability_subset_size(len(GOLDEN_CASES))
+    stability_ids = [case["case_id"] for case in GOLDEN_CASES[:stability_size]]
+    golden_hash = golden_dataset_hash(GOLDEN_CASES)
+    bundle_hash = prompt_bundle_hash(prompt_bundle_snapshot())
+    schema_hash_value = _schema_hash_value()
+    commit_sha = _git_head()
+    generated_at = datetime.now(UTC).isoformat()
+    frozen = _build_frozen_inputs(
+        golden_hash=golden_hash,
+        bundle_hash=bundle_hash,
+        schema_hash_value=schema_hash_value,
+        stability_size=stability_size,
+        stability_ids=stability_ids,
+        commit_sha=commit_sha,
+    )
+    checkpoint_root = _checkpoint_root(output_dir, run_id)
+    model_by_provider = {provider: _model_for(settings, provider) for provider in providers}
+    _validate_resume_checkpoints(checkpoint_root, frozen, model_by_provider)
+
+    providers_metrics: dict[str, dict[str, Any]] = {}
+    per_provider_results: dict[str, Any] = {}
+    for provider in providers:
+        provider_dir = checkpoint_root / provider
+        loaded = _load_case_checkpoints(provider_dir, cases, stability_runs)
+        if loaded is None:
+            providers_metrics[provider] = {
+                "status": "NOT_RUN",
+                "reason": "no persisted checkpoints for reassembly",
+                "evaluated_cases": 0,
+            }
+            per_provider_results[provider] = []
+            continue
+        records_by_case, primary = loaded
+        smoke = (_load_checkpoint(_smoke_checkpoint_path(provider_dir)) or {}).get("smoke") or {}
+        metrics = summarize_provider(primary)
+        metrics["decision_stability"] = decision_stability_multipass(records_by_case)
+        metrics["evidence_invalid_count"] = sum((r.get("evidence") or {}).get("invalid", 0) for r in primary)
+        zero_tolerance = _zero_tolerance_failures(primary, cases)
+        conclusion = evaluate_model_qualification(metrics, zero_tolerance)
+        metrics["conclusion"] = conclusion
+        metrics["status"] = "RUN"
+        metrics["run_validity"] = "VALID"
+        metrics["stability_runs"] = stability_runs
+        metrics["stability_subset_size"] = stability_size
+        metrics["stability_subset_hash"] = stability_subset_hash(GOLDEN_CASES, stability_size)
+        providers_metrics[provider] = metrics
+        per_provider_results[provider] = {
+            "provider": provider,
+            "model": _model_for(settings, provider),
+            "smoke_result": smoke,
+            "records_by_case": records_by_case,
+        }
+
+    return _assemble_outputs(
+        run_id=run_id,
+        output_dir=output_dir,
+        frozen=frozen,
+        providers_metrics=providers_metrics,
+        per_provider_results=per_provider_results,
+        model_by_provider=model_by_provider,
+        stability_runs=stability_runs,
+        cases_count=len(cases),
+        generated_at=generated_at,
+    )
+
+
 def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Sprint 1C Judge Qualification runner")
     parser.add_argument("--providers", default="mimo,deepseek,openai")
@@ -473,6 +920,16 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--output-root", type=Path, default=Path("artifacts/qualification/judge"))
     parser.add_argument("--stability-runs", type=int, default=3)
     parser.add_argument("--max-cases", type=int, default=None)
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="resume a Formal Run from persisted checkpoints (validates frozen inputs; SKIP_COMPLETED)",
+    )
+    parser.add_argument(
+        "--reassemble-only",
+        action="store_true",
+        help="rebuild final artifacts from persisted checkpoints without any provider call",
+    )
     return parser.parse_args()
 
 
@@ -482,6 +939,17 @@ def main() -> int:
     providers = tuple(p.strip().lower() for p in args.providers.split(",") if p.strip())
     if args.fake:
         providers = ("fake",)
+    if args.reassemble_only:
+        output = reassemble_run(
+            run_id=args.run_id,
+            output_dir=args.output_root,
+            settings=settings,
+            providers=providers,
+            stability_runs=args.stability_runs,
+            max_cases=args.max_cases,
+        )
+        print(f"ARTIFACTS={output}")
+        return 0
     output = asyncio.run(
         run_qualification(
             run_id=args.run_id,
@@ -490,6 +958,7 @@ def main() -> int:
             providers=providers,
             stability_runs=args.stability_runs,
             max_cases=args.max_cases,
+            resume=args.resume,
         )
     )
     print(f"ARTIFACTS={output}")
