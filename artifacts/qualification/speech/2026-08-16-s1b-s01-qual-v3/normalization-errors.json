@@ -1,0 +1,80 @@
+[
+  {
+    "case_id": "S01-case01",
+    "false_corrections": [],
+    "kind": "review_warning",
+    "normalized_text": "请说明MER的作用以及故障法流的基本要求。",
+    "raw_transcript": "请说明MER的作用以及故障法流的基本要求。",
+    "ruleset_version": "builtin-v3",
+    "warnings": [
+      "Low-confidence candidate 'MER' retained without replacement (possible aviation term; review required)",
+      "Low-confidence candidate '故障法流' retained without replacement (possible aviation term; review required)"
+    ]
+  },
+  {
+    "case_id": "S01-case03",
+    "false_corrections": [],
+    "kind": "review_warning",
+    "normalized_text": "如果故障无法按照SIM排除，应该如何进一步处理？",
+    "raw_transcript": "如果故障无法按照SIM排除，应该如何进一步处理？",
+    "ruleset_version": "builtin-v3",
+    "warnings": [
+      "Low-confidence candidate 'SIM' retained without replacement (possible aviation term; review required)"
+    ]
+  },
+  {
+    "case_id": "S01-case04",
+    "false_corrections": [],
+    "kind": "review_warning",
+    "normalized_text": "维修人员应按照MTD要求执行相应维修项目。",
+    "raw_transcript": "维修人员应按照MTD要求执行相应维修项目。",
+    "ruleset_version": "builtin-v3",
+    "warnings": [
+      "Low-confidence candidate 'MTD' retained without replacement (possible aviation term; review required)"
+    ]
+  },
+  {
+    "case_id": "S01-case07",
+    "false_corrections": [],
+    "kind": "review_warning",
+    "normalized_text": "该飞机为B737-800，发动机型号为CF56-7B。",
+    "raw_transcript": "该飞机为B-737-800，发动机型号为CF56-7B。",
+    "ruleset_version": "builtin-v3",
+    "warnings": [
+      "Low-confidence candidate 'CF56-7B' retained without replacement (possible aviation term; review required)"
+    ]
+  },
+  {
+    "case_id": "S01-case09",
+    "false_corrections": [],
+    "kind": "review_warning",
+    "normalized_text": "最低设备清单（MEL）是故障保留的重要依据之一。",
+    "raw_transcript": "最低设备清单（MEL）是故障保留的重要依据之一。",
+    "ruleset_version": "builtin-v1",
+    "warnings": [
+      "Low-confidence candidate 'L' retained without replacement (possible aviation term; review required)"
+    ]
+  },
+  {
+    "case_id": "S01-case09",
+    "false_corrections": [],
+    "kind": "review_warning",
+    "normalized_text": "最低设备清单（MEL）是故障保留的重要依据之一。",
+    "raw_transcript": "最低设备清单（MEL）是故障保留的重要依据之一。",
+    "ruleset_version": "builtin-v2",
+    "warnings": [
+      "Low-confidence candidate 'L' retained without replacement (possible aviation term; review required)"
+    ]
+  },
+  {
+    "case_id": "S01-case09",
+    "false_corrections": [],
+    "kind": "review_warning",
+    "normalized_text": "最低设备清单（MEL）是故障保留的重要依据之一。",
+    "raw_transcript": "最低设备清单（MEL）是故障保留的重要依据之一。",
+    "ruleset_version": "builtin-v3",
+    "warnings": [
+      "Low-confidence candidate 'L' retained without replacement (possible aviation term; review required)"
+    ]
+  }
+]

@@ -46,10 +46,27 @@ adapter/service，不散落 subprocess 调用（本 Sprint 未引入 ffmpeg，WA
    （`ASRTranscript.raw_text` / `raw_response`）。
 3. 空转写：识别 `EMPTY_TRANSCRIPT`（等价内部错误），同 Provider 有限重试
    （`TEMPORARY` + 退避），仍空 → `TaskJob FAILED`（可重录/转人工；不自动判负）。
-4. 成功后调用 `normalize`（最新已发布词典版本 + 内置分层），保存
+4. 成功后调用 `normalize`（最新已发布词典版本 + 版本化内置规则集，当前
+   `builtin-v3`），保存
    `ASRNormalization` + `NormalizationMapping`（坐标/规则可追溯）；Normalizer **不得覆盖** Raw ASR。
 5. `adopt_transcript` 显式单一采用（每个 Answer 至多一个 adopted；重新录音保留历史行，
    `supersedes` 关系）。
+
+### 4.1 内置规则集版本（ruleset versioning）
+
+- `ASRNormalization.normalizer_ruleset_version` 与 `vocabulary_version_id` 独立记录。
+- `builtin-v1`：Sprint 1A 基础层（B七三七NG/M P D/维修放心）。
+- `builtin-v2`：TTS 合成语料驱动的拼写/连字符/同音短语规则 + 低置信候选告警。
+- `builtin-v3`：S01 真人语料驱动的短语同音修正（失航/释行指令→适航指令、
+  B-737-800→B737-800）与单字母混淆候选告警（MER/SIM/MTD/CF56-7B 等，仅 review）。
+- 规则变更必须升版本；历史记录不可变（`docs/qualification/qualification-history.md`）。
+
+### 4.2 TTS 发音改进（Sprint 1B remediation）
+
+- 方案：合成前对题干中的英文缩写做确定性拼读展开（`spell_out_aviation`，
+  MEL→“M E L”等），符合官方 TTS 契约（`assistant` 目标文本自由控制）。
+- 实测（run `2026-08-16-s1b-s01-qual-v3`）：TTS→ASR 回环术语正确率 0.75 → 0.80；
+  原提示词方案（发音指导）实测无增益且引入一次失败，已记录并弃用。
 
 ## 5. TTS 生产流与降级
 

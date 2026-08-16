@@ -1,0 +1,1811 @@
+{
+  "asr_results": [
+    {
+      "audio_metadata": {
+        "audio_file": "S01_case01.wav",
+        "audio_hash": "1846878014000373a128e9de1c045b346aeeb9ea74818f9d601efd9b61b73765",
+        "audio_source": "human",
+        "duration_ms": 5970,
+        "manifest": {
+          "consent": true,
+          "duration_seconds": 5.97,
+          "peak_dbfs": -5.08,
+          "recorded_at": "2026-08-16T14:02:49.5040514+08:00",
+          "rms_dbfs": -27.56,
+          "sha256": "1846878014000373a128e9de1c045b346aeeb9ea74818f9d601efd9b61b73765",
+          "silence_check": "PASS",
+          "size_bytes": 191084
+        },
+        "mime_type": "audio/wav",
+        "size_bytes": 191084
+      },
+      "case_id": "S01-case01",
+      "category": "F_human",
+      "condition": "normal",
+      "expected_terms": [
+        "MEL",
+        "故障保留"
+      ],
+      "gold_text": "请说明 MEL 的作用，以及故障保留的基本要求。",
+      "latency_ms": 859,
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.8,
+          "norm_term_accuracy": 0.0,
+          "normalized_text": "请说明MER的作用以及故障法流的基本要求。",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.8,
+          "norm_term_accuracy": 0.0,
+          "normalized_text": "请说明MER的作用以及故障法流的基本要求。",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.8,
+          "norm_term_accuracy": 0.0,
+          "normalized_text": "请说明MER的作用以及故障法流的基本要求。",
+          "ruleset_version": "builtin-v3",
+          "warnings": []
+        }
+      },
+      "raw_similarity": 0.8,
+      "raw_term_accuracy": 0.0,
+      "raw_transcript": "请说明MER的作用以及故障法流的基本要求。",
+      "retries": 0,
+      "source": "human",
+      "speaker_alias": "S01",
+      "status": "SUCCESS"
+    },
+    {
+      "audio_metadata": {
+        "audio_file": "S01_case02.wav",
+        "audio_hash": "908e28fd26fa60a6d5f1065625d09c65fb917fdc2ef8d06d0ec75e81453bc95f",
+        "audio_source": "human",
+        "duration_ms": 5730,
+        "manifest": {
+          "consent": true,
+          "duration_seconds": 5.73,
+          "peak_dbfs": -7.56,
+          "recorded_at": "2026-08-16T14:03:45.7143817+08:00",
+          "rms_dbfs": -29.73,
+          "sha256": "908e28fd26fa60a6d5f1065625d09c65fb917fdc2ef8d06d0ec75e81453bc95f",
+          "silence_check": "PASS",
+          "size_bytes": 183404
+        },
+        "mime_type": "audio/wav",
+        "size_bytes": 183404
+      },
+      "case_id": "S01-case02",
+      "category": "F_human",
+      "condition": "normal",
+      "expected_terms": [
+        "AMM",
+        "维修"
+      ],
+      "gold_text": "执行维修工作前应查询 AMM 和相关工程文件。",
+      "latency_ms": 765,
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.8695652173913043,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "执行维修工作前，应查询AMM和相应的工程文件。",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.8695652173913043,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "执行维修工作前，应查询AMM和相应的工程文件。",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.8695652173913043,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "执行维修工作前，应查询AMM和相应的工程文件。",
+          "ruleset_version": "builtin-v3",
+          "warnings": []
+        }
+      },
+      "raw_similarity": 0.8695652173913043,
+      "raw_term_accuracy": 1.0,
+      "raw_transcript": "执行维修工作前，应查询AMM和相应的工程文件。",
+      "retries": 0,
+      "source": "human",
+      "speaker_alias": "S01",
+      "status": "SUCCESS"
+    },
+    {
+      "audio_metadata": {
+        "audio_file": "S01_case03.wav",
+        "audio_hash": "3e86feb48809dc42b85d0cd84fe85916e19695a26cd6975fc56fa10a643baba2",
+        "audio_source": "human",
+        "duration_ms": 5340,
+        "manifest": {
+          "consent": true,
+          "duration_seconds": 5.34,
+          "peak_dbfs": -5.33,
+          "recorded_at": "2026-08-16T14:03:56.1832691+08:00",
+          "rms_dbfs": -26.96,
+          "sha256": "3e86feb48809dc42b85d0cd84fe85916e19695a26cd6975fc56fa10a643baba2",
+          "silence_check": "PASS",
+          "size_bytes": 170924
+        },
+        "mime_type": "audio/wav",
+        "size_bytes": 170924
+      },
+      "case_id": "S01-case03",
+      "category": "F_human",
+      "condition": "normal",
+      "expected_terms": [
+        "FIM"
+      ],
+      "gold_text": "如果故障无法按照 FIM 排除，应如何进一步处理？",
+      "latency_ms": 655,
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.8979591836734694,
+          "norm_term_accuracy": 0.0,
+          "normalized_text": "如果故障无法按照SIM排除，应该如何进一步处理？",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.8979591836734694,
+          "norm_term_accuracy": 0.0,
+          "normalized_text": "如果故障无法按照SIM排除，应该如何进一步处理？",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.8979591836734694,
+          "norm_term_accuracy": 0.0,
+          "normalized_text": "如果故障无法按照SIM排除，应该如何进一步处理？",
+          "ruleset_version": "builtin-v3",
+          "warnings": [
+            "Low-confidence candidate 'SIM' retained without replacement (possible aviation term; review required)"
+          ]
+        }
+      },
+      "raw_similarity": 0.8979591836734694,
+      "raw_term_accuracy": 0.0,
+      "raw_transcript": "如果故障无法按照SIM排除，应该如何进一步处理？",
+      "retries": 0,
+      "source": "human",
+      "speaker_alias": "S01",
+      "status": "SUCCESS"
+    },
+    {
+      "audio_metadata": {
+        "audio_file": "S01_case04.wav",
+        "audio_hash": "b7de2d4e98a2767b22d0ef7c65b264eeb3cde43b9908af24fd3b5dbdb8b59dab",
+        "audio_source": "human",
+        "duration_ms": 5310,
+        "manifest": {
+          "consent": true,
+          "duration_seconds": 5.31,
+          "peak_dbfs": -6.89,
+          "recorded_at": "2026-08-16T14:04:08.1159156+08:00",
+          "rms_dbfs": -27.92,
+          "sha256": "b7de2d4e98a2767b22d0ef7c65b264eeb3cde43b9908af24fd3b5dbdb8b59dab",
+          "silence_check": "PASS",
+          "size_bytes": 169964
+        },
+        "mime_type": "audio/wav",
+        "size_bytes": 169964
+      },
+      "case_id": "S01-case04",
+      "category": "F_human",
+      "condition": "normal",
+      "expected_terms": [
+        "MPD",
+        "维修"
+      ],
+      "gold_text": "维修人员应按照 MPD 要求执行相应维修项目。",
+      "latency_ms": 765,
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.9090909090909091,
+          "norm_term_accuracy": 0.5,
+          "normalized_text": "维修人员应按照MTD要求执行相应维修项目。",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.9090909090909091,
+          "norm_term_accuracy": 0.5,
+          "normalized_text": "维修人员应按照MTD要求执行相应维修项目。",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.9090909090909091,
+          "norm_term_accuracy": 0.5,
+          "normalized_text": "维修人员应按照MTD要求执行相应维修项目。",
+          "ruleset_version": "builtin-v3",
+          "warnings": [
+            "Low-confidence candidate 'MTD' retained without replacement (possible aviation term; review required)"
+          ]
+        }
+      },
+      "raw_similarity": 0.9090909090909091,
+      "raw_term_accuracy": 0.5,
+      "raw_transcript": "维修人员应按照MTD要求执行相应维修项目。",
+      "retries": 0,
+      "source": "human",
+      "speaker_alias": "S01",
+      "status": "SUCCESS"
+    },
+    {
+      "audio_metadata": {
+        "audio_file": "S01_case05.wav",
+        "audio_hash": "027e25ab5f77c456f711ceca3fcf3374811a905e2c5f738ee7a9e447ae65a989",
+        "audio_source": "human",
+        "duration_ms": 5930,
+        "manifest": {
+          "consent": true,
+          "duration_seconds": 5.93,
+          "peak_dbfs": -5.16,
+          "recorded_at": "2026-08-16T14:04:17.8951153+08:00",
+          "rms_dbfs": -30.29,
+          "sha256": "027e25ab5f77c456f711ceca3fcf3374811a905e2c5f738ee7a9e447ae65a989",
+          "silence_check": "PASS",
+          "size_bytes": 189804
+        },
+        "mime_type": "audio/wav",
+        "size_bytes": 189804
+      },
+      "case_id": "S01-case05",
+      "category": "F_human",
+      "condition": "normal",
+      "expected_terms": [
+        "AD",
+        "适航指令"
+      ],
+      "gold_text": "发现适航指令适用时，应确认 AD 的执行状态。",
+      "latency_ms": 813,
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.9090909090909091,
+          "norm_term_accuracy": 0.5,
+          "normalized_text": "发现失航指令适用时，应确认AD的执行状态。",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.9090909090909091,
+          "norm_term_accuracy": 0.5,
+          "normalized_text": "发现失航指令适用时，应确认AD的执行状态。",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [
+            {
+              "confidence": 1.0,
+              "end_char": 6,
+              "normalization_rule": "V3_HOMOPHONE_PHRASE",
+              "normalized_fragment": "适航指令",
+              "raw_fragment": "失航指令",
+              "start_char": 2
+            }
+          ],
+          "norm_similarity": 0.9545454545454546,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "发现适航指令适用时，应确认AD的执行状态。",
+          "ruleset_version": "builtin-v3",
+          "warnings": []
+        }
+      },
+      "raw_similarity": 0.9090909090909091,
+      "raw_term_accuracy": 0.5,
+      "raw_transcript": "发现失航指令适用时，应确认AD的执行状态。",
+      "retries": 0,
+      "source": "human",
+      "speaker_alias": "S01",
+      "status": "SUCCESS"
+    },
+    {
+      "audio_metadata": {
+        "audio_file": "S01_case06.wav",
+        "audio_hash": "92418338f742aa91feb50216f0233860f4aac82c90e8604cd92f460ae0bdd964",
+        "audio_source": "human",
+        "duration_ms": 5560,
+        "manifest": {
+          "consent": true,
+          "duration_seconds": 5.56,
+          "peak_dbfs": -8.58,
+          "recorded_at": "2026-08-16T14:04:36.2507582+08:00",
+          "rms_dbfs": -31.84,
+          "sha256": "92418338f742aa91feb50216f0233860f4aac82c90e8604cd92f460ae0bdd964",
+          "silence_check": "PASS",
+          "size_bytes": 177964
+        },
+        "mime_type": "audio/wav",
+        "size_bytes": 177964
+      },
+      "case_id": "S01-case06",
+      "category": "F_human",
+      "condition": "fast",
+      "expected_terms": [
+        "SB",
+        "适航指令"
+      ],
+      "gold_text": "请说明 SB 与适航指令之间的区别。",
+      "latency_ms": 734,
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.8235294117647058,
+          "norm_term_accuracy": 0.5,
+          "normalized_text": "请说明SB与释行指令之间的区别。",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.8235294117647058,
+          "norm_term_accuracy": 0.5,
+          "normalized_text": "请说明SB与释行指令之间的区别。",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [
+            {
+              "confidence": 1.0,
+              "end_char": 10,
+              "normalization_rule": "V3_HOMOPHONE_PHRASE",
+              "normalized_fragment": "适航指令",
+              "raw_fragment": "释行指令",
+              "start_char": 6
+            }
+          ],
+          "norm_similarity": 0.9411764705882353,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "请说明SB与适航指令之间的区别。",
+          "ruleset_version": "builtin-v3",
+          "warnings": []
+        }
+      },
+      "raw_similarity": 0.8235294117647058,
+      "raw_term_accuracy": 0.5,
+      "raw_transcript": "请说明SB与释行指令之间的区别。",
+      "retries": 0,
+      "source": "human",
+      "speaker_alias": "S01",
+      "status": "SUCCESS"
+    },
+    {
+      "audio_metadata": {
+        "audio_file": "S01_case07.wav",
+        "audio_hash": "6e25129dc20d30445bfec0a278882ff3282e7585020e6b719b34444cc033f2fa",
+        "audio_source": "human",
+        "duration_ms": 6900,
+        "manifest": {
+          "consent": true,
+          "duration_seconds": 6.9,
+          "peak_dbfs": -3.13,
+          "recorded_at": "2026-08-16T14:04:56.7123126+08:00",
+          "rms_dbfs": -26.32,
+          "sha256": "6e25129dc20d30445bfec0a278882ff3282e7585020e6b719b34444cc033f2fa",
+          "silence_check": "PASS",
+          "size_bytes": 220844
+        },
+        "mime_type": "audio/wav",
+        "size_bytes": 220844
+      },
+      "case_id": "S01-case07",
+      "category": "F_human",
+      "condition": "fast",
+      "expected_terms": [
+        "B737-800",
+        "CFM56",
+        "CFM56-7B"
+      ],
+      "gold_text": "该飞机为 B737-800，发动机型号为 CFM56-7B。",
+      "latency_ms": 905,
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.9310344827586207,
+          "norm_term_accuracy": 0.0,
+          "normalized_text": "该飞机为B-737-800，发动机型号为CF56-7B。",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.9310344827586207,
+          "norm_term_accuracy": 0.0,
+          "normalized_text": "该飞机为B-737-800，发动机型号为CF56-7B。",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [
+            {
+              "confidence": 1.0,
+              "end_char": 13,
+              "normalization_rule": "V3_SPACING_HYPHEN",
+              "normalized_fragment": "B737-800",
+              "raw_fragment": "B-737-800",
+              "start_char": 4
+            }
+          ],
+          "norm_similarity": 0.9473684210526315,
+          "norm_term_accuracy": 0.3333333333333333,
+          "normalized_text": "该飞机为B737-800，发动机型号为CF56-7B。",
+          "ruleset_version": "builtin-v3",
+          "warnings": [
+            "Low-confidence candidate 'CF56-7B' retained without replacement (possible aviation term; review required)"
+          ]
+        }
+      },
+      "raw_similarity": 0.9310344827586207,
+      "raw_term_accuracy": 0.0,
+      "raw_transcript": "该飞机为B-737-800，发动机型号为CF56-7B。",
+      "retries": 0,
+      "source": "human",
+      "speaker_alias": "S01",
+      "status": "SUCCESS"
+    },
+    {
+      "audio_metadata": {
+        "audio_file": "S01_case08.wav",
+        "audio_hash": "c478f4c5fadb04a7d2a305e673b2d1dc2cd721e1fd60ba4139933d4487647d0c",
+        "audio_source": "human",
+        "duration_ms": 6020,
+        "manifest": {
+          "consent": true,
+          "duration_seconds": 6.02,
+          "peak_dbfs": -4.68,
+          "recorded_at": "2026-08-16T14:05:10.4114353+08:00",
+          "rms_dbfs": -27.2,
+          "sha256": "c478f4c5fadb04a7d2a305e673b2d1dc2cd721e1fd60ba4139933d4487647d0c",
+          "silence_check": "PASS",
+          "size_bytes": 192684
+        },
+        "mime_type": "audio/wav",
+        "size_bytes": 192684
+      },
+      "case_id": "S01-case08",
+      "category": "F_human",
+      "condition": "pause",
+      "expected_terms": [
+        "B737NG",
+        "维修放行",
+        "维修",
+        "放行"
+      ],
+      "gold_text": "B737NG 飞机完成维修后，应如何进行维修放行？",
+      "latency_ms": 703,
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [
+            {
+              "confidence": 1.0,
+              "end_char": 6,
+              "normalization_rule": "LAYER_1_EXACT_ALIAS",
+              "normalized_fragment": "B737NG",
+              "raw_fragment": "B七三七NG",
+              "start_char": 0
+            }
+          ],
+          "norm_similarity": 0.96,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "B737NG飞机完成维修后，应该如何进行维修放行？",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [
+            {
+              "confidence": 1.0,
+              "end_char": 6,
+              "normalization_rule": "LAYER_1_EXACT_ALIAS",
+              "normalized_fragment": "B737NG",
+              "raw_fragment": "B七三七NG",
+              "start_char": 0
+            }
+          ],
+          "norm_similarity": 0.96,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "B737NG飞机完成维修后，应该如何进行维修放行？",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [
+            {
+              "confidence": 1.0,
+              "end_char": 6,
+              "normalization_rule": "LAYER_1_EXACT_ALIAS",
+              "normalized_fragment": "B737NG",
+              "raw_fragment": "B七三七NG",
+              "start_char": 0
+            }
+          ],
+          "norm_similarity": 0.96,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "B737NG飞机完成维修后，应该如何进行维修放行？",
+          "ruleset_version": "builtin-v3",
+          "warnings": []
+        }
+      },
+      "raw_similarity": 0.84,
+      "raw_term_accuracy": 0.75,
+      "raw_transcript": "B七三七NG飞机完成维修后，应该如何进行维修放行？",
+      "retries": 0,
+      "source": "human",
+      "speaker_alias": "S01",
+      "status": "SUCCESS"
+    },
+    {
+      "audio_metadata": {
+        "audio_file": "S01_case09.wav",
+        "audio_hash": "86183a166f26404573a76cede2b33e3289e1d0c9515673b53eb39206c7cba56c",
+        "audio_source": "human",
+        "duration_ms": 5070,
+        "manifest": {
+          "consent": true,
+          "duration_seconds": 5.07,
+          "peak_dbfs": -4.41,
+          "recorded_at": "2026-08-16T14:05:21.8858681+08:00",
+          "rms_dbfs": -25.61,
+          "sha256": "86183a166f26404573a76cede2b33e3289e1d0c9515673b53eb39206c7cba56c",
+          "silence_check": "PASS",
+          "size_bytes": 162284
+        },
+        "mime_type": "audio/wav",
+        "size_bytes": 162284
+      },
+      "case_id": "S01-case09",
+      "category": "F_human",
+      "condition": "mild_office_noise",
+      "expected_terms": [
+        "MEL",
+        "故障保留",
+        "最低设备清单"
+      ],
+      "gold_text": "最低设备清单 MEL 是故障保留的重要依据之一。",
+      "latency_ms": 703,
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.9166666666666666,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "最低设备清单（MEL）是故障保留的重要依据之一。",
+          "ruleset_version": "builtin-v1",
+          "warnings": [
+            "Low-confidence candidate 'L' retained without replacement (possible aviation term; review required)"
+          ]
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.9166666666666666,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "最低设备清单（MEL）是故障保留的重要依据之一。",
+          "ruleset_version": "builtin-v2",
+          "warnings": [
+            "Low-confidence candidate 'L' retained without replacement (possible aviation term; review required)"
+          ]
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.9166666666666666,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "最低设备清单（MEL）是故障保留的重要依据之一。",
+          "ruleset_version": "builtin-v3",
+          "warnings": [
+            "Low-confidence candidate 'L' retained without replacement (possible aviation term; review required)"
+          ]
+        }
+      },
+      "raw_similarity": 0.9166666666666666,
+      "raw_term_accuracy": 1.0,
+      "raw_transcript": "最低设备清单（MEL）是故障保留的重要依据之一。",
+      "retries": 0,
+      "source": "human",
+      "speaker_alias": "S01",
+      "status": "SUCCESS"
+    },
+    {
+      "audio_metadata": {
+        "audio_file": "S01_case10.wav",
+        "audio_hash": "6a23511921774b89dd6948b926c0270468e66f2b91ebf031112a2623b0cea578",
+        "audio_source": "human",
+        "duration_ms": 5100,
+        "manifest": {
+          "consent": true,
+          "duration_seconds": 5.1,
+          "peak_dbfs": -8.03,
+          "recorded_at": "2026-08-16T14:09:07.1831949+08:00",
+          "rms_dbfs": -28.87,
+          "sha256": "6a23511921774b89dd6948b926c0270468e66f2b91ebf031112a2623b0cea578",
+          "silence_check": "PASS",
+          "size_bytes": 163244
+        },
+        "mime_type": "audio/wav",
+        "size_bytes": 163244
+      },
+      "case_id": "S01-case10",
+      "category": "F_human",
+      "condition": "mild_office_noise",
+      "expected_terms": [
+        "维修记录",
+        "签署",
+        "放行人员",
+        "维修",
+        "放行"
+      ],
+      "gold_text": "请说明维修记录签署和放行人员授权的基本要求。",
+      "latency_ms": 733,
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 1.0,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "请说明维修记录签署和放行人员授权的基本要求。",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 1.0,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "请说明维修记录签署和放行人员授权的基本要求。",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 1.0,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "请说明维修记录签署和放行人员授权的基本要求。",
+          "ruleset_version": "builtin-v3",
+          "warnings": []
+        }
+      },
+      "raw_similarity": 1.0,
+      "raw_term_accuracy": 1.0,
+      "raw_transcript": "请说明维修记录签署和放行人员授权的基本要求。",
+      "retries": 0,
+      "source": "human",
+      "speaker_alias": "S01",
+      "status": "SUCCESS"
+    }
+  ],
+  "run_id": "2026-08-16-s1b-s01-qual-v2",
+  "tts_before": [
+    {
+      "asr_latency_ms": 750,
+      "asr_retries": 0,
+      "audio_metadata": {
+        "audio_hash": "9ba8d105449c3c5e119ba2cf92f8a53ffc1019af8ed4cf8043ef935fcdbee992",
+        "duration_ms": 2560,
+        "mime_type": "audio/wav",
+        "size_bytes": 122924
+      },
+      "case_id": "tts-01",
+      "category": "TTS_plain",
+      "expected_terms": [
+        "维修放行"
+      ],
+      "gold_text": "请说明维修放行的基本流程。",
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 1.0,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "请说明维修放行的基本流程。",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 1.0,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "请说明维修放行的基本流程。",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 1.0,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "请说明维修放行的基本流程。",
+          "ruleset_version": "builtin-v3",
+          "warnings": []
+        }
+      },
+      "raw_transcript": "请说明维修放行的基本流程。",
+      "retries": 0,
+      "round_trip_raw_similarity": 1.0,
+      "status": "SUCCESS",
+      "tts_latency_ms": 4047
+    },
+    {
+      "asr_latency_ms": 672,
+      "asr_retries": 0,
+      "audio_metadata": {
+        "audio_hash": "032f252c1ac8f567b3042883a5f90e755902e1af64eaa9a93b2df6814feca30f",
+        "duration_ms": 2720,
+        "mime_type": "audio/wav",
+        "size_bytes": 130604
+      },
+      "case_id": "tts-02",
+      "category": "TTS_abbreviations",
+      "expected_terms": [
+        "MEL",
+        "故障保留"
+      ],
+      "gold_text": "根据 MEL 评估后执行故障保留。",
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.875,
+          "norm_term_accuracy": 0.5,
+          "normalized_text": "根据MIL评估后执行故障保留。",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.875,
+          "norm_term_accuracy": 0.5,
+          "normalized_text": "根据MIL评估后执行故障保留。",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.875,
+          "norm_term_accuracy": 0.5,
+          "normalized_text": "根据MIL评估后执行故障保留。",
+          "ruleset_version": "builtin-v3",
+          "warnings": []
+        }
+      },
+      "raw_transcript": "根据MIL评估后执行故障保留。",
+      "retries": 0,
+      "round_trip_raw_similarity": 0.875,
+      "status": "SUCCESS",
+      "tts_latency_ms": 2875
+    },
+    {
+      "asr_latency_ms": 609,
+      "asr_retries": 0,
+      "audio_metadata": {
+        "audio_hash": "d813cd4010c152a668c24512e7837802afe0bb032481a1e8eca37d6759c62889",
+        "duration_ms": 2560,
+        "mime_type": "audio/wav",
+        "size_bytes": 122924
+      },
+      "case_id": "tts-03",
+      "category": "TTS_abbreviations",
+      "expected_terms": [
+        "AMM",
+        "FIM"
+      ],
+      "gold_text": "需要查询 AMM 和 FIM。",
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.8888888888888888,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "需要查询AMM和FIM。",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.8888888888888888,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "需要查询AMM和FIM。",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.8888888888888888,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "需要查询AMM和FIM。",
+          "ruleset_version": "builtin-v3",
+          "warnings": []
+        }
+      },
+      "raw_transcript": "需要查询AMM和FIM。",
+      "retries": 0,
+      "round_trip_raw_similarity": 0.8888888888888888,
+      "status": "SUCCESS",
+      "tts_latency_ms": 1905
+    },
+    {
+      "asr_latency_ms": 860,
+      "asr_retries": 0,
+      "audio_metadata": {
+        "audio_hash": "16505b478c2564b373649ad6c52940730e5ecdd9f1b92b2676d286aed1806c74",
+        "duration_ms": 3520,
+        "mime_type": "audio/wav",
+        "size_bytes": 169004
+      },
+      "case_id": "tts-04",
+      "category": "TTS_aircraft_engine",
+      "expected_terms": [
+        "CFM56-7B"
+      ],
+      "gold_text": "该 CFM56-7B 发动机需要更换。",
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.8333333333333334,
+          "norm_term_accuracy": 0.0,
+          "normalized_text": "该CFM567字节发动机需要更换。",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.8333333333333334,
+          "norm_term_accuracy": 0.0,
+          "normalized_text": "该CFM567字节发动机需要更换。",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.8333333333333334,
+          "norm_term_accuracy": 0.0,
+          "normalized_text": "该CFM567字节发动机需要更换。",
+          "ruleset_version": "builtin-v3",
+          "warnings": []
+        }
+      },
+      "raw_transcript": "该CFM567字节发动机需要更换。",
+      "retries": 0,
+      "round_trip_raw_similarity": 0.8333333333333334,
+      "status": "SUCCESS",
+      "tts_latency_ms": 2094
+    },
+    {
+      "asr_latency_ms": 1046,
+      "asr_retries": 0,
+      "audio_metadata": {
+        "audio_hash": "92c75766adc6eaf19ad7d5629718e9af8ff4d86e5f1cd0c2225a925df1ddaab9",
+        "duration_ms": 4800,
+        "mime_type": "audio/wav",
+        "size_bytes": 230444
+      },
+      "case_id": "tts-05",
+      "category": "TTS_aircraft_engine",
+      "expected_terms": [
+        "B737NG",
+        "A330"
+      ],
+      "gold_text": "B737NG 与 A330 的起落架系统检查完毕。",
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [
+            {
+              "confidence": 1.0,
+              "end_char": 6,
+              "normalization_rule": "LAYER_1_EXACT_ALIAS",
+              "normalized_fragment": "B737NG",
+              "raw_fragment": "B七三七NG",
+              "start_char": 0
+            }
+          ],
+          "norm_similarity": 0.8085106382978723,
+          "norm_term_accuracy": 0.5,
+          "normalized_text": "B737NG与A三三零的起落架系统检查完毕。",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [
+            {
+              "confidence": 1.0,
+              "end_char": 6,
+              "normalization_rule": "LAYER_1_EXACT_ALIAS",
+              "normalized_fragment": "B737NG",
+              "raw_fragment": "B七三七NG",
+              "start_char": 0
+            }
+          ],
+          "norm_similarity": 0.8085106382978723,
+          "norm_term_accuracy": 0.5,
+          "normalized_text": "B737NG与A三三零的起落架系统检查完毕。",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [
+            {
+              "confidence": 1.0,
+              "end_char": 6,
+              "normalization_rule": "LAYER_1_EXACT_ALIAS",
+              "normalized_fragment": "B737NG",
+              "raw_fragment": "B七三七NG",
+              "start_char": 0
+            }
+          ],
+          "norm_similarity": 0.8085106382978723,
+          "norm_term_accuracy": 0.5,
+          "normalized_text": "B737NG与A三三零的起落架系统检查完毕。",
+          "ruleset_version": "builtin-v3",
+          "warnings": []
+        }
+      },
+      "raw_transcript": "B七三七NG与A三三零的起落架系统检查完毕。",
+      "retries": 0,
+      "round_trip_raw_similarity": 0.6808510638297872,
+      "status": "SUCCESS",
+      "tts_latency_ms": 3313
+    },
+    {
+      "asr_latency_ms": 765,
+      "asr_retries": 0,
+      "audio_metadata": {
+        "audio_hash": "3f944cb971932a0447bac724c59d330dcd8f10078b3d1b2643a5c819d1f75850",
+        "duration_ms": 3520,
+        "mime_type": "audio/wav",
+        "size_bytes": 169004
+      },
+      "case_id": "tts-06",
+      "category": "TTS_mixed",
+      "expected_terms": [
+        "MPD",
+        "维修记录"
+      ],
+      "gold_text": "执行 MPD 检查项目并签署维修记录。",
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.918918918918919,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "执行MPD检查项目，并签署维修记录。",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.918918918918919,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "执行MPD检查项目，并签署维修记录。",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.918918918918919,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "执行MPD检查项目，并签署维修记录。",
+          "ruleset_version": "builtin-v3",
+          "warnings": []
+        }
+      },
+      "raw_transcript": "执行MPD检查项目，并签署维修记录。",
+      "retries": 0,
+      "round_trip_raw_similarity": 0.918918918918919,
+      "status": "SUCCESS",
+      "tts_latency_ms": 1984
+    },
+    {
+      "asr_latency_ms": 640,
+      "asr_retries": 0,
+      "audio_metadata": {
+        "audio_hash": "aaa6cfe650df9faddc06ad71d720cbe436f3ed8eacf3365e208486ba2307742b",
+        "duration_ms": 2880,
+        "mime_type": "audio/wav",
+        "size_bytes": 138284
+      },
+      "case_id": "tts-07",
+      "category": "TTS_mixed",
+      "expected_terms": [
+        "AD",
+        "SB",
+        "EO"
+      ],
+      "gold_text": "按 AD 和 SB 评估后完成 EO。",
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.7878787878787878,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "那AD和SB评估后完成EO。",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.7878787878787878,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "那AD和SB评估后完成EO。",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.7878787878787878,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "那AD和SB评估后完成EO。",
+          "ruleset_version": "builtin-v3",
+          "warnings": []
+        }
+      },
+      "raw_transcript": "那AD和SB评估后完成EO。",
+      "retries": 0,
+      "round_trip_raw_similarity": 0.7878787878787878,
+      "status": "SUCCESS",
+      "tts_latency_ms": 2405
+    },
+    {
+      "asr_latency_ms": 764,
+      "asr_retries": 0,
+      "audio_metadata": {
+        "audio_hash": "4b9ea7ac5c1c3024222989295431b6c7462825297cfeff4848ebb485cee22a69",
+        "duration_ms": 3520,
+        "mime_type": "audio/wav",
+        "size_bytes": 169004
+      },
+      "case_id": "tts-08",
+      "category": "TTS_mixed",
+      "expected_terms": [
+        "ETOPS",
+        "APU"
+      ],
+      "gold_text": "ETOPS 放行前需检查 APU 引气系统。",
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.8095238095238095,
+          "norm_term_accuracy": 0.5,
+          "normalized_text": "E-TOZ放行前，需检查APU引气系统。",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.8095238095238095,
+          "norm_term_accuracy": 0.5,
+          "normalized_text": "E-TOZ放行前，需检查APU引气系统。",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.8095238095238095,
+          "norm_term_accuracy": 0.5,
+          "normalized_text": "E-TOZ放行前，需检查APU引气系统。",
+          "ruleset_version": "builtin-v3",
+          "warnings": []
+        }
+      },
+      "raw_transcript": "E-TOZ放行前，需检查APU引气系统。",
+      "retries": 0,
+      "round_trip_raw_similarity": 0.8095238095238095,
+      "status": "SUCCESS",
+      "tts_latency_ms": 2125
+    },
+    {
+      "asr_latency_ms": 1500,
+      "asr_retries": 0,
+      "audio_metadata": {
+        "audio_hash": "66bbe3996e9b0f7e24f9eb61296a23211766e170e944c77f18499c3d2a20632b",
+        "duration_ms": 13120,
+        "mime_type": "audio/wav",
+        "size_bytes": 629804
+      },
+      "case_id": "tts-09",
+      "category": "TTS_long",
+      "expected_terms": [
+        "放行人员",
+        "维修记录",
+        "故障保留",
+        "最低设备清单",
+        "适航指令",
+        "放行"
+      ],
+      "gold_text": "请说明在完成例行维修工作后，放行人员应当如何核对维修记录、确认故障保留是否有效，并按照最低设备清单与适航指令的要求完成放行前检查。",
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.9846153846153847,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "请说明在完成例行维修工作后，放行人员应当如何核对维修记录，确认故障保留是否有效，并按照最低设备清单与适航指令的要求完成放行前检查。",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.9846153846153847,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "请说明在完成例行维修工作后，放行人员应当如何核对维修记录，确认故障保留是否有效，并按照最低设备清单与适航指令的要求完成放行前检查。",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.9846153846153847,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "请说明在完成例行维修工作后，放行人员应当如何核对维修记录，确认故障保留是否有效，并按照最低设备清单与适航指令的要求完成放行前检查。",
+          "ruleset_version": "builtin-v3",
+          "warnings": []
+        }
+      },
+      "raw_transcript": "请说明在完成例行维修工作后，放行人员应当如何核对维修记录，确认故障保留是否有效，并按照最低设备清单与适航指令的要求完成放行前检查。",
+      "retries": 0,
+      "round_trip_raw_similarity": 0.9846153846153847,
+      "status": "SUCCESS",
+      "tts_latency_ms": 5030
+    },
+    {
+      "asr_latency_ms": 954,
+      "asr_retries": 0,
+      "audio_metadata": {
+        "audio_hash": "2ac0edee01eaaf13331d5ebca95232e72412398a903241941e114c12b5e58266",
+        "duration_ms": 4800,
+        "mime_type": "audio/wav",
+        "size_bytes": 230444
+      },
+      "case_id": "tts-10",
+      "category": "TTS_terms",
+      "expected_terms": [
+        "最低设备清单",
+        "维修方案"
+      ],
+      "gold_text": "最低设备清单与维修方案由工程部门批准后执行。",
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.9777777777777777,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "最低设备清单与维修方案，由工程部门批准后执行。",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.9777777777777777,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "最低设备清单与维修方案，由工程部门批准后执行。",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.9777777777777777,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "最低设备清单与维修方案，由工程部门批准后执行。",
+          "ruleset_version": "builtin-v3",
+          "warnings": []
+        }
+      },
+      "raw_transcript": "最低设备清单与维修方案，由工程部门批准后执行。",
+      "retries": 0,
+      "round_trip_raw_similarity": 0.9777777777777777,
+      "status": "SUCCESS",
+      "tts_latency_ms": 4327
+    }
+  ],
+  "tts_spellout_after": [
+    {
+      "asr_latency_ms": 671,
+      "asr_retries": 0,
+      "audio_metadata": {
+        "audio_hash": "879bfb157f082540f2875f50f98d8522f16b8487f680934096a585a4cac5b37f",
+        "duration_ms": 2560,
+        "mime_type": "audio/wav",
+        "size_bytes": 122924
+      },
+      "case_id": "tts-01",
+      "category": "TTS_plain",
+      "expected_terms": [
+        "维修放行"
+      ],
+      "gold_text": "请说明维修放行的基本流程。",
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 1.0,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "请说明维修放行的基本流程。",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 1.0,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "请说明维修放行的基本流程。",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 1.0,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "请说明维修放行的基本流程。",
+          "ruleset_version": "builtin-v3",
+          "warnings": []
+        }
+      },
+      "raw_transcript": "请说明维修放行的基本流程。",
+      "retries": 0,
+      "round_trip_raw_similarity": 1.0,
+      "status": "SUCCESS",
+      "tts_latency_ms": 1937
+    },
+    {
+      "asr_latency_ms": 688,
+      "asr_retries": 0,
+      "audio_metadata": {
+        "audio_hash": "fc486a3d9f1df9b7f1d55c49482421d96e96387fdf6458938b29e442f0dcac7e",
+        "duration_ms": 3040,
+        "mime_type": "audio/wav",
+        "size_bytes": 145964
+      },
+      "case_id": "tts-02",
+      "category": "TTS_abbreviations",
+      "expected_terms": [
+        "MEL",
+        "故障保留"
+      ],
+      "gold_text": "根据 MEL 评估后执行故障保留。",
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.7058823529411765,
+          "norm_term_accuracy": 0.5,
+          "normalized_text": "干线MAL评估后执行故障保留。",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.7058823529411765,
+          "norm_term_accuracy": 0.5,
+          "normalized_text": "干线MAL评估后执行故障保留。",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.7058823529411765,
+          "norm_term_accuracy": 0.5,
+          "normalized_text": "干线MAL评估后执行故障保留。",
+          "ruleset_version": "builtin-v3",
+          "warnings": []
+        }
+      },
+      "raw_transcript": "干线MAL评估后执行故障保留。",
+      "retries": 0,
+      "round_trip_raw_similarity": 0.7058823529411765,
+      "status": "SUCCESS",
+      "tts_latency_ms": 2780
+    },
+    {
+      "asr_latency_ms": 671,
+      "asr_retries": 0,
+      "audio_metadata": {
+        "audio_hash": "7ca612e323956d211c6a604b14131ece82dc6815df6eff65e63aa9e45bb3d75a",
+        "duration_ms": 2880,
+        "mime_type": "audio/wav",
+        "size_bytes": 138284
+      },
+      "case_id": "tts-03",
+      "category": "TTS_abbreviations",
+      "expected_terms": [
+        "AMM",
+        "FIM"
+      ],
+      "gold_text": "需要查询 AMM 和 FIM。",
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.7741935483870968,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "需要查询AMM和FIM。",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.7741935483870968,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "需要查询AMM和FIM。",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.7741935483870968,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "需要查询AMM和FIM。",
+          "ruleset_version": "builtin-v3",
+          "warnings": []
+        }
+      },
+      "raw_transcript": "需要查询AMM和FIM。",
+      "retries": 0,
+      "round_trip_raw_similarity": 0.7741935483870968,
+      "status": "SUCCESS",
+      "tts_latency_ms": 2234
+    },
+    {
+      "asr_latency_ms": 704,
+      "asr_retries": 0,
+      "audio_metadata": {
+        "audio_hash": "2ee2eca3a759334aeeb7e844f678f88f6e8e6d06e9403b36f0c8858c05565cf4",
+        "duration_ms": 3840,
+        "mime_type": "audio/wav",
+        "size_bytes": 184364
+      },
+      "case_id": "tts-04",
+      "category": "TTS_aircraft_engine",
+      "expected_terms": [
+        "CFM56-7B"
+      ],
+      "gold_text": "该 CFM56-7B 发动机需要更换。",
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.6111111111111112,
+          "norm_term_accuracy": 0.0,
+          "normalized_text": "该系FM五六七字节发动机需要更换。",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.6111111111111112,
+          "norm_term_accuracy": 0.0,
+          "normalized_text": "该系FM五六七字节发动机需要更换。",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.6111111111111112,
+          "norm_term_accuracy": 0.0,
+          "normalized_text": "该系FM五六七字节发动机需要更换。",
+          "ruleset_version": "builtin-v3",
+          "warnings": []
+        }
+      },
+      "raw_transcript": "该系FM五六七字节发动机需要更换。",
+      "retries": 0,
+      "round_trip_raw_similarity": 0.6111111111111112,
+      "status": "SUCCESS",
+      "tts_latency_ms": 3405
+    },
+    {
+      "asr_latency_ms": 952,
+      "asr_retries": 0,
+      "audio_metadata": {
+        "audio_hash": "73f1a39243b3d9d751224302ba1aa76c149895473ef3a32d677e47d59b583f34",
+        "duration_ms": 4480,
+        "mime_type": "audio/wav",
+        "size_bytes": 215084
+      },
+      "case_id": "tts-05",
+      "category": "TTS_aircraft_engine",
+      "expected_terms": [
+        "B737NG",
+        "A330"
+      ],
+      "gold_text": "B737NG 与 A330 的起落架系统检查完毕。",
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [
+            {
+              "confidence": 1.0,
+              "end_char": 6,
+              "normalization_rule": "LAYER_1_EXACT_ALIAS",
+              "normalized_fragment": "B737NG",
+              "raw_fragment": "B七三七NG",
+              "start_char": 0
+            }
+          ],
+          "norm_similarity": 0.8085106382978723,
+          "norm_term_accuracy": 0.5,
+          "normalized_text": "B737NG与A三三零的起落架系统检查完毕。",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [
+            {
+              "confidence": 1.0,
+              "end_char": 6,
+              "normalization_rule": "LAYER_1_EXACT_ALIAS",
+              "normalized_fragment": "B737NG",
+              "raw_fragment": "B七三七NG",
+              "start_char": 0
+            }
+          ],
+          "norm_similarity": 0.8085106382978723,
+          "norm_term_accuracy": 0.5,
+          "normalized_text": "B737NG与A三三零的起落架系统检查完毕。",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [
+            {
+              "confidence": 1.0,
+              "end_char": 6,
+              "normalization_rule": "LAYER_1_EXACT_ALIAS",
+              "normalized_fragment": "B737NG",
+              "raw_fragment": "B七三七NG",
+              "start_char": 0
+            }
+          ],
+          "norm_similarity": 0.8085106382978723,
+          "norm_term_accuracy": 0.5,
+          "normalized_text": "B737NG与A三三零的起落架系统检查完毕。",
+          "ruleset_version": "builtin-v3",
+          "warnings": []
+        }
+      },
+      "raw_transcript": "B七三七NG与A三三零的起落架系统检查完毕。",
+      "retries": 0,
+      "round_trip_raw_similarity": 0.6808510638297872,
+      "status": "SUCCESS",
+      "tts_latency_ms": 3562
+    },
+    {
+      "asr_latency_ms": 687,
+      "asr_retries": 0,
+      "audio_metadata": {
+        "audio_hash": "edf4f6dbc91455f3d9064f2836a6b6bd6faa3d65e812618390b337bd20408cd8",
+        "duration_ms": 3200,
+        "mime_type": "audio/wav",
+        "size_bytes": 153644
+      },
+      "case_id": "tts-06",
+      "category": "TTS_mixed",
+      "expected_terms": [
+        "MPD",
+        "维修记录"
+      ],
+      "gold_text": "执行 MPD 检查项目并签署维修记录。",
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.8717948717948718,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "执行MPD检查项目，并签署维修记录。",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.8717948717948718,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "执行MPD检查项目，并签署维修记录。",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.8717948717948718,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "执行MPD检查项目，并签署维修记录。",
+          "ruleset_version": "builtin-v3",
+          "warnings": []
+        }
+      },
+      "raw_transcript": "执行MPD检查项目，并签署维修记录。",
+      "retries": 0,
+      "round_trip_raw_similarity": 0.8717948717948718,
+      "status": "SUCCESS",
+      "tts_latency_ms": 3047
+    },
+    {
+      "asr_latency_ms": 671,
+      "asr_retries": 0,
+      "audio_metadata": {
+        "audio_hash": "516db68ffd00cb4b18a7c79469e4dc4875946bb3d137a44891639a39425aa372",
+        "duration_ms": 3040,
+        "mime_type": "audio/wav",
+        "size_bytes": 145964
+      },
+      "case_id": "tts-07",
+      "category": "TTS_mixed",
+      "expected_terms": [
+        "AD",
+        "SB",
+        "EO"
+      ],
+      "gold_text": "按 AD 和 SB 评估后完成 EO。",
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.7567567567567568,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "按AD和SB评估后，完成EO。",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.7567567567567568,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "按AD和SB评估后，完成EO。",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.7567567567567568,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "按AD和SB评估后，完成EO。",
+          "ruleset_version": "builtin-v3",
+          "warnings": []
+        }
+      },
+      "raw_transcript": "按AD和SB评估后，完成EO。",
+      "retries": 0,
+      "round_trip_raw_similarity": 0.7567567567567568,
+      "status": "SUCCESS",
+      "tts_latency_ms": 2312
+    },
+    {
+      "asr_latency_ms": 811,
+      "asr_retries": 0,
+      "audio_metadata": {
+        "audio_hash": "0614ea3a9910dca1ccf8d30112d09543ed0da0d3c7b18925afa83297b917a288",
+        "duration_ms": 4800,
+        "mime_type": "audio/wav",
+        "size_bytes": 230444
+      },
+      "case_id": "tts-08",
+      "category": "TTS_mixed",
+      "expected_terms": [
+        "ETOPS",
+        "APU"
+      ],
+      "gold_text": "ETOPS 放行前需检查 APU 引气系统。",
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.7755102040816326,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "EETOPS放行前，需检查APU引气系统。",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.7755102040816326,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "EETOPS放行前，需检查APU引气系统。",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.7755102040816326,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "EETOPS放行前，需检查APU引气系统。",
+          "ruleset_version": "builtin-v3",
+          "warnings": []
+        }
+      },
+      "raw_transcript": "EETOPS放行前，需检查APU引气系统。",
+      "retries": 0,
+      "round_trip_raw_similarity": 0.7755102040816326,
+      "status": "SUCCESS",
+      "tts_latency_ms": 2469
+    },
+    {
+      "asr_latency_ms": 1171,
+      "asr_retries": 0,
+      "audio_metadata": {
+        "audio_hash": "50e2ccf1db4ecd472a4998edbeabe45b200ff1a7d405582c92542f679e089a41",
+        "duration_ms": 12960,
+        "mime_type": "audio/wav",
+        "size_bytes": 622124
+      },
+      "case_id": "tts-09",
+      "category": "TTS_long",
+      "expected_terms": [
+        "放行人员",
+        "维修记录",
+        "故障保留",
+        "最低设备清单",
+        "适航指令",
+        "放行"
+      ],
+      "gold_text": "请说明在完成例行维修工作后，放行人员应当如何核对维修记录、确认故障保留是否有效，并按照最低设备清单与适航指令的要求完成放行前检查。",
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.9846153846153847,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "请说明在完成例行维修工作后，放行人员应当如何核对维修记录，确认故障保留是否有效，并按照最低设备清单与适航指令的要求完成放行前检查。",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.9846153846153847,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "请说明在完成例行维修工作后，放行人员应当如何核对维修记录，确认故障保留是否有效，并按照最低设备清单与适航指令的要求完成放行前检查。",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.9846153846153847,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "请说明在完成例行维修工作后，放行人员应当如何核对维修记录，确认故障保留是否有效，并按照最低设备清单与适航指令的要求完成放行前检查。",
+          "ruleset_version": "builtin-v3",
+          "warnings": []
+        }
+      },
+      "raw_transcript": "请说明在完成例行维修工作后，放行人员应当如何核对维修记录，确认故障保留是否有效，并按照最低设备清单与适航指令的要求完成放行前检查。",
+      "retries": 0,
+      "round_trip_raw_similarity": 0.9846153846153847,
+      "status": "SUCCESS",
+      "tts_latency_ms": 5344
+    },
+    {
+      "asr_latency_ms": 764,
+      "asr_retries": 0,
+      "audio_metadata": {
+        "audio_hash": "2971e10ce5810479fe6c62263678ab74c692c63bc6a0776dfb22b9a8951885cb",
+        "duration_ms": 4480,
+        "mime_type": "audio/wav",
+        "size_bytes": 215084
+      },
+      "case_id": "tts-10",
+      "category": "TTS_terms",
+      "expected_terms": [
+        "最低设备清单",
+        "维修方案"
+      ],
+      "gold_text": "最低设备清单与维修方案由工程部门批准后执行。",
+      "normalizations": {
+        "builtin-v1": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.9777777777777777,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "最低设备清单与维修方案，由工程部门批准后执行。",
+          "ruleset_version": "builtin-v1",
+          "warnings": []
+        },
+        "builtin-v2": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.9777777777777777,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "最低设备清单与维修方案，由工程部门批准后执行。",
+          "ruleset_version": "builtin-v2",
+          "warnings": []
+        },
+        "builtin-v3": {
+          "false_corrections": [],
+          "mappings": [],
+          "norm_similarity": 0.9777777777777777,
+          "norm_term_accuracy": 1.0,
+          "normalized_text": "最低设备清单与维修方案，由工程部门批准后执行。",
+          "ruleset_version": "builtin-v3",
+          "warnings": []
+        }
+      },
+      "raw_transcript": "最低设备清单与维修方案，由工程部门批准后执行。",
+      "retries": 0,
+      "round_trip_raw_similarity": 0.9777777777777777,
+      "status": "SUCCESS",
+      "tts_latency_ms": 2782
+    }
+  ]
+}

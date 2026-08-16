@@ -96,7 +96,51 @@
 | Voice Design | 独立管理（门控） | `NOT_TESTED` | 未启用、未测试 |
 | Voice Clone | 独立管理（门控） | `NOT_TESTED / NOT_AUTHORIZED` | 无授权参考音频，未测试 |
 
-## 5. 纪律
+## 5. Sprint 1B — S01 真人语音 ASR Qualification + Remediation（Run 2026-08-16-s1b-s01-qual-v3）
+
+- Golden Dataset 版本：`speech-qual-2026-08-16-v1`（S01 真人 10 例；外部录音目录
+  `C:\Users\Lucky\Documents\speech-qualification-human\S01`，**真人 WAV 不入仓库**，
+  仅提交 manifest/hash/元数据/金标文本）
+- 评估对象：`mimo-v2.5-asr`（S01 真人语音 10 例，NORMAL×5 / FAST×2 / PAUSE×1 /
+  MILD_OFFICE_NOISE×2）；`mimo-v2.5-tts`（TTS→ASR 回环 10 例）
+- Normalizer ruleset：`builtin-v1` → `builtin-v2` → `builtin-v3`（当前 `builtin-v3`）；
+  Vocabulary：`builtin`
+- 结论（按指标，S01 真人 ASR）：
+  - request success **100%**（10/10）；empty 0%；retry 0%；terminal failure 0%；
+    latency P50 **750ms** / P95 **884ms**
+  - raw aviation term accuracy **0.525**；raw text similarity **0.890**
+  - normalized term accuracy：v1 **0.550** / v2 **0.550** / v3 **0.683**
+  - **normalizer remediation（v1→v3）：+0.133**；false correction **0**（全部版本）；
+    review-required rate 0.1 → 0.5（低置信候选转人工复核，不静默改写）
+- 结论（TTS 发音 remediation）：
+  - before（默认提示词+原文）：round-trip term accuracy **0.75**，raw similarity 0.876
+  - after（`spell_out_aviation` 拼读展开）：round-trip term accuracy **0.80**（+0.05），
+    10/10 成功；raw similarity 0.814（拼读后文本与金标差异所致，normalized similarity 0.865）
+  - 发音指导提示词方案实测无增益且引入 1 次失败，已记录弃用
+- 结论：**ASR = CONDITIONAL_PASS（S01 真人已评估，含真人语音维度）**；
+  **TTS = CONDITIONAL_PASS**（发音 remediation 生效但幅度有限，需人工听测）；
+  **SPEECH_GATE = PASS_WITH_ACTIONS**
+- 已知限制：
+  - 剩余未修复：`MER→MEL`、`故障法流→故障保留`、`SIM→FIM`、`MTD→MPD`、
+    `CF56-7B→CFM56-7B` 均为 review 候选（已告警，未静默改写）。
+  - `builtin-v3` 规则基于 S01 单一说话人观测推导，需独立说话人交叉验证（S02）。
+  - 真人语料仅 10 例，统计功效有限；噪声/语速条件各 2 例。
+- 变更（相对于上次）：Sprint 1B 正式 Qualification（Run `2026-08-16-s1b-qual-v1`，
+  TTS 合成语料）新增 S01 真人语音评估 + 规则集 v2/v3 + TTS 拼读 remediation。
+- 相关 ADR：`0004`、`0005`。
+- Artifacts：`artifacts/qualification/speech/2026-08-16-s1b-s01-qual-v1/`（原始 S01 运行）、
+  `.../2026-08-16-s1b-s01-qual-v2/`（规则集重算 + 拼读 after）、
+  `.../2026-08-16-s1b-s01-qual-v3/`（最终：v3 规则 + review 告警）。
+
+## 6. S02 第二说话人验证 — DEFERRED
+
+- 状态：**DEFERRED（经人工批准延期）**，不得视为已完成。
+- 现状：`C:\Users\Lucky\Documents\speech-qualification-human\S02\S02_case01.wav`
+  为 44 字节空占位（duration_ms=0），未构成有效样本。
+- 处理：S01 单说话人结论保留 `CONDITIONAL_PASS`；S02 交叉验证需在补充有效录音后
+  单独执行，并在本文件追加新记录。
+
+## 7. 纪律
 
 - `API_AVAILABLE ≠ QUALIFIED`；正式考试只用 `QUALIFIED`（或受限 `CONDITIONAL`）模型。
 - 评估门槛与流程见 `docs/qualification/MODEL_QUALIFICATION.md` 与

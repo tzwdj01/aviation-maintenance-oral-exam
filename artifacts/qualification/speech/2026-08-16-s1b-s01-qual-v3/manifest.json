@@ -1,0 +1,263 @@
+{
+  "asr_cases": [
+    {
+      "audio_manifest": {
+        "consent": true,
+        "duration_seconds": 5.97,
+        "peak_dbfs": -5.08,
+        "recorded_at": "2026-08-16T14:02:49.5040514+08:00",
+        "rms_dbfs": -27.56,
+        "sha256": "1846878014000373a128e9de1c045b346aeeb9ea74818f9d601efd9b61b73765",
+        "silence_check": "PASS",
+        "size_bytes": 191084
+      },
+      "case_id": "S01-case01",
+      "text_hash": "3675dd3339d101ebff179d1ecb5c79747d663f37772e11810d5983433e4de3f0"
+    },
+    {
+      "audio_manifest": {
+        "consent": true,
+        "duration_seconds": 5.73,
+        "peak_dbfs": -7.56,
+        "recorded_at": "2026-08-16T14:03:45.7143817+08:00",
+        "rms_dbfs": -29.73,
+        "sha256": "908e28fd26fa60a6d5f1065625d09c65fb917fdc2ef8d06d0ec75e81453bc95f",
+        "silence_check": "PASS",
+        "size_bytes": 183404
+      },
+      "case_id": "S01-case02",
+      "text_hash": "e90f5673e264316fc51b796a83eaf4d71c36288e6137d0bf1f13a5a400bfc50d"
+    },
+    {
+      "audio_manifest": {
+        "consent": true,
+        "duration_seconds": 5.34,
+        "peak_dbfs": -5.33,
+        "recorded_at": "2026-08-16T14:03:56.1832691+08:00",
+        "rms_dbfs": -26.96,
+        "sha256": "3e86feb48809dc42b85d0cd84fe85916e19695a26cd6975fc56fa10a643baba2",
+        "silence_check": "PASS",
+        "size_bytes": 170924
+      },
+      "case_id": "S01-case03",
+      "text_hash": "0eadfe2b9d93d3ba0c7d4163b8d04673df1abad3ab0b99f9cedd83d6d5ee25ac"
+    },
+    {
+      "audio_manifest": {
+        "consent": true,
+        "duration_seconds": 5.31,
+        "peak_dbfs": -6.89,
+        "recorded_at": "2026-08-16T14:04:08.1159156+08:00",
+        "rms_dbfs": -27.92,
+        "sha256": "b7de2d4e98a2767b22d0ef7c65b264eeb3cde43b9908af24fd3b5dbdb8b59dab",
+        "silence_check": "PASS",
+        "size_bytes": 169964
+      },
+      "case_id": "S01-case04",
+      "text_hash": "626e9e7f0652b94759323f5f4a2b471b16a4f954e4b9ba6c3e8e22357c643b36"
+    },
+    {
+      "audio_manifest": {
+        "consent": true,
+        "duration_seconds": 5.93,
+        "peak_dbfs": -5.16,
+        "recorded_at": "2026-08-16T14:04:17.8951153+08:00",
+        "rms_dbfs": -30.29,
+        "sha256": "027e25ab5f77c456f711ceca3fcf3374811a905e2c5f738ee7a9e447ae65a989",
+        "silence_check": "PASS",
+        "size_bytes": 189804
+      },
+      "case_id": "S01-case05",
+      "text_hash": "03cc9c058518e38860942413f192c528597e15abaaf7f91e9e3ea8fbe26fcec7"
+    },
+    {
+      "audio_manifest": {
+        "consent": true,
+        "duration_seconds": 5.56,
+        "peak_dbfs": -8.58,
+        "recorded_at": "2026-08-16T14:04:36.2507582+08:00",
+        "rms_dbfs": -31.84,
+        "sha256": "92418338f742aa91feb50216f0233860f4aac82c90e8604cd92f460ae0bdd964",
+        "silence_check": "PASS",
+        "size_bytes": 177964
+      },
+      "case_id": "S01-case06",
+      "text_hash": "47aa28c8bc8020ef3e5f62a30a627745d111e048560098cc6f8cfb92763e5cdf"
+    },
+    {
+      "audio_manifest": {
+        "consent": true,
+        "duration_seconds": 6.9,
+        "peak_dbfs": -3.13,
+        "recorded_at": "2026-08-16T14:04:56.7123126+08:00",
+        "rms_dbfs": -26.32,
+        "sha256": "6e25129dc20d30445bfec0a278882ff3282e7585020e6b719b34444cc033f2fa",
+        "silence_check": "PASS",
+        "size_bytes": 220844
+      },
+      "case_id": "S01-case07",
+      "text_hash": "e0ca8de4a8262c39430032a2f10fe2868d82f232b492c083de9972499ac16efd"
+    },
+    {
+      "audio_manifest": {
+        "consent": true,
+        "duration_seconds": 6.02,
+        "peak_dbfs": -4.68,
+        "recorded_at": "2026-08-16T14:05:10.4114353+08:00",
+        "rms_dbfs": -27.2,
+        "sha256": "c478f4c5fadb04a7d2a305e673b2d1dc2cd721e1fd60ba4139933d4487647d0c",
+        "silence_check": "PASS",
+        "size_bytes": 192684
+      },
+      "case_id": "S01-case08",
+      "text_hash": "1fb4d0a8dd5c77c388df7a5e28d4a789a65a3ba0d76e742ceb9843ca9f97acf3"
+    },
+    {
+      "audio_manifest": {
+        "consent": true,
+        "duration_seconds": 5.07,
+        "peak_dbfs": -4.41,
+        "recorded_at": "2026-08-16T14:05:21.8858681+08:00",
+        "rms_dbfs": -25.61,
+        "sha256": "86183a166f26404573a76cede2b33e3289e1d0c9515673b53eb39206c7cba56c",
+        "silence_check": "PASS",
+        "size_bytes": 162284
+      },
+      "case_id": "S01-case09",
+      "text_hash": "91a2f42b5d4cb1ff6687eaa4966f91db1a70971fd59ee671728b78568ef37a43"
+    },
+    {
+      "audio_manifest": {
+        "consent": true,
+        "duration_seconds": 5.1,
+        "peak_dbfs": -8.03,
+        "recorded_at": "2026-08-16T14:09:07.1831949+08:00",
+        "rms_dbfs": -28.87,
+        "sha256": "6a23511921774b89dd6948b926c0270468e66f2b91ebf031112a2623b0cea578",
+        "silence_check": "PASS",
+        "size_bytes": 163244
+      },
+      "case_id": "S01-case10",
+      "text_hash": "ab350e81d3332457df42af4002c23e240b362cee382aa24ba021fb435298d084"
+    }
+  ],
+  "dataset_version": "speech-qual-2026-08-16-v1",
+  "normalizer_ruleset_version": "builtin-v3",
+  "run_id": "2026-08-16-s1b-s01-qual-v3",
+  "tts_cases": [
+    {
+      "case_id": "tts-01",
+      "category": "TTS_plain",
+      "condition": "normal",
+      "expected_terms": [
+        "维修放行"
+      ],
+      "source": "tts",
+      "text_hash": "24de928b03966b6a25fba46c6af394242fbf980931d51e214c528d9785d9ee3a"
+    },
+    {
+      "case_id": "tts-02",
+      "category": "TTS_abbreviations",
+      "condition": "normal",
+      "expected_terms": [
+        "MEL",
+        "故障保留"
+      ],
+      "source": "tts",
+      "text_hash": "74df1f41bbbeb5c667890ec8365ab3a0906e7a915aeb6347a0c4f50a2e43a6b7"
+    },
+    {
+      "case_id": "tts-03",
+      "category": "TTS_abbreviations",
+      "condition": "normal",
+      "expected_terms": [
+        "AMM",
+        "FIM"
+      ],
+      "source": "tts",
+      "text_hash": "aa8fadd323fbf041370a63da2f29523a86f24df727514f6bc6efdf33a34e8c32"
+    },
+    {
+      "case_id": "tts-04",
+      "category": "TTS_aircraft_engine",
+      "condition": "normal",
+      "expected_terms": [
+        "CFM56-7B"
+      ],
+      "source": "tts",
+      "text_hash": "0979117f1c53cd4b6cca5ccaaf0b03163da38cc4e68675624de34950d833f7c8"
+    },
+    {
+      "case_id": "tts-05",
+      "category": "TTS_aircraft_engine",
+      "condition": "normal",
+      "expected_terms": [
+        "B737NG",
+        "A330"
+      ],
+      "source": "tts",
+      "text_hash": "ad5e50f485c693c1da5bf0711c3bc76b9bce41db206ef32aa2897c32f7ac2d59"
+    },
+    {
+      "case_id": "tts-06",
+      "category": "TTS_mixed",
+      "condition": "normal",
+      "expected_terms": [
+        "MPD",
+        "维修记录"
+      ],
+      "source": "tts",
+      "text_hash": "ec9d5aaf6ae6245c0d86c8039f6dc404e602cff0dd323fd0def4380e59c679ca"
+    },
+    {
+      "case_id": "tts-07",
+      "category": "TTS_mixed",
+      "condition": "normal",
+      "expected_terms": [
+        "AD",
+        "SB",
+        "EO"
+      ],
+      "source": "tts",
+      "text_hash": "09be7dd73f6e36e9d1ad8fad171e9664c8b9e831ccf7ec18b8e1ebfe52e755a1"
+    },
+    {
+      "case_id": "tts-08",
+      "category": "TTS_mixed",
+      "condition": "normal",
+      "expected_terms": [
+        "ETOPS",
+        "APU"
+      ],
+      "source": "tts",
+      "text_hash": "38f74ac003f06f8e50e3cc36b249d49f1b6cfc0591ff158ec0a9442a52ae05b5"
+    },
+    {
+      "case_id": "tts-09",
+      "category": "TTS_long",
+      "condition": "normal",
+      "expected_terms": [
+        "放行人员",
+        "维修记录",
+        "故障保留",
+        "最低设备清单",
+        "适航指令",
+        "放行"
+      ],
+      "source": "tts",
+      "text_hash": "bab66581e91692dbfba0bce1c3b163481e6cc1c52218a2da09c1cfe68bb064bd"
+    },
+    {
+      "case_id": "tts-10",
+      "category": "TTS_terms",
+      "condition": "normal",
+      "expected_terms": [
+        "最低设备清单",
+        "维修方案"
+      ],
+      "source": "tts",
+      "text_hash": "bb2cf2244209582364037125ad330ac863290fafbde91c92fa024c3c53a2e614"
+    }
+  ],
+  "vocabulary_version": "builtin"
+}
