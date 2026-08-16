@@ -8,13 +8,17 @@ Aviation Maintenance Oral Exam — 面向维修放行人员训练、模拟口试
 
 ## Current Status
 
-仓库当前处于 **Phase 0 — Project Governance & Architecture Baseline 完成后、Sprint 1A 待 Gate 审查**状态。
+仓库当前处于 **Sprint 1B — MiMo Speech Production Integration**（已获人工批准并推进）。
 
 - 完整设计文档位于 `docs/`（PRD、架构、数据模型、评分、状态机、Provider、Qualification、ADR、计划）。
 - Sprint 1A「Model-Independent Core + Multi-Provider Foundation」的**后端基础已实现**于
   `feature/sprint-1a-multi-provider-foundation` 分支：SQLAlchemy/Alembic 审计模型、严格状态机、
   确定性 Decimal 评分、证据解析、版本化术语标准化、LLM Profile 管理 API、
   MiMo/DeepSeek/OpenAI/Fake Provider Adapter 契约，以及无需真实 Key 即可运行的垂直切片测试。
+- Sprint 1B「MiMo Speech Production Integration」将语音栈推进到生产级：Audio Artifact
+  受控存储与校验、ASR/TTS 真实接入（`mimo-v2.5-asr` / `mimo-v2.5-tts`，官方契约已核对）、
+  `TaskJob` 编排（Raw ASR 保留、单一采用、术语标准化串联、空转写/重试/错误映射、延迟指标）、
+  TTS 文本降级与 Speech Gate 评审材料。详见 [`docs/speech-production.md`](docs/speech-production.md)。
 - 前端仅有开发期 LLM Profile 列表壳；正式考试工作台属于后续 Sprint。
 - 当前 Sprint 定义见 [`docs/plans/CURRENT_SPRINT.md`](docs/plans/CURRENT_SPRINT.md)。
 
