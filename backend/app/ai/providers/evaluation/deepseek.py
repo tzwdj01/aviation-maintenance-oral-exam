@@ -18,7 +18,7 @@ class DeepSeekEvaluationProvider(StructuredEvaluationProvider):
             "model": self.model,
             "messages": [
                 {"role": "system", "content": request.system_prompt},
-                {"role": "user", "content": self._candidate_message(request)},
+                {"role": "user", "content": self._user_content(request)},
             ],
             "response_format": {"type": "json_object"},
             "temperature": 0,

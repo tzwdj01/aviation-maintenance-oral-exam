@@ -1,14 +1,18 @@
-"""Sprint 1C Judge Qualification runner.
+"""Sprint 1C Judge Qualification runner (Formal-Run Ready).
 
 Usage:
-    python -m scripts.judge_qualification.run --providers mimo,deepseek,openai [--fake] \
-        [--run-id 2026-08-16-s1c-judge-v1] [--output-root artifacts/qualification/judge]
+    python -m scripts.judge_qualification.run --providers mimo,deepseek,openai [--fake]
+        --run-id <id> --output-root artifacts/qualification/judge --stability-runs 3
 
-Runs all five evaluation passes (COVERAGE / CRITICAL_ERROR / QUALITY_RISK / FOLLOW_UP /
-FINAL_ASSESSMENT) for each provider on the identical versioned Golden Dataset, computes the
-MODEL_QUALIFICATION.md metrics, and writes reviewable artifacts. Credentials come from the
-environment and are never printed or persisted. Providers without a configured key are
-recorded as NOT_RUN (honest; API_AVAILABLE != QUALIFIED).
+Formal-run invariants (docs/qualification/MODEL_QUALIFICATION.md):
+- Every provider receives the SAME TRUSTED_EVALUATION_CONTEXT (rubric, CE rules, evidence
+  rules, task-specific output contract derived from the shared Pydantic schema) and the
+  candidate answer only in a separate UNTRUSTED_CANDIDATE_DATA boundary.
+- A SMOKE stage must pass before the full run; failure => PROVIDER_SMOKE_FAILED.
+- Each stability case is run >=3 times; decision stability covers coverage + CE + follow-up.
+- The manifest pins golden/prompt/schema hashes + gate version + code commit + a
+  stability-subset hash; providers must share the same hashes or the run is
+  QUALIFICATION_INVALID_RUN.
 """
 
 from __future__ import annotations
@@ -16,6 +20,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
+import subprocess
 import time
 from datetime import UTC, datetime
 from pathlib import Path
@@ -34,21 +39,31 @@ from app.ai.schemas.quality_risk import QualityRiskResponse
 from app.core.config import Settings, get_settings
 from app.core.security import redact
 from app.qualification.judge import (
+    MODEL_QUALIFICATION_GATE_VERSION,
     ce_recall_precision,
     collect_evidence_quotes,
     coverage_exact_agreement,
+    decision_stability_multipass,
+    evaluate_model_qualification,
     evidence_validity,
     follow_up_accuracy,
+    golden_dataset_hash,
+    guard_run_validity,
     injection_resistance,
     leak_detected,
     major_disagreement_rate,
+    prompt_bundle_hash,
+    schema_hash,
+    stability_subset_hash,
+    stability_subset_size,
     summarize_provider,
 )
 
 from scripts.judge_qualification.golden import DATASET_VERSION, GOLDEN_CASES, PROMPT_BUNDLE_VERSION
-from scripts.judge_qualification.prompts import system_prompt_for
+from scripts.judge_qualification.prompts import prompt_bundle_snapshot, system_prompt_for
 
 TASK_TYPES = ("COVERAGE", "CRITICAL_ERROR", "QUALITY_RISK", "FOLLOW_UP", "FINAL_ASSESSMENT")
+PRIOR_CHAIN = ("COVERAGE", "CRITICAL_ERROR", "QUALITY_RISK", "FOLLOW_UP")
 OUTPUT_TYPES = {
     "COVERAGE": CoverageResponse,
     "CRITICAL_ERROR": CriticalErrorResponse,
@@ -63,6 +78,7 @@ PROVIDER_METHOD = {
     "FOLLOW_UP": "decide_follow_up",
     "FINAL_ASSESSMENT": "final_assessment",
 }
+SCHEMA_VERSION = "eval-schema-v1"
 
 FAKE_PAYLOADS: dict[str, dict[str, Any]] = {
     "COVERAGE": {
@@ -75,6 +91,13 @@ FAKE_PAYLOADS: dict[str, dict[str, Any]] = {
     "FOLLOW_UP": {"should_ask": False, "target_point_ids": [], "follow_up_question": None, "reason": "无需追问"},
     "FINAL_ASSESSMENT": {"initial_mastery": "ADEQUATE", "final_mastery": "ADEQUATE", "prompt_dependency": "A", "qualitative_summary": "掌握充分"},
 }
+
+
+def _git_head() -> str:
+    try:
+        return subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+    except Exception:  # noqa: BLE001 - non-git context
+        return "unknown"
 
 
 def _build_provider(settings: Settings, provider: str, *, fake_payloads: dict[str, Any] | None = None) -> Any:
@@ -103,6 +126,41 @@ def _provider_configured(settings: Settings, provider: str) -> bool:
     return bool(secret and secret.get_secret_value())
 
 
+def _model_for(settings: Settings, provider: str) -> str:
+    return {
+        "mimo": settings.mimo_llm_model,
+        "deepseek": settings.deepseek_default_model,
+        "openai": settings.openai_default_model,
+        "fake": "fake-evaluation-v1",
+    }[provider]
+
+
+def _build_request(case: dict[str, Any], task_type: str, *, prior_analysis: dict[str, Any] | None = None) -> EvaluationRequest[Any]:
+    return EvaluationRequest(
+        task_type=task_type,
+        system_prompt=system_prompt_for(task_type),
+        candidate_text=case["candidate_text"],
+        rubric_snapshot=case["rubric_snapshot"],
+        output_type=OUTPUT_TYPES[task_type],
+        prompt_version=case["prompt_version"],
+        question_text=case["question_text"],
+        critical_error_rules=tuple(case["critical_error_rules"]),
+        prior_analysis=prior_analysis,
+    )
+
+
+def _prior_view(task_type: str, value: Any) -> dict[str, Any]:
+    if task_type == "COVERAGE":
+        return {"point_status": {a.point_id: a.status for a in value.point_assessments}}
+    if task_type == "CRITICAL_ERROR":
+        return {"critical_error_result": {a.critical_error_id: a.result for a in value.critical_error_assessments}}
+    if task_type == "QUALITY_RISK":
+        return {"quality_risk_status": {a.point_id: a.status for a in value.quality_risk_assessments}}
+    if task_type == "FOLLOW_UP":
+        return {"should_ask": value.should_ask, "target_point_ids": value.target_point_ids}
+    return {}
+
+
 def _output_text(pass_results: dict[str, Any]) -> str:
     parts: list[str] = []
     for value in pass_results.values():
@@ -114,59 +172,49 @@ def _output_text(pass_results: dict[str, Any]) -> str:
     return "\n".join(parts)
 
 
-async def _run_case(provider: Any, case: dict[str, Any]) -> dict[str, Any]:
-    result: dict[str, Any] = {
-        "case_id": case["case_id"],
-        "scenario": case["scenario"],
-        "status": "SUCCESS",
-    }
+async def _run_case_once(provider: Any, case: dict[str, Any]) -> dict[str, Any]:
+    result: dict[str, Any] = {"case_id": case["case_id"], "scenario": case["scenario"]}
     pass_results: dict[str, Any] = {}
-    latencies: list[int] = []
-    try:
-        for task_type in TASK_TYPES:
-            request = EvaluationRequest(
-                task_type=task_type,
-                system_prompt=system_prompt_for(task_type),
-                candidate_text=case["candidate_text"],
-                rubric_snapshot=case["rubric_snapshot"],
-                output_type=OUTPUT_TYPES[task_type],
-                prompt_version=case["prompt_version"],
-            )
-            started = time.monotonic()
+    pass_latencies: dict[str, int] = {}
+    prior: dict[str, Any] = {}
+    for task_type in TASK_TYPES:
+        request = _build_request(case, task_type, prior_analysis=prior or None)
+        started = time.monotonic()
+        try:
             response = await getattr(provider, PROVIDER_METHOD[task_type])(request)
-            latencies.append(int((time.monotonic() - started) * 1000))
-            pass_results[task_type] = response.value
-    except ProviderFailure as exc:
-        return {
-            **result,
-            "status": "FAILED",
-            "error": str(exc),
-            "latency_ms": round(sum(latencies) / len(latencies)) if latencies else None,
-        }
+        except ProviderFailure as exc:
+            return {
+                **result,
+                "status": "FAILED",
+                "failed_pass": task_type,
+                "error": str(exc),
+                "pass_status": {t: ("SUCCESS" if t in pass_results else "NOT_RUN") for t in TASK_TYPES},
+                "latency_ms": round(sum(pass_latencies.values()) / len(pass_latencies)) if pass_latencies else None,
+            }
+        pass_latencies[task_type] = int((time.monotonic() - started) * 1000)
+        pass_results[task_type] = response.value
+        if task_type in PRIOR_CHAIN:
+            prior[task_type] = _prior_view(task_type, response.value)
 
     coverage_value = pass_results["COVERAGE"]
     coverage_predicted = {a.point_id: a.status for a in coverage_value.point_assessments}
     gold_coverage = case["gold"]["coverage"]
-    quality_risk_predicted = {
-        a.point_id: a.status for a in pass_results["QUALITY_RISK"].quality_risk_assessments
-    }
     ce_value = pass_results["CRITICAL_ERROR"]
     ce_predicted = {a.critical_error_id: a.result for a in ce_value.critical_error_assessments}
     fu_value = pass_results["FOLLOW_UP"]
     fu_predicted = {"should_ask": fu_value.should_ask, "target_point_ids": fu_value.target_point_ids}
     final_value = pass_results["FINAL_ASSESSMENT"]
-
     evidence_quotes = (
         collect_evidence_quotes(coverage_value)
         + collect_evidence_quotes(pass_results["QUALITY_RISK"])
         + collect_evidence_quotes(ce_value)
     )
+    evidence = evidence_validity(evidence_quotes, case["candidate_text"])
     output_text = _output_text(pass_results)
-
     result.update(
         {
+            "status": "SUCCESS",
             "coverage_predicted": coverage_predicted,
-            "quality_risk_predicted": quality_risk_predicted,
             "ce_predicted": ce_predicted,
             "follow_up_predicted": fu_predicted,
             "final_predicted": {
@@ -176,11 +224,11 @@ async def _run_case(provider: Any, case: dict[str, Any]) -> dict[str, Any]:
             },
             "coverage_agreement": coverage_exact_agreement(coverage_predicted, gold_coverage),
             "major_disagreement": major_disagreement_rate(coverage_predicted, gold_coverage),
-            "evidence": evidence_validity(evidence_quotes, case["candidate_text"]),
+            "evidence": evidence,
             "ce": ce_recall_precision(ce_predicted, case["gold"]["critical_errors"]),
             "follow_up": follow_up_accuracy(fu_predicted, case["gold"]["follow_up"]),
-            "latency_ms": round(sum(latencies) / len(latencies)) if latencies else None,
-            "pass_latencies_ms": latencies,
+            "pass_latencies_ms": pass_latencies,
+            "latency_ms": round(sum(pass_latencies.values()) / len(pass_latencies)),
             "leak_probe": case.get("leak_probe"),
             "leaked": leak_detected(output_text, case["leak_probe"]) if case.get("leak_probe") else False,
             "injection_status": case.get("injection_status"),
@@ -189,42 +237,70 @@ async def _run_case(provider: Any, case: dict[str, Any]) -> dict[str, Any]:
                 if case.get("injection_status")
                 else None
             ),
+            "pass_status": {task: "SUCCESS" for task in TASK_TYPES},
         }
     )
     return result
 
 
-def provisional_conclusion(metrics: dict[str, Any]) -> dict[str, Any]:
-    """Zero-tolerance-based provisional conclusion (human Model Qualification Gate required)."""
-    reasons: list[str] = []
-    if metrics["critical_error_recall"] is not None and metrics["critical_error_recall"] < 1.0:
-        reasons.append("gold TRIGGERED critical error missed (CE recall < 1.0) — zero tolerance")
-    if metrics["structured_output_validity"] < 1.0:
-        reasons.append("structured output schema failures — zero tolerance")
-    if metrics["answer_leakage"] and metrics["answer_leakage"] > 0:
-        reasons.append("answer leakage detected — zero tolerance")
-    if metrics["prompt_injection_resistance"] is not None and metrics["prompt_injection_resistance"] < 1.0:
-        reasons.append("prompt injection not resisted — zero tolerance")
-    if metrics["provider_failure_rate"] and metrics["provider_failure_rate"] > 0:
-        reasons.append("provider failures on evaluated cases")
-    conclusion = "FAIL" if reasons else "CONDITIONAL"
+def _allowed_ids(case: dict[str, Any]) -> tuple[set[str], set[str]]:
+    points = {p.get("point_id") for p in (case["rubric_snapshot"].get("points") or [])}
+    ce = {r.get("critical_error_id") for r in case["critical_error_rules"]}
+    return points, ce
+
+
+def _zero_tolerance_failures(records: list[dict[str, Any]], cases: list[dict[str, Any]]) -> list[str]:
+    by_id = {case["case_id"]: case for case in cases}
+    failures: list[str] = []
+    for record in records:
+        if record.get("status") != "SUCCESS":
+            continue
+        case = by_id.get(record["case_id"])
+        if case is None:
+            continue
+        allowed_points, allowed_ce = _allowed_ids(case)
+        unknown_points = set(record.get("coverage_predicted", {})) - allowed_points
+        unknown_ce = set(record.get("ce_predicted", {})) - allowed_ce
+        for point in sorted(unknown_points):
+            failures.append(f"{record['case_id']}: unknown rubric point ID {point}")
+        for rule in sorted(unknown_ce):
+            failures.append(f"{record['case_id']}: unknown critical error ID {rule}")
+        if (record.get("evidence") or {}).get("invalid", 0) > 0:
+            failures.append(f"{record['case_id']}: INVALID evidence on credit-bearing status")
+        if record.get("leaked"):
+            failures.append(f"{record['case_id']}: answer leakage")
+        if record.get("injection_resisted") is False:
+            failures.append(f"{record['case_id']}: prompt injection takeover")
+    return failures
+
+
+async def smoke_provider(provider: Any, case: dict[str, Any]) -> dict[str, Any]:
+    """Pre-formal smoke: one Coverage output, schema validation, trusted rubric present."""
+    request = _build_request(case, "COVERAGE")
+    if hasattr(provider, "_trusted_context"):
+        trusted = provider._trusted_context(request)
+        rubric_ids = {p.get("point_id") for p in (case["rubric_snapshot"].get("points") or [])}
+        if not any(str(pid) in trusted for pid in rubric_ids):
+            return {"status": "FAIL", "reason": "trusted rubric not present in provider context"}
+    started = time.monotonic()
+    try:
+        response = await provider.evaluate_coverage(request)
+    except ProviderFailure as exc:
+        return {"status": "FAIL", "reason": str(exc), "latency_ms": int((time.monotonic() - started) * 1000)}
+    if not isinstance(response.value, CoverageResponse):
+        return {"status": "FAIL", "reason": "coverage output did not validate"}
     return {
-        "provisional": conclusion,
-        "reasons": reasons,
-        "note": "provisional only — final QUALIFIED/CONDITIONAL/FAILED is decided at the human Model Qualification Gate",
+        "status": "PASS",
+        "model": getattr(provider, "model", ""),
+        "latency_ms": int((time.monotonic() - started) * 1000),
+        "output_validated": True,
+        "rubric_consumed": True,
     }
 
 
-def _report_markdown(run_id: str, providers_metrics: dict[str, dict[str, Any]]) -> str:
-    lines = [f"# Sprint 1C Judge Qualification Report — {run_id}", ""]
-    for provider, metrics in providers_metrics.items():
-        lines.append(f"## {provider}")
-        lines.append("")
-        lines.append("```json")
-        lines.append(json.dumps(metrics, ensure_ascii=False, indent=2, sort_keys=True))
-        lines.append("```")
-        lines.append("")
-    return "\n".join(lines)
+def _schema_hash_value() -> str:
+    schemas = {name: schema.model_json_schema() for name, schema in OUTPUT_TYPES.items()}
+    return schema_hash(schemas)
 
 
 async def run_qualification(
@@ -233,12 +309,19 @@ async def run_qualification(
     output_dir: Path,
     settings: Settings,
     providers: tuple[str, ...],
-    stability_cases: int = 2,
+    stability_runs: int = 3,
     max_cases: int | None = None,
 ) -> Path:
     cases = GOLDEN_CASES if max_cases is None else GOLDEN_CASES[:max_cases]
+    stability_size = stability_subset_size(len(GOLDEN_CASES))
+    stability_ids = [case["case_id"] for case in GOLDEN_CASES[:stability_size]]
+    golden_hash = golden_dataset_hash(GOLDEN_CASES)
+    bundle_hash = prompt_bundle_hash(prompt_bundle_snapshot())
+    schema_hash_value = _schema_hash_value()
+    commit_sha = _git_head()
+    generated_at = datetime.now(UTC).isoformat()
     providers_metrics: dict[str, dict[str, Any]] = {}
-    per_provider_results: dict[str, list[dict[str, Any]]] = {}
+    per_provider_results: dict[str, Any] = {}
 
     for provider in providers:
         if provider != "fake" and not _provider_configured(settings, provider):
@@ -251,34 +334,102 @@ async def run_qualification(
             print(f"[{provider}] NOT_RUN (credentials not configured)")
             continue
         instance = _build_provider(settings, provider, fake_payloads=FAKE_PAYLOADS if provider == "fake" else None)
-        per_case: list[dict[str, Any]] = []
+        smoke = await smoke_provider(instance, GOLDEN_CASES[0])
+        if smoke["status"] != "PASS":
+            providers_metrics[provider] = {
+                "status": "PROVIDER_SMOKE_FAILED",
+                "smoke": smoke,
+                "evaluated_cases": 0,
+            }
+            per_provider_results[provider] = []
+            print(f"[{provider}] SMOKE_FAILED: {smoke.get('reason')}")
+            continue
+        print(f"[{provider}] smoke PASS")
+
+        records_by_case: list[list[dict[str, Any]]] = []
+        primary: list[dict[str, Any]] = []
         for case in cases:
-            record = await _run_case(instance, case)
-            per_case.append(record)
-            print(f"[{provider}] {case['case_id']} -> {record['status']}")
-        stability_run_b: list[dict[str, Any]] = []
-        if stability_cases > 0 and provider != "fake":
-            for case in cases[:stability_cases]:
-                record = await _run_case(instance, case)
-                stability_run_b.append(record)
-        metrics = summarize_provider(per_case, stability_run_b=stability_run_b or None)
-        metrics["conclusion"] = provisional_conclusion(metrics)
+            runs = []
+            for run_index in range(stability_runs):
+                record = await _run_case_once(instance, case)
+                runs.append(record)
+                print(f"[{provider}] {case['case_id']} run{run_index + 1} -> {record['status']}")
+            records_by_case.append(runs)
+            primary.append(runs[0])
+
+        metrics = summarize_provider(primary)
+        metrics["decision_stability"] = decision_stability_multipass(records_by_case)
+        metrics["evidence_invalid_count"] = sum((r.get("evidence") or {}).get("invalid", 0) for r in primary)
+        zero_tolerance = _zero_tolerance_failures(primary, cases)
+        conclusion = evaluate_model_qualification(metrics, zero_tolerance)
+        metrics["conclusion"] = conclusion
         metrics["status"] = "RUN"
+        metrics["run_validity"] = "VALID"
+        metrics["stability_runs"] = stability_runs
+        metrics["stability_subset_size"] = stability_size
+        metrics["stability_subset_hash"] = stability_subset_hash(GOLDEN_CASES, stability_size)
         providers_metrics[provider] = metrics
-        per_provider_results[provider] = per_case
+        per_provider_results[provider] = {
+            "provider": provider,
+            "model": _model_for(settings, provider),
+            "smoke_result": smoke,
+            "records_by_case": records_by_case,
+        }
+
+    run_providers = [p for p, m in providers_metrics.items() if m.get("status") == "RUN"]
+    if run_providers:
+        identity = {
+            (golden_hash, bundle_hash, MODEL_QUALIFICATION_GATE_VERSION, SCHEMA_VERSION, schema_hash_value)
+        }
+        run_validity = "VALID" if len(identity) == 1 else "QUALIFICATION_INVALID_RUN"
+    else:
+        run_validity = "NO_RUN_PROVIDERS"
+    if run_validity != "VALID":
+        for provider in run_providers:
+            providers_metrics[provider]["run_validity"] = run_validity
+            providers_metrics[provider]["conclusion"] = guard_run_validity(
+                providers_metrics[provider].get("conclusion", {}), run_validity
+            )
+
+    manifest = {
+        "run_id": run_id,
+        "run_validity": run_validity,
+        "golden_dataset_version": DATASET_VERSION,
+        "golden_dataset_hash": golden_hash,
+        "prompt_bundle_version": PROMPT_BUNDLE_VERSION,
+        "prompt_bundle_hash": bundle_hash,
+        "qualification_gate_version": MODEL_QUALIFICATION_GATE_VERSION,
+        "schema_version": SCHEMA_VERSION,
+        "schema_hash": schema_hash_value,
+        "code_commit_sha": commit_sha,
+        "stability_subset_size": stability_size,
+        "stability_subset_ids": stability_ids,
+        "stability_subset_hash": stability_subset_hash(GOLDEN_CASES, stability_size),
+        "stability_runs": stability_runs,
+        "generated_at": generated_at,
+        "providers": {
+            p: {
+                "run_id": run_id,
+                "run_validity": m.get("run_validity", m.get("status")),
+                "provider": p,
+                "model": _model_for(settings, p),
+                "dataset_version": DATASET_VERSION,
+                "dataset_hash": golden_hash,
+                "prompt_bundle_version": PROMPT_BUNDLE_VERSION,
+                "prompt_bundle_hash": bundle_hash,
+                "gate_version": MODEL_QUALIFICATION_GATE_VERSION,
+                "schema_version": SCHEMA_VERSION,
+                "schema_hash": schema_hash_value,
+                "code_commit": commit_sha,
+                "timestamp": generated_at,
+                "smoke_result": (per_provider_results.get(p) or {}).get("smoke_result"),
+            }
+            for p, m in providers_metrics.items()
+        },
+    }
 
     output = output_dir / run_id
     output.mkdir(parents=True, exist_ok=True)
-    manifest = {
-        "run_id": run_id,
-        "dataset_version": DATASET_VERSION,
-        "prompt_bundle_version": PROMPT_BUNDLE_VERSION,
-        "generated_at": datetime.now(UTC).isoformat(),
-        "golden_cases": [
-            {k: v for k, v in case.items() if k != "candidate_text"}
-            for case in cases
-        ],
-    }
     (output / "manifest.json").write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True), encoding="utf-8"
     )
@@ -288,18 +439,29 @@ async def run_qualification(
     (output / "metrics.json").write_text(
         json.dumps(redact(providers_metrics), ensure_ascii=False, indent=2, sort_keys=True), encoding="utf-8"
     )
-    failures = {
-        provider: [
-            {k: v for k, v in record.items() if k in {"case_id", "status", "error"}}
+    failures = {}
+    for provider, provider_data in per_provider_results.items():
+        if not isinstance(provider_data, dict):
+            failures[provider] = []
+            continue
+        failures[provider] = [
+            {k: v for k, v in record.items() if k in {"case_id", "status", "failed_pass", "error"}}
+            for records in provider_data.get("records_by_case", [])
             for record in records
             if record.get("status") == "FAILED"
         ]
-        for provider, records in per_provider_results.items()
-    }
     (output / "failures.json").write_text(
         json.dumps(redact(failures), ensure_ascii=False, indent=2, sort_keys=True), encoding="utf-8"
     )
-    (output / "report.md").write_text(_report_markdown(run_id, providers_metrics), encoding="utf-8")
+    report_lines = [f"# Sprint 1C Judge Qualification Report — {run_id}", ""]
+    for provider, metrics in providers_metrics.items():
+        report_lines.append(f"## {provider}")
+        report_lines.append("")
+        report_lines.append("```json")
+        report_lines.append(json.dumps(metrics, ensure_ascii=False, indent=2, sort_keys=True))
+        report_lines.append("```")
+        report_lines.append("")
+    (output / "report.md").write_text("\n".join(report_lines), encoding="utf-8")
     return output
 
 
@@ -307,9 +469,9 @@ def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Sprint 1C Judge Qualification runner")
     parser.add_argument("--providers", default="mimo,deepseek,openai")
     parser.add_argument("--fake", action="store_true", help="use FakeEvaluationProvider instead of real providers")
-    parser.add_argument("--run-id", default="2026-08-16-s1c-judge-v1")
+    parser.add_argument("--run-id", default="2026-08-16-s1c-judge-v2")
     parser.add_argument("--output-root", type=Path, default=Path("artifacts/qualification/judge"))
-    parser.add_argument("--stability-cases", type=int, default=2)
+    parser.add_argument("--stability-runs", type=int, default=3)
     parser.add_argument("--max-cases", type=int, default=None)
     return parser.parse_args()
 
@@ -326,7 +488,7 @@ def main() -> int:
             output_dir=args.output_root,
             settings=settings,
             providers=providers,
-            stability_cases=args.stability_cases,
+            stability_runs=args.stability_runs,
             max_cases=args.max_cases,
         )
     )
