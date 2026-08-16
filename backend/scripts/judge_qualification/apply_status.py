@@ -43,7 +43,7 @@ def main() -> int:
                 print(f"[{provider}] model attribute missing — skipped")
                 continue
             conclusion = provider_metrics.get("conclusion", {})
-            status = conclusion.get("provisional")
+            status = conclusion.get("proposed_qualification")
             if status not in {"CONDITIONAL", "FAIL", "QUALIFIED"}:
                 print(f"[{provider}] no provisional conclusion — skipped")
                 continue
@@ -52,9 +52,11 @@ def main() -> int:
                 "run_id": manifest.get("run_id"),
                 "dataset_version": manifest.get("dataset_version"),
                 "prompt_bundle_version": manifest.get("prompt_bundle_version"),
-                "provisional_conclusion": status,
-                "reasons": conclusion.get("reasons", []),
-                "note": "provisional; human Model Qualification Gate required before formal use",
+                "proposed_qualification": status,
+                "failed_thresholds": conclusion.get("failed_thresholds", []),
+                "zero_tolerance_failures": conclusion.get("zero_tolerance_failures", []),
+                "gate_version": conclusion.get("gate_version"),
+                "note": "proposed by Gate evaluator; human Model Qualification Gate required before formal use",
                 "metrics": {k: v for k, v in provider_metrics.items() if k not in {"conclusion", "status"}},
             }
             profile = session.scalar(
