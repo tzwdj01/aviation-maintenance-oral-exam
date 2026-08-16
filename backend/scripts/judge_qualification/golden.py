@@ -12,7 +12,7 @@ from __future__ import annotations
 from typing import Any
 
 DATASET_VERSION = "judge-qual-golden-v1"
-PROMPT_BUNDLE_VERSION = "prompt-bundle-v1"
+PROMPT_BUNDLE_VERSION = "prompt-bundle-v2"
 
 _RELEASE_RUBRIC = {
     "points": [

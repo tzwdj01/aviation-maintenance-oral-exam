@@ -9,7 +9,18 @@ from __future__ import annotations
 
 from typing import Any
 
-PROMPT_BUNDLE_VERSION = "prompt-bundle-v1"
+PROMPT_BUNDLE_VERSION = "prompt-bundle-v2"
+
+# JSON-mode transport instruction (Sprint 1C harness v2 / DeepSeek contract fix).
+# DeepSeek requires the literal word "json" to be present when
+# response_format={"type":"json_object"} is used; this neutral transport instruction
+# satisfies that contract and guides JSON-only output. It adds NO scoring hints, so it
+# does not change the business semantics of any pass prompt. OUTPUT_SCHEMA is provided in
+# the shared trusted evaluation context (output_type.model_json_schema()).
+JSON_MODE_TRANSPORT_INSTRUCTION = (
+    "Return JSON only. The response must be one valid JSON object conforming exactly to "
+    "OUTPUT_SCHEMA. Do not output Markdown, prose, code fences, or extra fields."
+)
 
 _PROMPTS: dict[str, str] = {
     "COVERAGE": (
@@ -40,10 +51,22 @@ _PROMPTS: dict[str, str] = {
 
 def system_prompt_for(task_type: str) -> str:
     try:
-        return _PROMPTS[task_type]
+        return _PROMPTS[task_type] + "\n\n" + JSON_MODE_TRANSPORT_INSTRUCTION
     except KeyError as exc:  # pragma: no cover
         raise ValueError(f"unknown task type: {task_type}") from exc
 
 
 def prompt_bundle_snapshot() -> dict[str, Any]:
-    return {"version": PROMPT_BUNDLE_VERSION, "pass_prompts": dict(_PROMPTS)}
+    """Snapshot covering exactly what providers receive.
+
+    The JSON-mode transport instruction is appended to every pass prompt at call time, so it
+    is part of the frozen Prompt Bundle content. The rendered prompts are included verbatim
+    so ``prompt_bundle_hash()`` reflects the actual text sent to each provider (no old-hash
+    forgery when the bundle is bumped).
+    """
+    return {
+        "version": PROMPT_BUNDLE_VERSION,
+        "pass_prompts": dict(_PROMPTS),
+        "json_mode_transport_instruction": JSON_MODE_TRANSPORT_INSTRUCTION,
+        "rendered_prompts": {task: system_prompt_for(task) for task in _PROMPTS},
+    }
