@@ -167,12 +167,18 @@
 
 ## 8. Sprint 1C — Multi-LLM Judge Qualification（Run 2026-08-16-s1c-judge-v1）
 
+- **RUN_VALIDITY = INVALIDATED_HARNESS_DEFECT**（人工 Harness Review 结论）：
+  该 Run 保留为 diagnostic artifact，**不得作为 Sprint 1C 正式 MiMo Qualification FAIL 证据**。
+  原因：`StructuredEvaluationProvider` 仅向 Provider 发送 `candidate_text`，未发送完整
+  Trusted Rubric / CE / Evidence context；JSON-mode Provider 未收到完整业务 output schema，
+  导致 MiMo 生成自定义 JSON shape。Harness 修复后需重跑（`judge-qual-golden-v1` 不变）。
+  **历史 Qualification V2 的 `MiMo = FAILED` 保持不变**，与本次被作废的 Run 明确区分。
 - Golden Dataset：`judge-qual-golden-v1`（10 例，覆盖场景 A–H；Question / Rubric
   Snapshot / Evidence rules / Critical Error rules / Prompt Bundle `prompt-bundle-v1` /
   evaluation schema 全量对齐；金标不可修改）
 - 评估对象：`mimo-v2.5`（`mimo_llm_model`）、`deepseek-v4-pro`、`gpt-5`
 - 结论（按 Provider）：
-  - **MiMo `mimo-v2.5`**：`RUN` — 10/10 case **FAILED**
+  - **MiMo `mimo-v2.5`**：`RUN`（INVALIDATED）— 10/10 case FAILED（Harness 缺陷所致）
     - structured output validity **0.0**（全部 10 例首个 Pass 输出未通过
       `extra="forbid"` schema 校验：模型返回 `知识点/points/assessment` 等自定义结构，
       非约定 `point_assessments[]` 契约）
@@ -187,6 +193,19 @@
 - Artifacts：`artifacts/qualification/judge/2026-08-16-s1c-judge-v1/`
   （manifest / results / metrics / failures / report；不含 Key）
 - 相关 ADR：`0003`（多 Provider 评估架构）、`0005`（禁止 Silent Failover）。
+
+### 8.1 Sprint 1C Harness Remediation（Gate v1 冻结 + Formal-Run Ready）
+
+- `MODEL_QUALIFICATION_GATE_VERSION = v1` 已冻结于
+  `docs/qualification/MODEL_QUALIFICATION.md` §5.1（QUALIFIED / CONDITIONAL 阈值表 +
+  零容忍条款）。
+- 修复：`EvaluationRequest` 携带 question/critical_error_rules/prior_analysis；
+  `StructuredEvaluationProvider` 构建共享 `TRUSTED_EVALUATION_CONTEXT`
+  （rubric + allowed IDs + CE rules + Evidence rules + `output_type.model_json_schema()` +
+  prompt version），候选回答只在 `UNTRUSTED_CANDIDATE_DATA` 边界。
+- Formal-Run invariants：SMOKE 前置、稳定性子集=全部 10 例、每 case ≥3 次、
+  Decision Stability 覆盖 Coverage+CE+Follow-up、manifest 哈希（golden/prompt/schema/
+  stability）+ gate version + code commit、run_validity 守卫。
 
 ## 9. 纪律
 
