@@ -87,5 +87,7 @@ Phase 0 审阅发现的、**不构成本阶段业务修改范围**但需后续�
 - **影响**：语音资格目前仅覆盖单说话人；跨说话人鲁棒性未验证。
 - **硬性 Gate**：在任何 Pilot / Canary / Production 部署前，必须完成至少第二名
   自愿说话人 S02 的 Qualification；不得在后续被遗忘或删除。
+- **说明**：该项**不是 Sprint 1C（Multi-LLM Judge Qualification）的 blocker**，
+  但仍是 Pilot / Canary / Production 前的硬性 Gate（Sprint Transition 已明确保留）。
 - **登记**：同步于 `docs/qualification/SPEECH_QUALIFICATION.md` §2.1 与
   `docs/qualification/qualification-history.md` §7。

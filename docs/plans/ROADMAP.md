@@ -16,13 +16,13 @@ Phase 0  Project Governance & Architecture Baseline
 Sprint 1A  Model-Independent Core + Multi-Provider Foundation   ✅ Architecture/Code Gate PASS
    │
    ▼
-Sprint 1B  MiMo Speech Production Integration   ← 当前（Sprint Transition APPROVED）
+Sprint 1B  MiMo Speech Production Integration   ✅ Speech Gate CONDITIONAL_PASS（已合并 main）
    │
    ▼
 Speech Gate
    │
    ▼
-Sprint 1C  Multi-LLM Qualification（MiMo vs DeepSeek vs OpenAI）
+Sprint 1C  Multi-LLM Qualification（MiMo vs DeepSeek vs OpenAI）   ← 当前（Sprint Transition APPROVED）
    │
    ▼
 Model Qualification Gate
@@ -51,8 +51,13 @@ Sprint 5   Pilot / Canary / Controlled Rollout
 | --- | --- |
 | Phase 0 | ✅ 完成（Governance Gate 通过） |
 | Sprint 1A | ✅ 完成（Architecture/Code Gate PASS，已合并至 `main`） |
-| Sprint 1B | 🚧 当前（Sprint Transition APPROVED；Speech Gate 待过） |
-| Sprint 1C–5 | 未开始（待批准） |
+| Sprint 1B | ✅ 完成（Speech Gate `CONDITIONAL_PASS`，已合并至 `main`） |
+| Sprint 1C | 🚧 当前（Sprint Transition APPROVED；Model Qualification Gate 待过） |
+| Sprint 1D–5 | 未开始（待批准） |
+
+> `SECOND_SPEAKER_VALIDATION = DEFERRED`（经人工批准）：不是 Sprint 1C blocker，
+> 但仍是 Pilot / Canary / Production 前的硬性 Gate（登记于
+> `docs/qualification/SPEECH_QUALIFICATION.md` 与 `docs/plans/TECH_DEBT.md`）。
 
 ## Gate 定义
 
