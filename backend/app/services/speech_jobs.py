@@ -39,6 +39,7 @@ from app.repositories.core import adopt_transcript
 from app.services.ai_calls import create_ai_call
 from app.services.audit import record_audit_event
 from app.services.jobs import backoff_seconds
+from app.speech.render import render_for_tts
 
 
 def enqueue_asr_job(
@@ -87,13 +88,17 @@ def enqueue_tts_job(
     max_retries: int | None = None,
 ) -> TaskJob:
     settings = get_settings()
+    render_profile_version = settings.speech_render_profile_version
+    rendered_text = render_for_tts(text)
     job = TaskJob(
         job_type=TaskJobType.TTS.value,
         state=TaskJobState.PENDING.value,
         business_key=business_key,
         attempt_item_id=attempt_item_id,
         payload={
-            "text": text,
+            "text": rendered_text,
+            "canonical_text": text,
+            "render_profile_version": render_profile_version,
             "voice": voice or settings.mimo_tts_voice,
             "purpose": purpose.value,
             "model": model or settings.mimo_tts_model,
@@ -364,7 +369,12 @@ async def process_tts_job(
         provider=provider.provider_name,
         model=result.model,
         request_id=result.request_id,
-        input_summary={"text_preview": payload["text"][:120], "voice": payload.get("voice")},
+        input_summary={
+            "text_preview": payload["text"][:120],
+            "canonical_preview": (payload.get("canonical_text") or payload["text"])[:120],
+            "render_profile_version": payload.get("render_profile_version"),
+            "voice": payload.get("voice"),
+        },
         raw_response=result.raw_response,
         status="SUCCEEDED",
         retry_count=job.attempts,

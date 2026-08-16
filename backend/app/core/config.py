@@ -25,6 +25,7 @@ class Settings(BaseSettings):
     mimo_asr_language: str = "auto"
     mimo_tts_voice: str = "mimo_default"
     mimo_tts_style_prompt: str = "请使用清晰、自然、专业的中文口试考官语气。"
+    speech_render_profile_version: str = "render-v1"
 
     # Media / audio artifacts (docs/CONFIGURATION.md §1)
     media_storage_dir: str = "./media"

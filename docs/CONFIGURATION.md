@@ -33,6 +33,12 @@ Provider 文档描述**协议与能力**；本文件描述**本项目使用哪�
 | `MIMO_TTS_VOICE` | TTS 内置音色（`mimo_default` 等） | `mimo_default` |
 | `MIMO_TTS_STYLE_PROMPT` | TTS 朗读风格/发音指导（官方契约 `user` 消息） | 清晰自然专业中文口试考官语气 |
 
+### Speech Rendering（Sprint 1B remediation）
+
+| 变量 | 说明 | 默认 |
+| --- | --- | --- |
+| `SPEECH_RENDER_PROFILE_VERSION` | TTS 派生渲染文本的版本化 Profile（`render-v1` 拼读航空缩写/型号；canonical 文本永不修改） | `render-v1` |
+
 ### Media / Audio（Sprint 1B 新增）
 
 | 变量 | 说明 | 默认 |

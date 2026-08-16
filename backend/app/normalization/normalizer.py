@@ -48,7 +48,7 @@ class _Ruleset:
 
 
 # Every change to a ruleset must bump its version so history stays traceable.
-NORMALIZER_RULESET_VERSION = "builtin-v3"
+NORMALIZER_RULESET_VERSION = "builtin-v4"
 
 
 RULESETS: dict[str, _Ruleset] = {
@@ -120,6 +120,50 @@ RULESETS: dict[str, _Ruleset] = {
             "MTD": ("MPD", "维修项目", "检查项目", "维修"),
             "故障法流": ("故障保留", "放行", "保留", "维修", "故障"),
             "CF56-7B": ("CFM56-7B", "发动机", "型号"),
+        },
+    ),
+    # builtin-v4 is the SAFE ruleset grounded in the versioned Golden corpus + safe
+    # deterministic rules (docs/qualification/SPEECH_QUALIFICATION.md §Governance). S01
+    # real-human speech may DISCOVER issues but cannot alone prove a fuzzy rule safe, so
+    # S01-only homophone auto-replacements (失航/释行指令) are demoted to review-only
+    # candidates below.
+    "builtin-v4": _Ruleset(
+        high_confidence=(
+            # builtin-v2 rules preserved (TTS Golden-corpus grounded or safe deterministic)
+            ("B七三七NG", "B737NG", "LAYER_1_EXACT_ALIAS"),
+            ("M P D", "MPD", "LAYER_1_EXACT_ALIAS"),
+            ("维修放心", "维修放行", "LAYER_2_CONTEXT_ALIAS"),
+            ("B-737NG", "B737NG", "V2_SPACING_HYPHEN"),
+            ("B七三七负八百", "B737-800", "V2_TYPED_VARIANT"),
+            ("CFM56七字节", "CFM56-7B", "V2_TYPED_VARIANT"),
+            ("试航指令", "适航指令", "V2_HOMOPHONE_PHRASE"),
+            ("对低设备清单", "最低设备清单", "V2_HOMOPHONE_PHRASE"),
+            # safe deterministic hyphen / compact model encodings (render profile pair)
+            ("B-737-800", "B737-800", "V4_SPACING_HYPHEN"),
+            ("B737800", "B737-800", "V4_COMPACT_MODEL"),
+            ("CFM567B", "CFM56-7B", "V4_COMPACT_MODEL"),
+        ),
+        spaced_abbreviations=(
+            "MEL", "AMM", "FIM", "CDL", "TSM", "IPC", "MPD", "EO", "ETOPS", "APU", "AD", "SB",
+            "B737NG", "A330", "CFM56", "B737800", "CFM567B",
+        ),
+        low_confidence={
+            "L": ("fault", "保留故障", "MEL", "CDL"),
+            "四百五十": ("CDL", "MEL", "最低设备清单", "故障", "保留", "项目"),
+            "NPD": ("MPD", "维修项目", "检查项目"),
+            "E U": ("EO", "工程指令", "维修记录", "签署", "维修"),
+            "Swiflam": ("CFM56", "发动机"),
+            "gaslyfm": ("CFM56", "发动机"),
+            "ML": ("MEL", "故障保留"),
+            "MER": ("MEL", "故障保留", "最低设备清单", "故障", "维修"),
+            "SIM": ("FIM", "故障", "排除", "无法"),
+            "MTD": ("MPD", "维修项目", "检查项目", "维修"),
+            "故障法流": ("故障保留", "放行", "保留", "维修", "故障"),
+            "CF56-7B": ("CFM56-7B", "发动机", "型号"),
+            # Demoted from builtin-v3: observed on S01 only; review-only until independently
+            # validated (S01 is discovery, not a mapping source).
+            "失航指令": ("适航指令", "AD", "指令"),
+            "释行指令": ("适航指令", "AD", "指令"),
         },
     ),
 }

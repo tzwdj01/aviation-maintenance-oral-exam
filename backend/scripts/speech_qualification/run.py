@@ -21,7 +21,6 @@ import argparse
 import asyncio
 import hashlib
 import json
-import re
 import time
 from datetime import UTC, datetime
 from pathlib import Path
@@ -50,11 +49,13 @@ from app.qualification.metrics import (
     text_similarity,
 )
 from app.services.jobs import backoff_seconds
+from app.speech.render import RENDER_PROFILE_V1, render_for_tts
 
 from scripts.speech_qualification.dataset import (
     ASR_CASES,
     DATASET_VERSION,
     TTS_CASES,
+    TTS_PRONUNCIATION_BENCHMARK_VERSION,
     VOCABULARY_VERSION,
 )
 
@@ -76,20 +77,6 @@ AVIATION_TERMS = [
     "维修放行", "故障保留", "适航指令", "最低设备清单", "维修方案", "工程指令",
     "维修记录", "签署", "放行人员", "维修", "放行", "起落架", "工作单",
 ]
-
-# Abbreviations whose TTS pronunciation is improved by spelling out the letters explicitly
-# (deterministic pre-processing of the TTS input text — within the official TTS contract).
-_ABBREVIATIONS_TO_SPELL = ("MEL", "AMM", "CDL", "FIM", "TSM", "IPC", "MPD", "EO", "ETOPS", "APU", "AD", "SB")
-
-
-def spell_out_aviation(text: str) -> str:
-    """Spell out aviation abbreviations (e.g. MEL -> 'M E L') before TTS synthesis."""
-    result = text
-    for abbreviation in _ABBREVIATIONS_TO_SPELL:
-        pattern = re.compile(r"(?<![A-Za-z0-9])" + re.escape(abbreviation) + r"(?![A-Za-z0-9])")
-        result = pattern.sub(" ".join(abbreviation), result)
-    return result
-
 
 def _audio_hash(content: bytes) -> str:
     return hashlib.sha256(content).hexdigest()
@@ -782,47 +769,147 @@ def recompute_normalizations(
     return result
 
 
-async def finalize_s01_gate(
-    *,
+def condition_grouped_metrics(
+    asr_results: list[dict[str, Any]], ruleset_version: str
+) -> dict[str, dict[str, Any]]:
+    """Group S01 human ASR results by recording condition and summarize each group."""
+    groups: dict[str, list[dict[str, Any]]] = {}
+    for result in asr_results:
+        if result.get("status") not in {"SUCCESS", "EMPTY", "FAILED"}:
+            continue
+        condition = str(result.get("condition") or "NORMAL").upper()
+        groups.setdefault(condition, []).append(_flatten_asr_result(result, ruleset_version))
+    return {condition: summarize_asr(items) for condition, items in sorted(groups.items())}
+
+
+def _human_case_view(result: dict[str, Any], ruleset_version: str) -> dict[str, Any]:
+    """Full per-case S01 view: expected/raw/normalized + matched terms + mappings."""
+    expected = result.get("expected_terms") or []
+    raw = result.get("raw_transcript")
+    view = (result.get("normalizations") or {}).get(ruleset_version, {})
+    normalized = view.get("normalized_text")
+    return {
+        "case_id": result.get("case_id"),
+        "speaker_alias": result.get("speaker_alias"),
+        "condition": result.get("condition"),
+        "expected_transcript": result.get("gold_text"),
+        "expected_aviation_terms": expected,
+        "raw_transcript": raw,
+        "normalized_transcript": normalized,
+        "raw_matched_terms": [t for t in expected if raw and t.lower() in raw.lower()],
+        "normalized_matched_terms": [t for t in expected if normalized and t.lower() in normalized.lower()],
+        "raw_similarity": result.get("raw_similarity"),
+        "normalized_similarity": view.get("norm_similarity"),
+        "latency_ms": result.get("latency_ms"),
+        "retries": result.get("retries"),
+        "provider_error": result.get("reason") or result.get("error"),
+        "status": result.get("status"),
+        "normalization_mappings": view.get("mappings") or [],
+        "warnings": view.get("warnings") or [],
+        "false_corrections": view.get("false_corrections") or [],
+    }
+
+
+def _write_human_run(
     run_id: str,
+    output_dir: Path,
+    *,
+    asr_results: list[dict[str, Any]],
+    ruleset_version: str,
+    human_cases: list[dict[str, Any]],
+    extra_metrics: dict[str, Any] | None = None,
+) -> Path:
+    metrics = summarize_asr([_flatten_asr_result(r, ruleset_version) for r in asr_results])
+    grouped = condition_grouped_metrics(asr_results, ruleset_version)
+    per_case = [_human_case_view(r, ruleset_version) for r in asr_results]
+    payload = _base_payload(run_id, asr_cases=human_cases, tts_cases=[])
+    payload.update(
+        {
+            "results.json": json.dumps(
+                {"run_id": run_id, "ruleset_version": ruleset_version, "cases": redact(per_case)},
+                ensure_ascii=False,
+                indent=2,
+                sort_keys=True,
+            ),
+            "metrics.json": json.dumps(
+                redact(
+                    {
+                        "ruleset_version": ruleset_version,
+                        "overall": metrics,
+                        "by_condition": grouped,
+                        **(extra_metrics or {}),
+                    }
+                ),
+                ensure_ascii=False,
+                indent=2,
+                sort_keys=True,
+            ),
+            "failures.json": json.dumps(
+                redact(
+                    [
+                        {k: v for k, v in r.items() if k in {"case_id", "status", "reason", "error_code"}}
+                        for r in asr_results
+                        if r.get("status") in {"FAILED", "EMPTY"}
+                    ]
+                ),
+                ensure_ascii=False,
+                indent=2,
+                sort_keys=True,
+            ),
+            "normalization-errors.json": json.dumps(
+                redact(
+                    [
+                        {
+                            "case_id": r.get("case_id"),
+                            "ruleset_version": version,
+                            "kind": "false_correction" if view.get("false_corrections") else "review_warning",
+                            "raw_transcript": r.get("raw_transcript"),
+                            "normalized_text": view.get("normalized_text"),
+                            "false_corrections": view.get("false_corrections"),
+                            "warnings": view.get("warnings"),
+                        }
+                        for r in asr_results
+                        for version, view in (r.get("normalizations") or {}).items()
+                        if version == ruleset_version
+                        and (view.get("false_corrections") or view.get("warnings"))
+                    ]
+                ),
+                ensure_ascii=False,
+                indent=2,
+                sort_keys=True,
+            ),
+            "report.md": _report_markdown(
+                run_id,
+                {"OVERALL": metrics, **{f"BY_CONDITION {k}": v for k, v in grouped.items()}},
+            ),
+        }
+    )
+    return _write_artifacts(output_dir / run_id, run_id, payload)
+
+
+async def finalize_human_gate(
+    *,
     output_dir: Path,
     settings: Settings,
     from_run: Path,
+    baseline_run_id: str = "2026-08-16-s1b-human-s01-v1",
+    v2_run_id: str = "2026-08-16-s1b-human-s01-v2",
     tts_after_from: Path | None = None,
     provider_kind: str = "mimo",
     max_retries: int = 2,
-    ruleset_versions: tuple[str, ...] = DEFAULT_RULESET_VERSIONS + ("builtin-v3",),
 ) -> Path:
-    """Finalize the S01 gate: recompute normalizer before/after from cached raws and run
-    the TTS spell-out pronunciation remediation for the 'after' comparison."""
+    """Finalize the S01 human gate.
+
+    Baseline run 2026-08-16-s1b-human-s01-v1 uses builtin-v1 (no S01-specific tuning).
+    V2 run 2026-08-16-s1b-human-s01-v2 uses the SAFE ruleset (builtin-v4) + the TTS
+    pronunciation benchmark (render-v1 vs raw text). S01 v2 is remediation regression
+    verification, NOT an independent holdout (S02 is the future independent speaker).
+    """
     cached = json.loads((from_run / "results.json").read_text(encoding="utf-8"))
-    asr_results = [recompute_normalizations(dict(result), ruleset_versions) for result in cached["asr_results"]]
-    tts_before_cache = cached.get("tts_prompt_before") or cached.get("tts_before") or []
-    tts_before = [recompute_normalizations(dict(result), ruleset_versions) for result in tts_before_cache]
-
-    asr_provider, tts_provider = _build_providers(settings, provider_kind)
-    if tts_after_from is not None:
-        cached_after = json.loads((tts_after_from / "results.json").read_text(encoding="utf-8"))
-        tts_after = [
-            recompute_normalizations(dict(result), ruleset_versions)
-            for result in (cached_after.get("tts_spellout_after") or [])
-        ]
-    else:
-        tts_after = []
-        for case in TTS_CASES:
-            spelled = {**case, "text": spell_out_aviation(case["text"])}
-            result = await run_tts_case(
-                spelled,
-                tts_provider=tts_provider,
-                asr_provider=asr_provider,
-                settings=settings,
-                max_retries=max_retries,
-                ruleset_versions=ruleset_versions,
-                gold_text=case["text"],
-            )
-            tts_after.append(result)
-            print(f"[TTS-spellout] {case['case_id']} -> {result['status']}")
-
+    asr_results = [
+        recompute_normalizations(dict(result), ("builtin-v1", NORMALIZER_RULESET_VERSION))
+        for result in cached["asr_results"]
+    ]
     human_cases = [
         {
             "case_id": result["case_id"],
@@ -832,16 +919,99 @@ async def finalize_s01_gate(
         for result in asr_results
         if result.get("source") == "human"
     ]
-    payload = _gate_payload(
-        run_id,
+
+    baseline_dir = _write_human_run(
+        baseline_run_id,
+        output_dir,
         asr_results=asr_results,
-        tts_before_results=tts_before,
-        tts_after_results=tts_after,
-        ruleset_versions=ruleset_versions,
+        ruleset_version="builtin-v1",
         human_cases=human_cases,
-        tts_after_label="tts_spellout_after",
     )
-    return _write_artifacts(output_dir / run_id, run_id, payload)
+    print(f"BASELINE={baseline_dir}")
+
+    tts_before_cache = cached.get("tts_prompt_before") or cached.get("tts_before") or []
+    tts_before = [
+        recompute_normalizations(dict(result), (NORMALIZER_RULESET_VERSION,))
+        for result in tts_before_cache
+    ]
+    asr_provider, tts_provider = _build_providers(settings, provider_kind)
+    if tts_after_from is not None:
+        cached_after = json.loads((tts_after_from / "results.json").read_text(encoding="utf-8"))
+        tts_after = [
+            recompute_normalizations(dict(result), (NORMALIZER_RULESET_VERSION,))
+            for result in (cached_after.get("tts_render_after") or [])
+        ]
+    else:
+        tts_after = []
+        for case in TTS_CASES:
+            rendered = {**case, "text": render_for_tts(case["text"])}
+            result = await run_tts_case(
+                rendered,
+                tts_provider=tts_provider,
+                asr_provider=asr_provider,
+                settings=settings,
+                max_retries=max_retries,
+                ruleset_versions=(NORMALIZER_RULESET_VERSION,),
+                gold_text=case["text"],
+            )
+            tts_after.append(result)
+            print(f"[TTS-render-v1] {case['case_id']} -> {result['status']}")
+
+    tts_before_metrics = summarize_tts([_flatten_tts_result(r, NORMALIZER_RULESET_VERSION) for r in tts_before])
+    tts_after_metrics = summarize_tts([_flatten_tts_result(r, NORMALIZER_RULESET_VERSION) for r in tts_after])
+    benchmark = {
+        "benchmark_version": TTS_PRONUNCIATION_BENCHMARK_VERSION,
+        "render_profile_version": RENDER_PROFILE_V1.version,
+        "before": tts_before_metrics,
+        "after": tts_after_metrics,
+        "round_trip_term_accuracy_delta": (
+            round(tts_after_metrics["round_trip_term_accuracy"] - tts_before_metrics["round_trip_term_accuracy"], 4)
+            if tts_before_metrics["round_trip_term_accuracy"] is not None
+            and tts_after_metrics["round_trip_term_accuracy"] is not None
+            else None
+        ),
+    }
+
+    v2_dir = _write_human_run(
+        v2_run_id,
+        output_dir,
+        asr_results=asr_results,
+        ruleset_version=NORMALIZER_RULESET_VERSION,
+        human_cases=human_cases,
+        extra_metrics={"tts_pronunciation_benchmark": benchmark},
+    )
+    print(f"V2={v2_dir}")
+
+    baseline_metrics = summarize_asr([_flatten_asr_result(r, "builtin-v1") for r in asr_results])
+    v2_metrics = summarize_asr([_flatten_asr_result(r, NORMALIZER_RULESET_VERSION) for r in asr_results])
+    comparison = {
+        "baseline_run": baseline_run_id,
+        "v2_run": v2_run_id,
+        "normalizer": {
+            "baseline_ruleset": "builtin-v1",
+            "final_ruleset": NORMALIZER_RULESET_VERSION,
+            "normalized_aviation_term_accuracy_before": baseline_metrics["normalized_aviation_term_accuracy"],
+            "normalized_aviation_term_accuracy_after": v2_metrics["normalized_aviation_term_accuracy"],
+            "normalized_aviation_term_accuracy_delta": round(
+                v2_metrics["normalized_aviation_term_accuracy"] - baseline_metrics["normalized_aviation_term_accuracy"], 4
+            )
+            if baseline_metrics["normalized_aviation_term_accuracy"] is not None
+            and v2_metrics["normalized_aviation_term_accuracy"] is not None
+            else None,
+            "false_correction_count_before": baseline_metrics["false_correction_count"],
+            "false_correction_count_after": v2_metrics["false_correction_count"],
+            "review_required_rate_before": baseline_metrics["review_required_rate"],
+            "review_required_rate_after": v2_metrics["review_required_rate"],
+        },
+        "tts_pronunciation": benchmark,
+    }
+    comparison_path = output_dir / "s01-remediation-comparison.json"
+    comparison_path.parent.mkdir(parents=True, exist_ok=True)
+    comparison_path.write_text(
+        json.dumps(redact(comparison), ensure_ascii=False, indent=2, sort_keys=True), encoding="utf-8"
+    )
+    print(f"COMPARISON={comparison_path}")
+    return v2_dir
 
 
 async def run_qualification(
@@ -986,8 +1156,7 @@ def main() -> int:
         )
     elif args.from_run:
         output = asyncio.run(
-            finalize_s01_gate(
-                run_id=args.run_id,
+            finalize_human_gate(
                 output_dir=args.output_root,
                 settings=settings,
                 from_run=args.from_run,

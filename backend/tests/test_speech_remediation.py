@@ -17,7 +17,8 @@ from app.ai.providers.speech.mimo_tts import MiMoTTSProvider
 from app.core.config import Settings
 from app.normalization.normalizer import NORMALIZER_RULESET_VERSION, normalize
 from app.normalization.vocabulary import VocabularySnapshot
-from scripts.speech_qualification.run import load_human_cases, spell_out_aviation
+from app.speech.render import render_for_tts
+from scripts.speech_qualification.run import load_human_cases
 
 VOCAB = VocabularySnapshot(version="builtin")
 
@@ -190,10 +191,15 @@ def test_s01_gate_offline_writes_remediation_artifacts(tmp_path) -> None:
     assert "normalizer_delta" in remediation and "tts_pronunciation_after" in remediation
 
 
-def test_spell_out_aviation_expands_abbreviations() -> None:
-    assert spell_out_aviation("根据 MEL 评估后执行故障保留。") == "根据 M E L 评估后执行故障保留。"
-    assert spell_out_aviation("查询 AMM 和 FIM。") == "查询 A M M 和 F I M。"
-    assert spell_out_aviation("B737NG 起落架检查完毕。") == "B737NG 起落架检查完毕。"  # model untouched
+def test_render_for_tts_expands_abbreviations_and_models() -> None:
+    canonical = "该飞机为 B737-800，发动机型号为 CFM56-7B，需查询 AMM 和 FIM。"
+    rendered = render_for_tts(canonical)
+    assert "M E L" in render_for_tts("根据 MEL 评估后执行故障保留。")
+    assert "A M M" in render_for_tts("查询 AMM。")
+    assert "B 7 3 7 N G" in render_for_tts("B737NG 起落架检查完毕。")
+    assert rendered == "该飞机为 B 7 3 7 8 0 0，发动机型号为 C F M 5 6 7 B，需查询 A M M 和 F I M。"
+    # canonical/display text is never modified by rendering
+    assert canonical == "该飞机为 B737-800，发动机型号为 CFM56-7B，需查询 AMM 和 FIM。"
 
 
 def test_builtin_v3_human_speech_phrase_rules_apply() -> None:
@@ -205,6 +211,25 @@ def test_builtin_v3_human_speech_phrase_rules_apply() -> None:
     # CF56-7B is a review-only candidate: not silently rewritten, but flagged.
     assert "CFM56-7B" not in result2.normalized_text
     assert any("CF56-7B" in w for w in result2.warnings)
+
+
+def test_safe_ruleset_v4_keeps_golden_grounded_rules_and_demotes_s01_only() -> None:
+    # TTS Golden-corpus grounded: 试航指令 -> 适航指令 stays a high-confidence rule.
+    grounded = normalize("试航指令已评估执行。", VOCAB, ruleset_version="builtin-v4")
+    assert "适航指令" in grounded.normalized_text
+    # S01-only homophones are demoted: 失航指令 is NOT auto-replaced, only flagged.
+    s01_only = normalize("发现失航指令适用时，应确认AD的执行状态。", VOCAB, ruleset_version="builtin-v4")
+    assert "适航指令" not in s01_only.normalized_text
+    assert any("失航指令" in w for w in s01_only.warnings)
+    # Safe deterministic model rules apply.
+    model = normalize("该飞机为B-737-800，发动机型号为CF56-7B。", VOCAB, ruleset_version="builtin-v4")
+    assert "B737-800" in model.normalized_text
+    assert "CFM56-7B" not in model.normalized_text  # CF56-7B remains review-only
+    assert any("CF56-7B" in w for w in model.warnings)
+    # Render-profile spaced forms round-trip to canonical (invertible deterministic pair).
+    assert "MEL" in normalize("根据 M E L 评估。", VOCAB, ruleset_version="builtin-v4").normalized_text
+    assert "B737-800" in normalize("B 7 3 7 8 0 0", VOCAB, ruleset_version="builtin-v4").normalized_text
+    assert "CFM56-7B" in normalize("C F M 5 6 7 B", VOCAB, ruleset_version="builtin-v4").normalized_text
 
 
 def test_recompute_normalizations_from_cached_raw(tmp_path) -> None:

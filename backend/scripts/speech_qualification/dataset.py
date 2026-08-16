@@ -12,6 +12,7 @@ from typing import Any
 DATASET_VERSION = "speech-qual-2026-08-16-v1"
 NORMALIZER_RULESET_VERSION = "builtin-v1"
 VOCABULARY_VERSION = "builtin"  # no published business vocabulary at qualification time
+TTS_PRONUNCIATION_BENCHMARK_VERSION = "tts-pron-bench-v1"
 
 
 def _asr_case(
