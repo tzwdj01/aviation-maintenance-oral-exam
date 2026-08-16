@@ -1,0 +1,52 @@
+{
+  "code_commit_sha": "6fe7032f480e07eb3c99249a6d4afebff977116a",
+  "generated_at": "2026-08-16T07:43:31.557839+00:00",
+  "golden_dataset_hash": "d2f2d5773816d9c7bc91d0f382796f75e31ada667b996abadfa637dcc1f57030",
+  "golden_dataset_version": "judge-qual-golden-v1",
+  "prompt_bundle_hash": "dfccf150947bfa2838e1484bd19e3e1b91e45dd2b350c7e328c61f9b0a8f50ab",
+  "prompt_bundle_version": "prompt-bundle-v1",
+  "providers": {
+    "fake": {
+      "code_commit": "6fe7032f480e07eb3c99249a6d4afebff977116a",
+      "dataset_hash": "d2f2d5773816d9c7bc91d0f382796f75e31ada667b996abadfa637dcc1f57030",
+      "dataset_version": "judge-qual-golden-v1",
+      "gate_version": "v1",
+      "model": "fake-evaluation-v1",
+      "prompt_bundle_hash": "dfccf150947bfa2838e1484bd19e3e1b91e45dd2b350c7e328c61f9b0a8f50ab",
+      "prompt_bundle_version": "prompt-bundle-v1",
+      "provider": "fake",
+      "run_id": "2026-08-16-s1c-judge-v2",
+      "run_validity": "VALID",
+      "schema_hash": "62d0653ed1d45533940dd6ab6ae6123160ef9e6d8ba8f5db3b6ba37a46e8506d",
+      "schema_version": "eval-schema-v1",
+      "smoke_result": {
+        "latency_ms": 0,
+        "model": "fake-evaluation-v1",
+        "output_validated": true,
+        "rubric_consumed": true,
+        "status": "PASS"
+      },
+      "timestamp": "2026-08-16T07:43:31.557839+00:00"
+    }
+  },
+  "qualification_gate_version": "v1",
+  "run_id": "2026-08-16-s1c-judge-v2",
+  "run_validity": "VALID",
+  "schema_hash": "62d0653ed1d45533940dd6ab6ae6123160ef9e6d8ba8f5db3b6ba37a46e8506d",
+  "schema_version": "eval-schema-v1",
+  "stability_runs": 3,
+  "stability_subset_hash": "d4b12749d35a22457109dc5702838a7359544c80437277c8d930a814d862a625",
+  "stability_subset_ids": [
+    "JC-A1",
+    "JC-A2",
+    "JC-B1",
+    "JC-C1",
+    "JC-D1",
+    "JC-E1",
+    "JC-E2",
+    "JC-F1",
+    "JC-G1",
+    "JC-H1"
+  ],
+  "stability_subset_size": 10
+}

@@ -14,7 +14,7 @@ class OpenAIEvaluationProvider(StructuredEvaluationProvider):
         payload = {
             "model": self.model,
             "instructions": request.system_prompt,
-            "input": self._candidate_message(request),
+            "input": self._user_content(request),
             "text": {"format": {"type": "json_schema", "name": request.task_type.lower(), "strict": True, "schema": request.output_type.model_json_schema()}},
         }
         raw, request_id = await self._post("/responses", payload)

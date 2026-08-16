@@ -1,0 +1,8 @@
+{
+  "run_id": "2026-08-16-s1c-judge-v1",
+  "keep_as": "diagnostic artifact only; not Sprint 1C formal MiMo FAIL evidence",
+  "historical_v2_mimo": "FAILED (unchanged)",
+  "run_validity": "INVALIDATED_HARNESS_DEFECT",
+  "decision": "human Harness Review 2026-08-16",
+  "reason": "provider received only candidate_text; trusted rubric/CE/evidence context and output schema were not sent (StructuredEvaluationProvider._candidate_message defect)"
+}

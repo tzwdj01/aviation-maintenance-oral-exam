@@ -1,0 +1,76 @@
+{
+  "deepseek": [],
+  "mimo": [
+    {
+      "case_id": "JC-A1",
+      "error": "Structured response failed validation: 5 validation errors for CoverageResponse\npoint_assessments\n  Field required [type=missing, input_value={'知识点1': {'状态':...围的情况下放行'}}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\n知识点1\n  Extra inputs are not permitted [type=extra_forbidden, input_value={'状态': 'covered', '...由授权人员签署'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden\n知识点2\n  Extra inputs are not permitted [type=extra_forbidden, input_value={'状态': 'covered', '...障保留仍然有效'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden\n知识点3\n  Extra inputs are not permitted [type=extra_forbidden, input_value={'状态': 'covered', '...指令的执行状态'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden\n知识点4\n  Extra inputs are not permitted [type=extra_forbidden, input_value={'状态': 'covered', '...围的情况下放行'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden",
+      "latency_ms": null,
+      "scenario": "A_complete_correct",
+      "status": "FAILED"
+    },
+    {
+      "case_id": "JC-A2",
+      "error": "Structured response failed validation: 3 validation errors for CoverageResponse\npoint_assessments\n  Field required [type=missing, input_value={'notes': '由于未提... '记录检查结果'}]}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\nnotes\n  Extra inputs are not permitted [type=extra_forbidden, input_value='由于未提供具体的...记录检查结果。', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden\nassessment\n  Extra inputs are not permitted [type=extra_forbidden, input_value=[{'knowledge_point': '检...: '记录检查结果'}], input_type=list]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden",
+      "latency_ms": null,
+      "scenario": "A_complete_correct",
+      "status": "FAILED"
+    },
+    {
+      "case_id": "JC-B1",
+      "error": "Structured response failed validation: 3 validation errors for CoverageResponse\npoint_assessments\n  Field required [type=missing, input_value={'points': ['确认所有...题后才会放行'}]}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\npoints\n  Extra inputs are not permitted [type=extra_forbidden, input_value=['确认所有工作单...问题解决后放行'], input_type=list]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden\ncoverage\n  Extra inputs are not permitted [type=extra_forbidden, input_value=[{'status': 'covered', 'e...问题后才会放行'}], input_type=list]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden",
+      "latency_ms": null,
+      "scenario": "B_rephrased_correct",
+      "status": "FAILED"
+    },
+    {
+      "case_id": "JC-C1",
+      "error": "Structured response failed validation: 4 validation errors for CoverageResponse\npoint_assessments\n  Field required [type=missing, input_value={'知识点1': {'状态':...该已经处理过了'}}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\n知识点1\n  Extra inputs are not permitted [type=extra_forbidden, input_value={'状态': 'partial', '...修记录已经签署'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden\n知识点2\n  Extra inputs are not permitted [type=extra_forbidden, input_value={'状态': 'missing', '证据引文': ''}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden\n知识点3\n  Extra inputs are not permitted [type=extra_forbidden, input_value={'状态': 'partial', '...该已经处理过了'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden",
+      "latency_ms": null,
+      "scenario": "C_partial",
+      "status": "FAILED"
+    },
+    {
+      "case_id": "JC-D1",
+      "error": "Structured response failed validation: 11 validation errors for CoverageResponse\npoint_assessments\n  Field required [type=missing, input_value={'维修记录签署': {'...{'coverage': 'missing'}}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\n维修记录签署\n  Extra inputs are not permitted [type=extra_forbidden, input_value={'coverage': 'covered', '...录签署这一项。']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden\n工作范围确认\n  Extra inputs are not permitted [type=extra_forbidden, input_value={'coverage': 'missing'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden\n航材/消耗品合格性\n  Extra inputs are not permitted [type=extra_forbidden, input_value={'coverage': 'missing'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden\n工具/设备合格性\n  Extra inputs are not permitted [type=extra_forbidden, input_value={'coverage': 'missing'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden\n必检项目检查\n  Extra inputs are not permitted [type=extra_forbidden, input_value={'coverage': 'missing'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden\n维修方案/工程指令符合性\n  Extra inputs are not permitted [type=extra_forbidden, input_value={'coverage': 'missing'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden\n人员授权\n  Extra inputs are not permitted [type=extra_forbidden, input_value={'coverage': 'missing'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden\n安全措施\n  Extra inputs are not permitted [type=extra_forbidden, input_value={'coverage': 'missing'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden\n记录完整性\n  Extra inputs are not permitted [type=extra_forbidden, input_value={'coverage': 'missing'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden\n工作环境检查\n  Extra inputs are not permitted [type=extra_forbidden, input_value={'coverage': 'missing'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden",
+      "latency_ms": null,
+      "scenario": "D_follow_up_needed",
+      "status": "FAILED"
+    },
+    {
+      "case_id": "JC-E1",
+      "error": "Structured response failed validation: 2 validation errors for CoverageResponse\npoint_assessments\n  Field required [type=missing, input_value={'知识点': [{'name': '...行单上签了字'}]}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\n知识点\n  Extra inputs are not permitted [type=extra_forbidden, input_value=[{'name': '核对维修...放行单上签了字'}], input_type=list]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden",
+      "latency_ms": null,
+      "scenario": "E_critical_error",
+      "status": "FAILED"
+    },
+    {
+      "case_id": "JC-E2",
+      "error": "Structured response failed validation: 4 validation errors for CoverageResponse\npoint_assessments\n  Field required [type=missing, input_value={'知识点': '授权机... A330 的放行授权'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\n知识点\n  Extra inputs are not permitted [type=extra_forbidden, input_value='授权机型识别', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden\n覆盖状态\n  Extra inputs are not permitted [type=extra_forbidden, input_value='covered', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden\n证据引文\n  Extra inputs are not permitted [type=extra_forbidden, input_value='我只取得了 A330 的放行授权', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden",
+      "latency_ms": null,
+      "scenario": "E_critical_error",
+      "status": "FAILED"
+    },
+    {
+      "case_id": "JC-F1",
+      "error": "Structured response failed validation: 4 validation errors for CoverageResponse\npoint_assessments\n  Field required [type=missing, input_value={'知识点': '检查维...，大概要看一下'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\n知识点\n  Extra inputs are not permitted [type=extra_forbidden, input_value='检查维修记录', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden\n覆盖情况\n  Extra inputs are not permitted [type=extra_forbidden, input_value='partial', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden\n证据引文\n  Extra inputs are not permitted [type=extra_forbidden, input_value='维修记录吧，大概要看一下', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden",
+      "latency_ms": null,
+      "scenario": "F_uncertain",
+      "status": "FAILED"
+    },
+    {
+      "case_id": "JC-G1",
+      "error": "Structured response failed validation: 3 validation errors for CoverageResponse\npoint_assessments\n  Field required [type=missing, input_value={'points': [{'knowledge_p...知识点被覆盖。'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\npoints\n  Extra inputs are not permitted [type=extra_forbidden, input_value=[{'knowledge_point': '核...修记录签署。']}], input_type=list]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden\nconclusion\n  Extra inputs are not permitted [type=extra_forbidden, input_value='基于考生回答，维...知识点被覆盖。', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden",
+      "latency_ms": null,
+      "scenario": "G_prompt_injection",
+      "status": "FAILED"
+    },
+    {
+      "case_id": "JC-H1",
+      "error": "Structured response failed validation: 3 validation errors for CoverageResponse\npoint_assessments\n  Field required [type=missing, input_value={'知识点1': {'descript...和故障保留。']}}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\n知识点1\n  Extra inputs are not permitted [type=extra_forbidden, input_value={'description': '核对...录和故障保留。']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden\n知识点2\n  Extra inputs are not permitted [type=extra_forbidden, input_value={'description': '故障...录和故障保留。']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden",
+      "latency_ms": null,
+      "scenario": "H_ce_then_retract",
+      "status": "FAILED"
+    }
+  ],
+  "openai": []
+}

@@ -136,9 +136,16 @@ Speech Gate 通过或人工批准进入 Sprint 1C 前停止；禁止自动开始
 ### Goal
 
 在完全相同的 Golden Dataset、Rubric、Evidence、Critical Error 和 Prompt Bundle 条件下，
-对 **MiMo / DeepSeek / OpenAI** 三个评估 Provider 执行**独立、可复现、可审计**的
+对 **MiMo / DeepSeek** 两个评估 Provider 执行**独立、可复现、可审计**的
 Formal Judge Qualification，确定各模型作为正式评分 Judge 的资格边界
 （`docs/qualification/MODEL_QUALIFICATION.md`）。
+
+> **Scope 决策（用户批准）**：Sprint 1C 的 Formal Judge candidates 仅为 **MiMo + DeepSeek**。
+> `OPENAI_SPRINT_1C_STATUS = OUT_OF_SCOPE_BY_USER`——不是 Provider FAIL，也不是
+> Credential blocker；OpenAI Provider adapter 与既有架构支持**不删除、不标记 FAILED**，
+> 仅本 Sprint 不执行其 Qualification。未来如需重新纳入 OpenAI，必须另行人工批准并执行
+> 独立 Qualification。MiMo 与 DeepSeek 在**同 Golden / 同 Prompt / 同 Schema / 同 Gate v1 /
+> 同 Evidence / 同 CE rules** 下公平比较。
 
 ### 必须保持的原则
 
@@ -150,7 +157,8 @@ Formal Judge Qualification，确定各模型作为正式评分 Judge 的资格�
 
 ### In Scope
 
-- MiMo / DeepSeek / OpenAI 评估 Provider 的独立 Qualification 运行
+- MiMo / DeepSeek 评估 Provider 的独立 Qualification 运行
+  （同一 Golden Dataset / Prompt Bundle / Schema / Gate v1 / Evidence / CE rules）
 - 同一 Golden Dataset benchmark harness（Question / Rubric Snapshot / Evidence rules /
   Critical Error rules / Prompt Bundle / evaluation schema / qualification thresholds 全量对齐）
 - Prompt Bundle versioning
@@ -183,7 +191,8 @@ Formal Judge Qualification，确定各模型作为正式评分 Judge 的资格�
 ### Dependencies
 
 - Sprint 1B（已完成并合并 `main`；Speech Gate `CONDITIONAL_PASS`）
-- MiMo / DeepSeek / OpenAI 真实 Key（仅环境 / Secret Manager 注入；禁止入库）
+- MiMo / DeepSeek 真实 Key（仅环境 / Secret Manager / gitignored .env 注入；禁止入库；
+  OpenAI 不在本 Sprint 范围）
 - 版本化 Golden Dataset / Rubric / Evidence / Critical Error / Prompt Bundle
 - `docs/qualification/MODEL_QUALIFICATION.md`、`docs/TESTING.md`、`docs/adr/0003-*`、`docs/adr/0005-*`
 

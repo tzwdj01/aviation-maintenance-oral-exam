@@ -1,0 +1,17 @@
+{
+  "deepseek": [
+    {
+      "case_id": "JC-A1",
+      "error": "DEEPSEEK request failed: ",
+      "failed_pass": "FINAL_ASSESSMENT",
+      "status": "FAILED"
+    },
+    {
+      "case_id": "JC-C1",
+      "error": "DEEPSEEK request failed: ",
+      "failed_pass": "FINAL_ASSESSMENT",
+      "status": "FAILED"
+    }
+  ],
+  "mimo": []
+}

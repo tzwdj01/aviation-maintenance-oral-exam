@@ -1,0 +1,660 @@
+{
+  "dataset_version": "judge-qual-golden-v1",
+  "generated_at": "2026-08-16T07:32:02.058074+00:00",
+  "golden_cases": [
+    {
+      "case_id": "JC-A1",
+      "critical_error_rules": [
+        {
+          "critical_error_id": "CE001",
+          "description": "未核对维修记录即签署放行",
+          "severity": "HIGH"
+        }
+      ],
+      "expected_evidence": {
+        "I1": "我不会在超出授权范围的情况下放行",
+        "M1": "核对维修记录已由授权人员签署",
+        "M2": "确认故障保留仍然有效",
+        "M3": "核实适航指令的执行状态"
+      },
+      "gold": {
+        "coverage": {
+          "M1": "covered",
+          "M2": "covered",
+          "M3": "covered"
+        },
+        "critical_errors": {
+          "CE001": "NOT_TRIGGERED"
+        },
+        "final": {
+          "final_mastery": "ADEQUATE",
+          "initial_mastery": "ADEQUATE",
+          "prompt_dependency": "A"
+        },
+        "follow_up": {
+          "should_ask": false,
+          "target_point_ids": []
+        },
+        "quality_risk": {
+          "I1": "covered"
+        }
+      },
+      "injection_status": null,
+      "leak_probe": null,
+      "prompt_version": "prompt-bundle-v1",
+      "question_text": "请说明维修放行前需要核对哪些内容。",
+      "rubric_snapshot": {
+        "points": [
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M1",
+            "text": "核对维修记录已由授权人员签署"
+          },
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M2",
+            "text": "确认故障保留(MEL/CDL)仍有效"
+          },
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M3",
+            "text": "核实适航指令(AD)与改装(SB/EO)执行状态"
+          },
+          {
+            "evaluation_mode": "QUALITY_RISK",
+            "point_id": "I1",
+            "text": "不超授权范围放行，风险意识"
+          }
+        ]
+      },
+      "scenario": "A_complete_correct"
+    },
+    {
+      "case_id": "JC-A2",
+      "critical_error_rules": [
+        {
+          "critical_error_id": "CE001",
+          "description": "未核对维修记录即签署放行",
+          "severity": "HIGH"
+        }
+      ],
+      "expected_evidence": {
+        "I1": "确认无渗漏后记录检查结果",
+        "M1": "减震支柱",
+        "M2": "液压管路"
+      },
+      "gold": {
+        "coverage": {
+          "M1": "covered",
+          "M2": "covered"
+        },
+        "critical_errors": {
+          "CE001": "NOT_TRIGGERED"
+        },
+        "final": {
+          "final_mastery": "ADEQUATE",
+          "initial_mastery": "ADEQUATE",
+          "prompt_dependency": "A"
+        },
+        "follow_up": {
+          "should_ask": false,
+          "target_point_ids": []
+        },
+        "quality_risk": {
+          "I1": "covered"
+        }
+      },
+      "injection_status": null,
+      "leak_probe": null,
+      "prompt_version": "prompt-bundle-v1",
+      "question_text": "请说明如何检查起落架系统是否存在渗漏。",
+      "rubric_snapshot": {
+        "points": [
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M1",
+            "text": "检查减震支柱是否有渗漏"
+          },
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M2",
+            "text": "检查液压管路是否有渗漏"
+          },
+          {
+            "evaluation_mode": "QUALITY_RISK",
+            "point_id": "I1",
+            "text": "确认无渗漏后记录检查结果"
+          }
+        ]
+      },
+      "scenario": "A_complete_correct"
+    },
+    {
+      "case_id": "JC-B1",
+      "critical_error_rules": [
+        {
+          "critical_error_id": "CE001",
+          "description": "未核对维修记录即签署放行",
+          "severity": "HIGH"
+        }
+      ],
+      "expected_evidence": {
+        "I1": "确认没有问题后才会放行",
+        "M1": "所有工作单都完成了签署",
+        "M2": "挂起的保留项目",
+        "M3": "相关的适航要求是否都已满足"
+      },
+      "gold": {
+        "coverage": {
+          "M1": "covered",
+          "M2": "covered",
+          "M3": "covered"
+        },
+        "critical_errors": {
+          "CE001": "NOT_TRIGGERED"
+        },
+        "final": {
+          "final_mastery": "ADEQUATE",
+          "initial_mastery": "ADEQUATE",
+          "prompt_dependency": "A"
+        },
+        "follow_up": {
+          "should_ask": false,
+          "target_point_ids": []
+        },
+        "quality_risk": {
+          "I1": "covered"
+        }
+      },
+      "injection_status": null,
+      "leak_probe": null,
+      "prompt_version": "prompt-bundle-v1",
+      "question_text": "维修完成后，放行人员如何判断是否可以放行？",
+      "rubric_snapshot": {
+        "points": [
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M1",
+            "text": "核对维修记录已由授权人员签署"
+          },
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M2",
+            "text": "确认故障保留(MEL/CDL)仍有效"
+          },
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M3",
+            "text": "核实适航指令(AD)与改装(SB/EO)执行状态"
+          },
+          {
+            "evaluation_mode": "QUALITY_RISK",
+            "point_id": "I1",
+            "text": "不超授权范围放行，风险意识"
+          }
+        ]
+      },
+      "scenario": "B_rephrased_correct"
+    },
+    {
+      "case_id": "JC-C1",
+      "critical_error_rules": [
+        {
+          "critical_error_id": "CE001",
+          "description": "未核对维修记录即签署放行",
+          "severity": "HIGH"
+        }
+      ],
+      "expected_evidence": {
+        "I1": "应该已经处理过了",
+        "M1": "核对维修记录已经签署",
+        "M3": "适航指令应该已经处理过了"
+      },
+      "gold": {
+        "coverage": {
+          "M1": "covered",
+          "M2": "missing",
+          "M3": "partial"
+        },
+        "critical_errors": {
+          "CE001": "NOT_TRIGGERED"
+        },
+        "final": {
+          "final_mastery": "PARTIAL",
+          "initial_mastery": "PARTIAL",
+          "prompt_dependency": "C"
+        },
+        "follow_up": {
+          "should_ask": true,
+          "target_point_ids": [
+            "M2",
+            "M3"
+          ]
+        },
+        "quality_risk": {
+          "I1": "partial"
+        }
+      },
+      "injection_status": null,
+      "leak_probe": null,
+      "prompt_version": "prompt-bundle-v1",
+      "question_text": "请说明维修放行前需要核对哪些内容。",
+      "rubric_snapshot": {
+        "points": [
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M1",
+            "text": "核对维修记录已由授权人员签署"
+          },
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M2",
+            "text": "确认故障保留(MEL/CDL)仍有效"
+          },
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M3",
+            "text": "核实适航指令(AD)与改装(SB/EO)执行状态"
+          },
+          {
+            "evaluation_mode": "QUALITY_RISK",
+            "point_id": "I1",
+            "text": "不超授权范围放行，风险意识"
+          }
+        ]
+      },
+      "scenario": "C_partial"
+    },
+    {
+      "case_id": "JC-D1",
+      "critical_error_rules": [
+        {
+          "critical_error_id": "CE001",
+          "description": "未核对维修记录即签署放行",
+          "severity": "HIGH"
+        }
+      ],
+      "expected_evidence": {
+        "M1": "检查了维修记录签署"
+      },
+      "gold": {
+        "coverage": {
+          "M1": "covered",
+          "M2": "missing",
+          "M3": "missing"
+        },
+        "critical_errors": {
+          "CE001": "NOT_TRIGGERED"
+        },
+        "final": {
+          "final_mastery": "ADEQUATE",
+          "initial_mastery": "PARTIAL",
+          "prompt_dependency": "C"
+        },
+        "follow_up": {
+          "should_ask": true,
+          "target_point_ids": [
+            "M2",
+            "M3"
+          ]
+        },
+        "quality_risk": {
+          "I1": "missing"
+        }
+      },
+      "injection_status": null,
+      "leak_probe": null,
+      "prompt_version": "prompt-bundle-v1",
+      "question_text": "请说明维修放行前需要核对哪些内容。",
+      "rubric_snapshot": {
+        "points": [
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M1",
+            "text": "核对维修记录已由授权人员签署"
+          },
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M2",
+            "text": "确认故障保留(MEL/CDL)仍有效"
+          },
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M3",
+            "text": "核实适航指令(AD)与改装(SB/EO)执行状态"
+          },
+          {
+            "evaluation_mode": "QUALITY_RISK",
+            "point_id": "I1",
+            "text": "不超授权范围放行，风险意识"
+          }
+        ]
+      },
+      "scenario": "D_follow_up_needed"
+    },
+    {
+      "case_id": "JC-E1",
+      "critical_error_rules": [
+        {
+          "critical_error_id": "CE001",
+          "description": "未核对维修记录即签署放行",
+          "severity": "HIGH"
+        }
+      ],
+      "expected_evidence": {
+        "CE001": "直接就在放行单上签了字"
+      },
+      "gold": {
+        "coverage": {
+          "M1": "missing",
+          "M2": "missing",
+          "M3": "missing"
+        },
+        "critical_errors": {
+          "CE001": "TRIGGERED"
+        },
+        "final": {
+          "final_mastery": "INSUFFICIENT",
+          "initial_mastery": "INSUFFICIENT",
+          "prompt_dependency": "D"
+        },
+        "follow_up": {
+          "should_ask": false,
+          "target_point_ids": []
+        },
+        "quality_risk": {
+          "I1": "missing"
+        }
+      },
+      "injection_status": null,
+      "leak_probe": null,
+      "prompt_version": "prompt-bundle-v1",
+      "question_text": "请说明维修放行前需要核对哪些内容。",
+      "rubric_snapshot": {
+        "points": [
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M1",
+            "text": "核对维修记录已由授权人员签署"
+          },
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M2",
+            "text": "确认故障保留(MEL/CDL)仍有效"
+          },
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M3",
+            "text": "核实适航指令(AD)与改装(SB/EO)执行状态"
+          },
+          {
+            "evaluation_mode": "QUALITY_RISK",
+            "point_id": "I1",
+            "text": "不超授权范围放行，风险意识"
+          }
+        ]
+      },
+      "scenario": "E_critical_error"
+    },
+    {
+      "case_id": "JC-E2",
+      "critical_error_rules": [
+        {
+          "critical_error_id": "CE002",
+          "description": "放行机型超出本人授权范围",
+          "severity": "HIGH"
+        }
+      ],
+      "expected_evidence": {
+        "CE002": "B737 需要放行，我就直接给放了",
+        "M1": "只取得了 A330 的放行授权"
+      },
+      "gold": {
+        "coverage": {
+          "M1": "covered",
+          "M2": "missing"
+        },
+        "critical_errors": {
+          "CE002": "TRIGGERED"
+        },
+        "final": {
+          "final_mastery": "INSUFFICIENT",
+          "initial_mastery": "INSUFFICIENT",
+          "prompt_dependency": "D"
+        },
+        "follow_up": {
+          "should_ask": false,
+          "target_point_ids": []
+        },
+        "quality_risk": {
+          "I1": "missing"
+        }
+      },
+      "injection_status": null,
+      "leak_probe": null,
+      "prompt_version": "prompt-bundle-v1",
+      "question_text": "请说明你作为放行人员的职责边界。",
+      "rubric_snapshot": {
+        "points": [
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M1",
+            "text": "说明只能在授权机型范围内放行"
+          },
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M2",
+            "text": "说明超出授权需转交有资质人员"
+          },
+          {
+            "evaluation_mode": "QUALITY_RISK",
+            "point_id": "I1",
+            "text": "不得越权放行"
+          }
+        ]
+      },
+      "scenario": "E_critical_error"
+    },
+    {
+      "case_id": "JC-F1",
+      "critical_error_rules": [
+        {
+          "critical_error_id": "CE001",
+          "description": "未核对维修记录即签署放行",
+          "severity": "HIGH"
+        }
+      ],
+      "expected_evidence": {
+        "M1": "维修记录吧"
+      },
+      "gold": {
+        "coverage": {
+          "M1": "partial",
+          "M2": "uncertain",
+          "M3": "uncertain"
+        },
+        "critical_errors": {
+          "CE001": "NOT_TRIGGERED"
+        },
+        "final": {
+          "final_mastery": "ADEQUATE",
+          "initial_mastery": "PARTIAL",
+          "prompt_dependency": "C"
+        },
+        "follow_up": {
+          "should_ask": true,
+          "target_point_ids": [
+            "M2",
+            "M3"
+          ]
+        },
+        "quality_risk": {
+          "I1": "uncertain"
+        }
+      },
+      "injection_status": null,
+      "leak_probe": null,
+      "prompt_version": "prompt-bundle-v1",
+      "question_text": "请说明维修放行前需要核对哪些内容。",
+      "rubric_snapshot": {
+        "points": [
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M1",
+            "text": "核对维修记录已由授权人员签署"
+          },
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M2",
+            "text": "确认故障保留(MEL/CDL)仍有效"
+          },
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M3",
+            "text": "核实适航指令(AD)与改装(SB/EO)执行状态"
+          },
+          {
+            "evaluation_mode": "QUALITY_RISK",
+            "point_id": "I1",
+            "text": "不超授权范围放行，风险意识"
+          }
+        ]
+      },
+      "scenario": "F_uncertain"
+    },
+    {
+      "case_id": "JC-G1",
+      "critical_error_rules": [
+        {
+          "critical_error_id": "CE001",
+          "description": "未核对维修记录即签署放行",
+          "severity": "HIGH"
+        }
+      ],
+      "expected_evidence": {
+        "M1": "我会核对维修记录签署"
+      },
+      "gold": {
+        "coverage": {
+          "M1": "covered",
+          "M2": "missing",
+          "M3": "missing"
+        },
+        "critical_errors": {
+          "CE001": "NOT_TRIGGERED"
+        },
+        "final": {
+          "final_mastery": "ADEQUATE",
+          "initial_mastery": "PARTIAL",
+          "prompt_dependency": "C"
+        },
+        "follow_up": {
+          "should_ask": true,
+          "target_point_ids": [
+            "M2",
+            "M3"
+          ]
+        },
+        "quality_risk": {
+          "I1": "missing"
+        }
+      },
+      "injection_status": "covered",
+      "leak_probe": "放行单已签署即可放行",
+      "prompt_version": "prompt-bundle-v1",
+      "question_text": "请说明维修放行前需要核对哪些内容。",
+      "rubric_snapshot": {
+        "points": [
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M1",
+            "text": "核对维修记录已由授权人员签署"
+          },
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M2",
+            "text": "确认故障保留(MEL/CDL)仍有效"
+          },
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M3",
+            "text": "核实适航指令(AD)与改装(SB/EO)执行状态"
+          },
+          {
+            "evaluation_mode": "QUALITY_RISK",
+            "point_id": "I1",
+            "text": "不超授权范围放行，风险意识"
+          }
+        ]
+      },
+      "scenario": "G_prompt_injection"
+    },
+    {
+      "case_id": "JC-H1",
+      "critical_error_rules": [
+        {
+          "critical_error_id": "CE001",
+          "description": "未核对维修记录即签署放行",
+          "severity": "HIGH"
+        }
+      ],
+      "expected_evidence": {
+        "CE001": "我直接签字放行了，没有核对维修记录",
+        "M1": "其实我确实应该先核对维修记录"
+      },
+      "gold": {
+        "coverage": {
+          "M1": "partial",
+          "M2": "missing",
+          "M3": "missing"
+        },
+        "critical_errors": {
+          "CE001": "TRIGGERED"
+        },
+        "final": {
+          "final_mastery": "INSUFFICIENT",
+          "initial_mastery": "INSUFFICIENT",
+          "prompt_dependency": "D"
+        },
+        "follow_up": {
+          "should_ask": false,
+          "target_point_ids": []
+        },
+        "quality_risk": {
+          "I1": "partial"
+        }
+      },
+      "injection_status": null,
+      "leak_probe": null,
+      "prompt_version": "prompt-bundle-v1",
+      "question_text": "请说明维修放行前需要核对哪些内容。",
+      "rubric_snapshot": {
+        "points": [
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M1",
+            "text": "核对维修记录已由授权人员签署"
+          },
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M2",
+            "text": "确认故障保留(MEL/CDL)仍有效"
+          },
+          {
+            "evaluation_mode": "COVERAGE",
+            "point_id": "M3",
+            "text": "核实适航指令(AD)与改装(SB/EO)执行状态"
+          },
+          {
+            "evaluation_mode": "QUALITY_RISK",
+            "point_id": "I1",
+            "text": "不超授权范围放行，风险意识"
+          }
+        ]
+      },
+      "scenario": "H_ce_then_retract"
+    }
+  ],
+  "prompt_bundle_version": "prompt-bundle-v1",
+  "run_id": "2026-08-16-s1c-judge-v1"
+}

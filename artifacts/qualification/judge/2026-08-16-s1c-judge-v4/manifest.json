@@ -1,0 +1,78 @@
+{
+  "code_commit_sha": "d0e817051bc60b003ac6238e42d158fbf94a4cf4",
+  "generated_at": "2026-08-16T16:12:21.810030+00:00",
+  "golden_dataset_hash": "e304071c21e971b6c1e805436ae04f93c08f0681e43f5dd23fb8ebd6ef9269c0",
+  "golden_dataset_version": "judge-qual-golden-v1",
+  "harness_version": "judge-harness-v2",
+  "prompt_bundle_hash": "0b4d30a3b63e1e35456543e2f9625c7d44fc31aad48f005e0b89ffba411264c5",
+  "prompt_bundle_version": "prompt-bundle-v2",
+  "providers": {
+    "deepseek": {
+      "code_commit": "d0e817051bc60b003ac6238e42d158fbf94a4cf4",
+      "dataset_hash": "e304071c21e971b6c1e805436ae04f93c08f0681e43f5dd23fb8ebd6ef9269c0",
+      "dataset_version": "judge-qual-golden-v1",
+      "gate_version": "v1",
+      "harness_version": "judge-harness-v2",
+      "model": "deepseek-v4-pro",
+      "prompt_bundle_hash": "0b4d30a3b63e1e35456543e2f9625c7d44fc31aad48f005e0b89ffba411264c5",
+      "prompt_bundle_version": "prompt-bundle-v2",
+      "provider": "deepseek",
+      "run_id": "2026-08-16-s1c-judge-v4",
+      "run_validity": "VALID",
+      "schema_hash": "62d0653ed1d45533940dd6ab6ae6123160ef9e6d8ba8f5db3b6ba37a46e8506d",
+      "schema_version": "eval-schema-v1",
+      "smoke_result": {
+        "latency_ms": 20015,
+        "model": "deepseek-v4-pro",
+        "output_validated": true,
+        "rubric_consumed": true,
+        "status": "PASS"
+      },
+      "timestamp": "2026-08-16T16:12:21.810030+00:00"
+    },
+    "mimo": {
+      "code_commit": "d0e817051bc60b003ac6238e42d158fbf94a4cf4",
+      "dataset_hash": "e304071c21e971b6c1e805436ae04f93c08f0681e43f5dd23fb8ebd6ef9269c0",
+      "dataset_version": "judge-qual-golden-v1",
+      "gate_version": "v1",
+      "harness_version": "judge-harness-v2",
+      "model": "mimo-v2.5",
+      "prompt_bundle_hash": "0b4d30a3b63e1e35456543e2f9625c7d44fc31aad48f005e0b89ffba411264c5",
+      "prompt_bundle_version": "prompt-bundle-v2",
+      "provider": "mimo",
+      "run_id": "2026-08-16-s1c-judge-v4",
+      "run_validity": "VALID",
+      "schema_hash": "62d0653ed1d45533940dd6ab6ae6123160ef9e6d8ba8f5db3b6ba37a46e8506d",
+      "schema_version": "eval-schema-v1",
+      "smoke_result": {
+        "latency_ms": 51264,
+        "model": "mimo-v2.5",
+        "output_validated": true,
+        "rubric_consumed": true,
+        "status": "PASS"
+      },
+      "timestamp": "2026-08-16T16:12:21.810030+00:00"
+    }
+  },
+  "qualification_gate_version": "v1",
+  "run_id": "2026-08-16-s1c-judge-v4",
+  "run_status": "COMPLETED",
+  "run_validity": "VALID",
+  "schema_hash": "62d0653ed1d45533940dd6ab6ae6123160ef9e6d8ba8f5db3b6ba37a46e8506d",
+  "schema_version": "eval-schema-v1",
+  "stability_runs": 3,
+  "stability_subset_hash": "d4b12749d35a22457109dc5702838a7359544c80437277c8d930a814d862a625",
+  "stability_subset_ids": [
+    "JC-A1",
+    "JC-A2",
+    "JC-B1",
+    "JC-C1",
+    "JC-D1",
+    "JC-E1",
+    "JC-E2",
+    "JC-F1",
+    "JC-G1",
+    "JC-H1"
+  ],
+  "stability_subset_size": 10
+}

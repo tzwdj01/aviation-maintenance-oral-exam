@@ -26,6 +26,7 @@ class Settings(BaseSettings):
     mimo_tts_voice: str = "mimo_default"
     mimo_tts_style_prompt: str = "请使用清晰、自然、专业的中文口试考官语气。"
     speech_render_profile_version: str = "render-v1"
+    mimo_llm_model: str = "mimo-v2.5"
 
     # Media / audio artifacts (docs/CONFIGURATION.md §1)
     media_storage_dir: str = "./media"

@@ -1,0 +1,12 @@
+{
+  "model": "mimo-v2.5",
+  "note": "diagnostic only; not a formal qualification run (full MiMo run deferred until Harness Review passes)",
+  "smoke_type": "structured-miMo-smoke",
+  "provider": "mimo",
+  "output_validated": true,
+  "result": "PASS",
+  "latency_ms": 45656,
+  "generated_at": "2026-08-16T07:44:43.7520777Z",
+  "run_id": "2026-08-16-s1c-judge-v2",
+  "rubric_consumed": true
+}

@@ -32,6 +32,7 @@ Provider 文档描述**协议与能力**；本文件描述**本项目使用哪�
 | `MIMO_ASR_LANGUAGE` | ASR 识别语言（官方契约 `auto`/`zh`/`en`） | `auto` |
 | `MIMO_TTS_VOICE` | TTS 内置音色（`mimo_default` 等） | `mimo_default` |
 | `MIMO_TTS_STYLE_PROMPT` | TTS 朗读风格/发音指导（官方契约 `user` 消息） | 清晰自然专业中文口试考官语气 |
+| `MIMO_LLM_MODEL` | MiMo 评估 LLM 模型（Sprint 1C Judge Qualification；种子 `mimo-v2.5`，历史 `FAILED`） | `mimo-v2.5` |
 
 ### Speech Rendering（Sprint 1B remediation）
 

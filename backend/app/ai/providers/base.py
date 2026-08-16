@@ -17,6 +17,12 @@ class EvaluationRequest(Generic[T]):
     rubric_snapshot: dict[str, Any]
     output_type: type[T]
     prompt_version: str
+    # Trusted evaluation context (Sprint 1C): these fields are part of the shared
+    # TRUSTED_EVALUATION_CONTEXT sent to every provider, never merged into the
+    # UNTRUSTED_CANDIDATE_DATA boundary.
+    question_text: str = ""
+    critical_error_rules: tuple[dict[str, Any], ...] = ()
+    prior_analysis: dict[str, Any] | None = None
 
 
 @dataclass(frozen=True)

@@ -10,6 +10,7 @@ RELEVANT_ENV = [
     "MIMO_API_BASE_URL",
     "MIMO_ASR_MODEL",
     "MIMO_TTS_MODEL",
+    "MIMO_LLM_MODEL",
     "DEEPSEEK_API_KEY",
     "DEEPSEEK_BASE_URL",
     "DEEPSEEK_API_BASE_URL",
@@ -37,6 +38,7 @@ def test_defaults_match_configuration_contract(monkeypatch) -> None:
     assert settings.mimo_base_url == "https://token-plan-cn.xiaomimimo.com/v1"
     assert settings.mimo_asr_model == "mimo-v2.5-asr"
     assert settings.mimo_tts_model == "mimo-v2.5-tts"
+    assert settings.mimo_llm_model == "mimo-v2.5"
     assert settings.deepseek_base_url == "https://api.deepseek.com"
     assert settings.deepseek_default_model == "deepseek-v4-pro"
     assert settings.openai_base_url == "https://api.openai.com/v1"

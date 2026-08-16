@@ -165,7 +165,100 @@
   必须完成至少第二名自愿说话人 S02 的 Qualification；该 Gate 已在
   `docs/qualification/SPEECH_QUALIFICATION.md` 与 `docs/plans/TECH_DEBT.md` 登记。
 
-## 8. 纪律
+## 8. Sprint 1C — Multi-LLM Judge Qualification（Run 2026-08-16-s1c-judge-v1）
+
+- **RUN_VALIDITY = INVALIDATED_HARNESS_DEFECT**（人工 Harness Review 结论）：
+  该 Run 保留为 diagnostic artifact，**不得作为 Sprint 1C 正式 MiMo Qualification FAIL 证据**。
+  原因：`StructuredEvaluationProvider` 仅向 Provider 发送 `candidate_text`，未发送完整
+  Trusted Rubric / CE / Evidence context；JSON-mode Provider 未收到完整业务 output schema，
+  导致 MiMo 生成自定义 JSON shape。Harness 修复后需重跑（`judge-qual-golden-v1` 不变）。
+  **历史 Qualification V2 的 `MiMo = FAILED` 保持不变**，与本次被作废的 Run 明确区分。
+- Golden Dataset：`judge-qual-golden-v1`（10 例，覆盖场景 A–H；Question / Rubric
+  Snapshot / Evidence rules / Critical Error rules / Prompt Bundle `prompt-bundle-v1` /
+  evaluation schema 全量对齐；金标不可修改）
+- 评估对象：`mimo-v2.5`（`mimo_llm_model`）、`deepseek-v4-pro`、`gpt-5`
+- 结论（按 Provider）：
+  - **MiMo `mimo-v2.5`**：`RUN`（INVALIDATED）— 10/10 case FAILED（Harness 缺陷所致）
+    - structured output validity **0.0**（全部 10 例首个 Pass 输出未通过
+      `extra="forbid"` schema 校验：模型返回 `知识点/points/assessment` 等自定义结构，
+      非约定 `point_assessments[]` 契约）
+    - provider failure rate **1.0**；coverage/CE/follow-up/evidence 指标不可用
+    - **provisional = FAIL**（零容忍：structured output schema 失败；与历史
+      Qualification V2 Full 的 `FAILED` 结论一致）
+  - **DeepSeek `deepseek-v4-pro`**：`NOT_RUN`（`DEEPSEEK_API_KEY` 未配置；
+    `API_AVAILABLE ≠ QUALIFIED`）
+  - **OpenAI `gpt-5`**：`NOT_RUN`（`OPENAI_API_KEY` 未配置）
+- 说明：本 Run 为 Sprint 1C Judge Qualification 的实现 + MiMo 执行；
+  **三 Provider 完整对比仍需 DeepSeek / OpenAI Key 配置后重跑同一 Golden Dataset**。
+- Artifacts：`artifacts/qualification/judge/2026-08-16-s1c-judge-v1/`
+  （manifest / results / metrics / failures / report；不含 Key）
+- 相关 ADR：`0003`（多 Provider 评估架构）、`0005`（禁止 Silent Failover）。
+
+### 8.1 Sprint 1C Harness Remediation（Gate v1 冻结 + Formal-Run Ready）
+
+- `MODEL_QUALIFICATION_GATE_VERSION = v1` 已冻结于
+  `docs/qualification/MODEL_QUALIFICATION.md` §5.1（QUALIFIED / CONDITIONAL 阈值表 +
+  零容忍条款）。
+- 修复：`EvaluationRequest` 携带 question/critical_error_rules/prior_analysis；
+  `StructuredEvaluationProvider` 构建共享 `TRUSTED_EVALUATION_CONTEXT`
+  （rubric + allowed IDs + CE rules + Evidence rules + `output_type.model_json_schema()` +
+  prompt version），候选回答只在 `UNTRUSTED_CANDIDATE_DATA` 边界。
+- Formal-Run invariants：SMOKE 前置、稳定性子集=全部 10 例、每 case ≥3 次、
+  Decision Stability 覆盖 Coverage+CE+Follow-up、manifest 哈希（golden/prompt/schema/
+  stability）+ gate version + code commit、run_validity 守卫。
+
+### 8.2 Sprint 1C — MiMo Formal Run v3（中断，无持久化）
+
+- **RUN_STATUS = `ABORTED_NO_PERSISTENCE`**（登记，不代表 PASS / FAILED / QUALIFIED /
+  CONDITIONAL 任何 Qualification 结论）
+- 事实：
+  - MiMo smoke **PASS**（上一轮已验证）
+  - `JC-A1` run1 **SUCCESS**
+  - **0/30** formal case-runs 被持久化
+  - v3 artifact directory **不存在**（`artifacts/qualification/judge/2026-08-16-s1c-judge-v3/`）
+  - 后台进程已终止
+- 说明：本轮**不构成有效 Formal Qualification**。根因是当时 harness 无
+  checkpoint / resume 能力，进程终止后已完成进度全部丢失。
+- **历史结论不变**：MiMo Qualification V2 = `FAILED`（历史记录，见 §1）；本次
+  `ABORTED_NO_PERSISTENCE` 不改变该历史结论。
+- 处理：harness v2（`judge-harness-v2`）加入 checkpoint / resume 后，以新 Formal Run
+  （`2026-08-16-s1c-judge-v4`）重新执行，不得复用 v3。
+
+### 8.3 Sprint 1C — Formal Multi-LLM Qualification v4（Run 2026-08-16-s1c-judge-v4）
+
+- **RUN_VALIDITY = `VALID`**（双 Provider 同一 run；`run_status = COMPLETED`）
+- Frozen inputs（MiMo 与 DeepSeek 完全一致）：
+  - Golden：`judge-qual-golden-v1`（内容不变：Question/Rubric/Evidence/CE/Gold 未改动；
+    case `prompt_version` 引用随 Prompt Bundle 更新为 v2），
+    hash `e304071c21e971b6c1e805436ae04f93c08f0681e43f5dd23fb8ebd6ef9269c0`
+  - Prompt Bundle：`prompt-bundle-v2`（含 JSON-mode transport instruction，
+    无评分语义改动），hash `0b4d30a3b63e1e35456543e2f9625c7d44fc31aad48f005e0b89ffba411264c5`
+  - Schema：`eval-schema-v1`，hash `62d0653ed1d45533940dd6ab6ae6123160ef9e6d8ba8f5db3b6ba37a46e8506d`
+  - Gate：`v1`；Harness：`judge-harness-v2`
+  - Stability subset：全部 10 例 × 3 runs，hash `d4b12749d35a22457109dc5702838a7359544c80437277c8d930a814d862a625`
+- 评估对象：`mimo-v2.5`（30/30 case-runs，success 10/10）与 `deepseek-v4-pro`
+  （30/30 case-runs，success 9/10；2 次 FINAL_ASSESSMENT 调用失败，已入 failures.json）
+- 结论（**PROPOSED_QUALIFICATION，待人工 Model Qualification Gate，未修改
+  LLMProfile.qualification_status**）：
+  - **MiMo `mimo-v2.5` = PROPOSED `FAILED`**：coverage 0.5833、major 0.05、evidence
+    validity 0.9722（invalid 1：JC-A2 zero-tolerance）、follow-up 0.425、decision
+    stability 0.7375、P95 59.0s；CE recall/precision 1.0、injection 1.0、leak 0、
+    structured output 1.0、failure rate 0.0。
+  - **DeepSeek `deepseek-v4-pro` = PROPOSED `FAILED`**：coverage 0.6111、major 0.0、
+    evidence validity 1.0（invalid 0）、follow-up 0.3611、decision stability 0.7708、
+    structured output 0.9、provider failure rate 0.1、P95 27.6s；CE recall/precision
+    1.0、injection 1.0、leak 0。
+  - 两 Provider 均未达到 Gate v1 的 CONDITIONAL 阈值 → 二者 **PROPOSED = FAILED**。
+- 变更（相对于上次）：v1（INVALIDATED_HARNESS_DEFECT）与 v3（ABORTED_NO_PERSISTENCE）
+  均不构成有效 MiMo 结论；本 Run 为 harness v2 checkpoint/resume 下首个双 Provider
+  有效 Formal Qualification。历史 Qualification V2 MiMo = `FAILED` 结论与本 Run
+  PROPOSED 一致。
+- 相关 ADR：`0003`（多 Provider 评估架构）、`0005`（禁止 Silent Failover）。
+- Artifacts：`artifacts/qualification/judge/2026-08-16-s1c-judge-v4/`
+  （manifest / results / metrics / failures / report + `checkpoints/` 持久化
+  case-runs，可经 `--reassemble-only` 确定性重建；不含 Key）
+
+## 9. 纪律
 
 - `API_AVAILABLE ≠ QUALIFIED`；正式考试只用 `QUALIFIED`（或受限 `CONDITIONAL`）模型。
 - 评估门槛与流程见 `docs/qualification/MODEL_QUALIFICATION.md` 与
