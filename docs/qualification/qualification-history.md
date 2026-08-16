@@ -207,6 +207,23 @@
   Decision Stability 覆盖 Coverage+CE+Follow-up、manifest 哈希（golden/prompt/schema/
   stability）+ gate version + code commit、run_validity 守卫。
 
+### 8.2 Sprint 1C — MiMo Formal Run v3（中断，无持久化）
+
+- **RUN_STATUS = `ABORTED_NO_PERSISTENCE`**（登记，不代表 PASS / FAILED / QUALIFIED /
+  CONDITIONAL 任何 Qualification 结论）
+- 事实：
+  - MiMo smoke **PASS**（上一轮已验证）
+  - `JC-A1` run1 **SUCCESS**
+  - **0/30** formal case-runs 被持久化
+  - v3 artifact directory **不存在**（`artifacts/qualification/judge/2026-08-16-s1c-judge-v3/`）
+  - 后台进程已终止
+- 说明：本轮**不构成有效 Formal Qualification**。根因是当时 harness 无
+  checkpoint / resume 能力，进程终止后已完成进度全部丢失。
+- **历史结论不变**：MiMo Qualification V2 = `FAILED`（历史记录，见 §1）；本次
+  `ABORTED_NO_PERSISTENCE` 不改变该历史结论。
+- 处理：harness v2（`judge-harness-v2`）加入 checkpoint / resume 后，以新 Formal Run
+  （`2026-08-16-s1c-judge-v4`）重新执行，不得复用 v3。
+
 ## 9. 纪律
 
 - `API_AVAILABLE ≠ QUALIFIED`；正式考试只用 `QUALIFIED`（或受限 `CONDITIONAL`）模型。
