@@ -165,7 +165,30 @@
   必须完成至少第二名自愿说话人 S02 的 Qualification；该 Gate 已在
   `docs/qualification/SPEECH_QUALIFICATION.md` 与 `docs/plans/TECH_DEBT.md` 登记。
 
-## 8. 纪律
+## 8. Sprint 1C — Multi-LLM Judge Qualification（Run 2026-08-16-s1c-judge-v1）
+
+- Golden Dataset：`judge-qual-golden-v1`（10 例，覆盖场景 A–H；Question / Rubric
+  Snapshot / Evidence rules / Critical Error rules / Prompt Bundle `prompt-bundle-v1` /
+  evaluation schema 全量对齐；金标不可修改）
+- 评估对象：`mimo-v2.5`（`mimo_llm_model`）、`deepseek-v4-pro`、`gpt-5`
+- 结论（按 Provider）：
+  - **MiMo `mimo-v2.5`**：`RUN` — 10/10 case **FAILED**
+    - structured output validity **0.0**（全部 10 例首个 Pass 输出未通过
+      `extra="forbid"` schema 校验：模型返回 `知识点/points/assessment` 等自定义结构，
+      非约定 `point_assessments[]` 契约）
+    - provider failure rate **1.0**；coverage/CE/follow-up/evidence 指标不可用
+    - **provisional = FAIL**（零容忍：structured output schema 失败；与历史
+      Qualification V2 Full 的 `FAILED` 结论一致）
+  - **DeepSeek `deepseek-v4-pro`**：`NOT_RUN`（`DEEPSEEK_API_KEY` 未配置；
+    `API_AVAILABLE ≠ QUALIFIED`）
+  - **OpenAI `gpt-5`**：`NOT_RUN`（`OPENAI_API_KEY` 未配置）
+- 说明：本 Run 为 Sprint 1C Judge Qualification 的实现 + MiMo 执行；
+  **三 Provider 完整对比仍需 DeepSeek / OpenAI Key 配置后重跑同一 Golden Dataset**。
+- Artifacts：`artifacts/qualification/judge/2026-08-16-s1c-judge-v1/`
+  （manifest / results / metrics / failures / report；不含 Key）
+- 相关 ADR：`0003`（多 Provider 评估架构）、`0005`（禁止 Silent Failover）。
+
+## 9. 纪律
 
 - `API_AVAILABLE ≠ QUALIFIED`；正式考试只用 `QUALIFIED`（或受限 `CONDITIONAL`）模型。
 - 评估门槛与流程见 `docs/qualification/MODEL_QUALIFICATION.md` 与

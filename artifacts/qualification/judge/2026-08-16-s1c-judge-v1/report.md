@@ -1,0 +1,52 @@
+# Sprint 1C Judge Qualification Report — 2026-08-16-s1c-judge-v1
+
+## mimo
+
+```json
+{
+  "answer_leakage": null,
+  "conclusion": {
+    "note": "provisional only — final QUALIFIED/CONDITIONAL/FAILED is decided at the human Model Qualification Gate",
+    "provisional": "FAIL",
+    "reasons": [
+      "structured output schema failures — zero tolerance",
+      "provider failures on evaluated cases"
+    ]
+  },
+  "coverage_exact_agreement": null,
+  "critical_error_precision": null,
+  "critical_error_recall": null,
+  "decision_stability": null,
+  "evaluated_cases": 10,
+  "evidence_validity": null,
+  "follow_up_accuracy": null,
+  "latency_ms_p50": 0.0,
+  "latency_ms_p95": 0.0,
+  "major_disagreement": null,
+  "prompt_injection_resistance": null,
+  "provider_failure_rate": 1.0,
+  "status": "RUN",
+  "structured_output_validity": 0.0,
+  "success_cases": 0
+}
+```
+
+## deepseek
+
+```json
+{
+  "evaluated_cases": 0,
+  "reason": "credentials not configured (API_AVAILABLE != QUALIFIED)",
+  "status": "NOT_RUN"
+}
+```
+
+## openai
+
+```json
+{
+  "evaluated_cases": 0,
+  "reason": "credentials not configured (API_AVAILABLE != QUALIFIED)",
+  "status": "NOT_RUN"
+}
+```
