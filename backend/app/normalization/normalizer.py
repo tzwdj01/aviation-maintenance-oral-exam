@@ -21,6 +21,13 @@ class NormalizationResult:
     mappings: tuple[Mapping, ...]
     warnings: tuple[str, ...]
     vocabulary_version: str
+    ruleset_version: str
+
+
+# Version of the built-in deterministic normalization ruleset. Every change to LAYER_ONE /
+# LAYER_TWO / LOW_CONFIDENCE must bump this version so historical normalizations can be
+# traced to the exact ruleset that produced them (docs/speech-production.md §4).
+NORMALIZER_RULESET_VERSION = "builtin-v1"
 
 
 LAYER_ONE = {"B七三七NG": "B737NG", "M P D": "MPD"}
@@ -50,4 +57,10 @@ def normalize(text: str, vocabulary: VocabularySnapshot) -> NormalizationResult:
             if start >= 0 and alias != term.canonical:
                 result = result.replace(alias, term.canonical)
                 mappings.append(Mapping(alias, term.canonical, start, start + len(alias), term.confidence, "VOCABULARY_ALIAS"))
-    return NormalizationResult(result, tuple(mappings), tuple(warnings), vocabulary.version)
+    return NormalizationResult(
+        result,
+        tuple(mappings),
+        tuple(warnings),
+        vocabulary.version,
+        NORMALIZER_RULESET_VERSION,
+    )

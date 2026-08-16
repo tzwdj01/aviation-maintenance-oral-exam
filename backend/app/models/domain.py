@@ -257,6 +257,9 @@ class ASRNormalization(UUIDTimestampMixin, Base):
     # Nullable: built-in deterministic normalization layers always apply even before a
     # vocabulary is published (Sprint 1B; docs/DATA_MODEL.md does not require NOT NULL).
     vocabulary_version_id: Mapped[uuid.UUID | None] = mapped_column(ForeignKey("vocabulary_versions.id"))
+    normalizer_ruleset_version: Mapped[str] = mapped_column(
+        String(32), nullable=False, default="builtin-v1", server_default="builtin-v1"
+    )
     normalized_text: Mapped[str] = mapped_column(Text, nullable=False)
     warnings: Mapped[list[str]] = mapped_column(JSONType, default=list, nullable=False)
 

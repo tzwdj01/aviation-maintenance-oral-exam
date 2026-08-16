@@ -19,6 +19,14 @@ depends_on = None
 def upgrade() -> None:
     with op.batch_alter_table("asr_normalizations") as batch_op:
         batch_op.alter_column("vocabulary_version_id", existing_type=sa.Uuid(), nullable=True)
+        batch_op.add_column(
+            sa.Column(
+                "normalizer_ruleset_version",
+                sa.String(length=32),
+                nullable=False,
+                server_default="builtin-v1",
+            )
+        )
     op.create_table(
         "media_assets",
         sa.Column("storage_key", sa.String(length=512), nullable=False),
@@ -83,6 +91,7 @@ def upgrade() -> None:
 
 def downgrade() -> None:
     with op.batch_alter_table("asr_normalizations") as batch_op:
+        batch_op.drop_column("normalizer_ruleset_version")
         batch_op.alter_column("vocabulary_version_id", existing_type=sa.Uuid(), nullable=False)
     with op.batch_alter_table("task_jobs") as batch_op:
         batch_op.drop_constraint("fk_task_jobs_ai_call_id", type_="foreignkey")

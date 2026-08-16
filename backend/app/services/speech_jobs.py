@@ -190,6 +190,7 @@ async def process_asr_job(
     asr_norm = ASRNormalization(
         transcript_id=transcript.id,
         vocabulary_version_id=vocab_version_id,
+        normalizer_ruleset_version=normalized.ruleset_version,
         normalized_text=normalized.normalized_text,
         warnings=list(normalized.warnings),
     )
