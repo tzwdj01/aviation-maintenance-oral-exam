@@ -22,7 +22,7 @@ Sprint 1B  MiMo Speech Production Integration   ✅ Speech Gate CONDITIONAL_PASS
 Speech Gate
    │
    ▼
-Sprint 1C  Multi-LLM Qualification（MiMo vs DeepSeek vs OpenAI）   ← 当前（Sprint Transition APPROVED）
+Sprint 1C  Multi-LLM Qualification（MiMo vs DeepSeek；OpenAI OUT_OF_SCOPE_BY_USER）   ← 当前（Sprint Transition APPROVED）
    │
    ▼
 Model Qualification Gate
