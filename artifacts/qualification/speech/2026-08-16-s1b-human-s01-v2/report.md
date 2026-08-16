@@ -1,0 +1,136 @@
+# Speech Qualification Report — 2026-08-16-s1b-human-s01-v2
+
+## OVERALL
+
+```json
+{
+  "empty_count": 0,
+  "empty_transcript_rate": 0.0,
+  "evaluated_count": 10,
+  "failed_count": 0,
+  "false_correction_count": 0,
+  "false_correction_rate": 0.0,
+  "latency_ms_p50": 749.5,
+  "latency_ms_p95": 884.3,
+  "non_empty_transcript_rate": 1.0,
+  "normalization_improvement": 0.0583,
+  "normalized_aviation_term_accuracy": 0.5833,
+  "normalized_text_similarity": 0.9033,
+  "raw_aviation_term_accuracy": 0.525,
+  "raw_text_similarity": 0.8897,
+  "request_success_rate": 1.0,
+  "retry_rate": 0.0,
+  "review_required_rate": 0.7,
+  "skipped_count": 0,
+  "success_count": 10,
+  "terminal_failure_rate": 0.0
+}
+```
+
+## BY_CONDITION FAST
+
+```json
+{
+  "empty_count": 0,
+  "empty_transcript_rate": 0.0,
+  "evaluated_count": 2,
+  "failed_count": 0,
+  "false_correction_count": 0,
+  "false_correction_rate": 0.0,
+  "latency_ms_p50": 819.5,
+  "latency_ms_p95": 896.45,
+  "non_empty_transcript_rate": 1.0,
+  "normalization_improvement": 0.1667,
+  "normalized_aviation_term_accuracy": 0.4167,
+  "normalized_text_similarity": 0.8854,
+  "raw_aviation_term_accuracy": 0.25,
+  "raw_text_similarity": 0.8773,
+  "request_success_rate": 1.0,
+  "retry_rate": 0.0,
+  "review_required_rate": 1.0,
+  "skipped_count": 0,
+  "success_count": 2,
+  "terminal_failure_rate": 0.0
+}
+```
+
+## BY_CONDITION MILD_OFFICE_NOISE
+
+```json
+{
+  "empty_count": 0,
+  "empty_transcript_rate": 0.0,
+  "evaluated_count": 2,
+  "failed_count": 0,
+  "false_correction_count": 0,
+  "false_correction_rate": 0.0,
+  "latency_ms_p50": 718.0,
+  "latency_ms_p95": 731.5,
+  "non_empty_transcript_rate": 1.0,
+  "normalization_improvement": 0.0,
+  "normalized_aviation_term_accuracy": 1.0,
+  "normalized_text_similarity": 0.9583,
+  "raw_aviation_term_accuracy": 1.0,
+  "raw_text_similarity": 0.9583,
+  "request_success_rate": 1.0,
+  "retry_rate": 0.0,
+  "review_required_rate": 0.5,
+  "skipped_count": 0,
+  "success_count": 2,
+  "terminal_failure_rate": 0.0
+}
+```
+
+## BY_CONDITION NORMAL
+
+```json
+{
+  "empty_count": 0,
+  "empty_transcript_rate": 0.0,
+  "evaluated_count": 5,
+  "failed_count": 0,
+  "false_correction_count": 0,
+  "false_correction_rate": 0.0,
+  "latency_ms_p50": 765.0,
+  "latency_ms_p95": 849.8,
+  "non_empty_transcript_rate": 1.0,
+  "normalization_improvement": 0.0,
+  "normalized_aviation_term_accuracy": 0.4,
+  "normalized_text_similarity": 0.8771,
+  "raw_aviation_term_accuracy": 0.4,
+  "raw_text_similarity": 0.8771,
+  "request_success_rate": 1.0,
+  "retry_rate": 0.0,
+  "review_required_rate": 0.8,
+  "skipped_count": 0,
+  "success_count": 5,
+  "terminal_failure_rate": 0.0
+}
+```
+
+## BY_CONDITION PAUSE
+
+```json
+{
+  "empty_count": 0,
+  "empty_transcript_rate": 0.0,
+  "evaluated_count": 1,
+  "failed_count": 0,
+  "false_correction_count": 0,
+  "false_correction_rate": 0.0,
+  "latency_ms_p50": 703.0,
+  "latency_ms_p95": 703.0,
+  "non_empty_transcript_rate": 1.0,
+  "normalization_improvement": 0.25,
+  "normalized_aviation_term_accuracy": 1.0,
+  "normalized_text_similarity": 0.96,
+  "raw_aviation_term_accuracy": 0.75,
+  "raw_text_similarity": 0.84,
+  "request_success_rate": 1.0,
+  "retry_rate": 0.0,
+  "review_required_rate": 0.0,
+  "skipped_count": 0,
+  "success_count": 1,
+  "terminal_failure_rate": 0.0
+}
+```

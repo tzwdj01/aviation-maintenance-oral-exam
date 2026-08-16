@@ -19,6 +19,23 @@
 
 详见 [`docs/qualification/qualification-history.md`](qualification-history.md)。
 
+## 2.1 治理状态（2026-08-16，Sprint 1B 收口）
+
+- `HUMAN_VALIDATION_S01 = READY`：S01 真人语音已完成采集并通过基线/回归 Qualification。
+- `SECOND_SPEAKER_VALIDATION = DEFERRED`：经人工批准本阶段延期；**不得伪装为已完成**。
+- **硬性 Gate**：在任何 Pilot / Canary / Production 部署前，必须完成至少第二名
+  自愿说话人 S02 的 Qualification。此 Gate 同时登记于
+  `docs/qualification/qualification-history.md` 与 `docs/plans/TECH_DEBT.md`。
+
+## 2.2 S01 是 Validation Dataset，不是 Normalizer 映射来源
+
+- S01 真人语音用于**发现问题**与**评估效果**。
+- S01 单说话人的单个错误**不得**直接作为 fuzzy Normalizer 自动替换规则的安全证明。
+- 安全 Normalizer 规则集（`builtin-v4`）grounded 于：版本化 Golden corpus、
+  已确认的历史 failure corpus、TTS pronunciation benchmark 与安全确定性规则
+  （拼写展开/连字符/机型紧凑形式的可逆编码）。
+- 无法高置信确认的候选一律降级为 review-only（warning），不静默改写。
+
 ## 3. ASR 评估维度
 
 - 航空术语识别率（基于版本化词典与金标音频）
@@ -36,3 +53,4 @@
 
 - 原始 Qualification 产物不得被修改；整理文档不得改变原始结论。
 - 语音能力变更需重新 Qualification，并记录到 `qualification-history.md`。
+- S02 第二说话人验证是 Pilot/Canary/Production 前的硬性 Gate（当前 DEFERRED）。

@@ -1,0 +1,54 @@
+{
+  "baseline_run": "2026-08-16-s1b-human-s01-v1",
+  "normalizer": {
+    "baseline_ruleset": "builtin-v1",
+    "false_correction_count_after": 0,
+    "false_correction_count_before": 0,
+    "final_ruleset": "builtin-v4",
+    "normalized_aviation_term_accuracy_after": 0.5833,
+    "normalized_aviation_term_accuracy_before": 0.55,
+    "normalized_aviation_term_accuracy_delta": 0.0333,
+    "review_required_rate_after": 0.7,
+    "review_required_rate_before": 0.1
+  },
+  "tts_pronunciation": {
+    "after": {
+      "api_success_rate": 1.0,
+      "empty_audio_count": 0,
+      "empty_audio_rate": 0.0,
+      "evaluated_count": 10,
+      "failed_count": 0,
+      "failure_rate": 0.0,
+      "latency_ms_p50": 2273.5,
+      "latency_ms_p95": 4542.5,
+      "retry_rate": 0.0,
+      "round_trip_norm_similarity": 0.9036,
+      "round_trip_raw_similarity": 0.8308,
+      "round_trip_term_accuracy": 0.8,
+      "skipped_count": 0,
+      "success_count": 10,
+      "valid_audio_rate": 1.0
+    },
+    "before": {
+      "api_success_rate": 1.0,
+      "empty_audio_count": 0,
+      "empty_audio_rate": 0.0,
+      "evaluated_count": 10,
+      "failed_count": 0,
+      "failure_rate": 0.0,
+      "latency_ms_p50": 2640.0,
+      "latency_ms_p95": 4713.65,
+      "retry_rate": 0.0,
+      "round_trip_norm_similarity": 0.8884,
+      "round_trip_raw_similarity": 0.8757,
+      "round_trip_term_accuracy": 0.75,
+      "skipped_count": 0,
+      "success_count": 10,
+      "valid_audio_rate": 1.0
+    },
+    "benchmark_version": "tts-pron-bench-v1",
+    "render_profile_version": "render-v1",
+    "round_trip_term_accuracy_delta": 0.05
+  },
+  "v2_run": "2026-08-16-s1b-human-s01-v2"
+}

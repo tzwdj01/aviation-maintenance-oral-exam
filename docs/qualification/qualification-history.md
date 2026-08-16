@@ -131,16 +131,41 @@
 - Artifacts：`artifacts/qualification/speech/2026-08-16-s1b-s01-qual-v1/`（原始 S01 运行）、
   `.../2026-08-16-s1b-s01-qual-v2/`（规则集重算 + 拼读 after）、
   `.../2026-08-16-s1b-s01-qual-v3/`（最终：v3 规则 + review 告警）。
+  > **治理修订**：`builtin-v3` 中的 S01 单说话人推导自动规则（失航/释行指令→适航指令）
+  > 已被降级为 review-only 候选（S01 只能发现/评估，不能单独证明 fuzzy rule 安全）；
+  > 最终 SAFE 规则集为 `builtin-v4`。权威结果见下方 §6 的
+  > `2026-08-16-s1b-human-s01-v1`（baseline）与 `2026-08-16-s1b-human-s01-v2`（安全回归）。
 
-## 6. S02 第二说话人验证 — DEFERRED
+## 6. S01 安全治理回归（Run 2026-08-16-s1b-human-s01-v1 baseline / -v2 安全回归）
+
+- 治理状态：`HUMAN_VALIDATION_S01 = READY`；`SECOND_SPEAKER_VALIDATION = DEFERRED`
+- Dataset：`speech-qual-2026-08-16-v1`（S01 真人 10 例，外部录音目录，真人 WAV 不入仓库）
+- Normalizer ruleset：baseline = `builtin-v1`（未针对 S01 调优）；安全规则集 = `builtin-v4`
+- **baseline（builtin-v1）**：term accuracy **0.550**（improvement +0.025）；按条件分组：
+  NORMAL(n=5) 0.400 / FAST(n=2) 0.250 / PAUSE(n=1) 0.750→1.000 / MILD_OFFICE_NOISE(n=2) 1.000
+- **v2 安全回归（builtin-v4）**：term accuracy **0.5833**（baseline→v2 **+0.0333**）；
+  **false correction 0**；review-required 0.1→0.7（S01 单说话人候选降级为 review，
+  不静默改写）；success 100%、empty 0%、P50 750ms / P95 884ms；分组：
+  NORMAL 0.400 / FAST 0.250→0.4167（B-737-800 安全规则修复）/ PAUSE 1.000 / NOISE 1.000
+- **TTS 发音 benchmark（tts-pron-bench-v1，render-v1）**：回环术语正确率
+  **0.75 → 0.80（+0.05）**，10/10 成功；normalized similarity 0.904
+- 说明：S01 v2 属于 **remediation 后回归验证，不是完全独立的最终 holdout**；
+  独立第二说话人验证由 S02 承担（DEFERRED）。
+- Artifacts：`artifacts/qualification/speech/2026-08-16-s1b-human-s01-v1/`、
+  `.../2026-08-16-s1b-human-s01-v2/`、`.../s01-remediation-comparison.json`
+
+## 7. S02 第二说话人验证 — DEFERRED（Pilot/Canary 前硬 Gate）
 
 - 状态：**DEFERRED（经人工批准延期）**，不得视为已完成。
 - 现状：`C:\Users\Lucky\Documents\speech-qualification-human\S02\S02_case01.wav`
   为 44 字节空占位（duration_ms=0），未构成有效样本。
 - 处理：S01 单说话人结论保留 `CONDITIONAL_PASS`；S02 交叉验证需在补充有效录音后
   单独执行，并在本文件追加新记录。
+- **硬性 Gate（不得遗忘/删除）**：在任何 Pilot / Canary / Production 部署前，
+  必须完成至少第二名自愿说话人 S02 的 Qualification；该 Gate 已在
+  `docs/qualification/SPEECH_QUALIFICATION.md` 与 `docs/plans/TECH_DEBT.md` 登记。
 
-## 7. 纪律
+## 8. 纪律
 
 - `API_AVAILABLE ≠ QUALIFIED`；正式考试只用 `QUALIFIED`（或受限 `CONDITIONAL`）模型。
 - 评估门槛与流程见 `docs/qualification/MODEL_QUALIFICATION.md` 与

@@ -59,13 +59,21 @@ adapter/service，不散落 subprocess 调用（本 Sprint 未引入 ffmpeg，WA
 - `builtin-v2`：TTS 合成语料驱动的拼写/连字符/同音短语规则 + 低置信候选告警。
 - `builtin-v3`：S01 真人语料驱动的短语同音修正（失航/释行指令→适航指令、
   B-737-800→B737-800）与单字母混淆候选告警（MER/SIM/MTD/CF56-7B 等，仅 review）。
+  > 治理修订：S01 单说话人推导的失航/释行指令自动规则已降级为 review-only
+  > （S01 只能发现/评估，不能单独证明 fuzzy 规则安全）。
+- `builtin-v4`：**安全规则集（当前）**，grounded 于 Golden corpus 与安全确定性规则；
+  新增机型紧凑/连字符可逆编码（B737800→B737-800、CFM567B→CFM56-7B）与模型拼读合并。
 - 规则变更必须升版本；历史记录不可变（`docs/qualification/qualification-history.md`）。
 
 ### 4.2 TTS 发音改进（Sprint 1B remediation）
 
-- 方案：合成前对题干中的英文缩写做确定性拼读展开（`spell_out_aviation`，
-  MEL→“M E L”等），符合官方 TTS 契约（`assistant` 目标文本自由控制）。
-- 实测（run `2026-08-16-s1b-s01-qual-v3`）：TTS→ASR 回环术语正确率 0.75 → 0.80；
+- 方案：**版本化 Speech Rendering Layer**（`app/speech/render.py`，
+  `SpeechRenderProfile` `render-v1`）——合成前对题干中的英文缩写与机型/发动机型号做
+  确定性拼读展开（`render_for_tts`，MEL→“M E L”、B737-800→“B 7 3 7 8 0 0”等），
+  **canonical/display 文本永不修改**；派生渲染文本随 TTS 任务记录
+  `render_profile_version`（`SPEECH_RENDER_PROFILE_VERSION=render-v1`）。
+- 实测（benchmark `tts-pron-bench-v1`，run `2026-08-16-s1b-human-s01-v2`）：
+  TTS→ASR 回环术语正确率 0.75 → 0.80（+0.05），10/10 成功；
   原提示词方案（发音指导）实测无增益且引入一次失败，已记录并弃用。
 
 ## 5. TTS 生产流与降级
