@@ -26,6 +26,7 @@ class MiMoTTSProvider(MiMoSpeechBase):
         *,
         voice: str = "mimo_default",
         audio_format: str = "wav",
+        style_prompt: str | None = None,
         connect_timeout_seconds: float = 10,
         request_timeout_seconds: float = 60,
     ) -> None:
@@ -38,13 +39,14 @@ class MiMoTTSProvider(MiMoSpeechBase):
         )
         self.voice = voice
         self.audio_format = audio_format
+        self.style_prompt = style_prompt or "请使用清晰、自然、专业的中文口试考官语气。"
 
     async def synthesize(self, text: str, voice: str | None = None) -> SynthesizedAudio:
         raw, request_id = await self._post(
             {
                 "model": self.model,
                 "messages": [
-                    {"role": "user", "content": "请使用清晰、自然、专业的中文口试考官语气。"},
+                    {"role": "user", "content": self.style_prompt},
                     {"role": "assistant", "content": text},
                 ],
                 "audio": {"format": self.audio_format, "voice": voice or self.voice},
