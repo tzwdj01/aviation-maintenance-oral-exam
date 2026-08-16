@@ -1,0 +1,45 @@
+{
+  "frozen_inputs": {
+    "code_commit_sha": "d0e817051bc60b003ac6238e42d158fbf94a4cf4",
+    "golden_dataset_hash": "e304071c21e971b6c1e805436ae04f93c08f0681e43f5dd23fb8ebd6ef9269c0",
+    "golden_dataset_version": "judge-qual-golden-v1",
+    "harness_version": "judge-harness-v2",
+    "prompt_bundle_hash": "0b4d30a3b63e1e35456543e2f9625c7d44fc31aad48f005e0b89ffba411264c5",
+    "prompt_bundle_version": "prompt-bundle-v2",
+    "qualification_gate_version": "v1",
+    "schema_hash": "62d0653ed1d45533940dd6ab6ae6123160ef9e6d8ba8f5db3b6ba37a46e8506d",
+    "schema_version": "eval-schema-v1",
+    "stability_subset_hash": "d4b12749d35a22457109dc5702838a7359544c80437277c8d930a814d862a625",
+    "stability_subset_ids": [
+      "JC-A1",
+      "JC-A2",
+      "JC-B1",
+      "JC-C1",
+      "JC-D1",
+      "JC-E1",
+      "JC-E2",
+      "JC-F1",
+      "JC-G1",
+      "JC-H1"
+    ],
+    "stability_subset_size": 10
+  },
+  "model": "deepseek-v4-pro",
+  "provider": "deepseek",
+  "record": {
+    "case_id": "JC-A1",
+    "error": "DEEPSEEK request failed: ",
+    "failed_pass": "FINAL_ASSESSMENT",
+    "latency_ms": 17468,
+    "pass_status": {
+      "COVERAGE": "SUCCESS",
+      "CRITICAL_ERROR": "SUCCESS",
+      "FINAL_ASSESSMENT": "NOT_RUN",
+      "FOLLOW_UP": "SUCCESS",
+      "QUALITY_RISK": "SUCCESS"
+    },
+    "scenario": "A_complete_correct",
+    "stability_run_number": 3,
+    "status": "FAILED"
+  }
+}

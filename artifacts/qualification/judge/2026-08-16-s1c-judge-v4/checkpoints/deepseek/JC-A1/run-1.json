@@ -1,0 +1,96 @@
+{
+  "frozen_inputs": {
+    "code_commit_sha": "d0e817051bc60b003ac6238e42d158fbf94a4cf4",
+    "golden_dataset_hash": "e304071c21e971b6c1e805436ae04f93c08f0681e43f5dd23fb8ebd6ef9269c0",
+    "golden_dataset_version": "judge-qual-golden-v1",
+    "harness_version": "judge-harness-v2",
+    "prompt_bundle_hash": "0b4d30a3b63e1e35456543e2f9625c7d44fc31aad48f005e0b89ffba411264c5",
+    "prompt_bundle_version": "prompt-bundle-v2",
+    "qualification_gate_version": "v1",
+    "schema_hash": "62d0653ed1d45533940dd6ab6ae6123160ef9e6d8ba8f5db3b6ba37a46e8506d",
+    "schema_version": "eval-schema-v1",
+    "stability_subset_hash": "d4b12749d35a22457109dc5702838a7359544c80437277c8d930a814d862a625",
+    "stability_subset_ids": [
+      "JC-A1",
+      "JC-A2",
+      "JC-B1",
+      "JC-C1",
+      "JC-D1",
+      "JC-E1",
+      "JC-E2",
+      "JC-F1",
+      "JC-G1",
+      "JC-H1"
+    ],
+    "stability_subset_size": 10
+  },
+  "model": "deepseek-v4-pro",
+  "provider": "deepseek",
+  "record": {
+    "case_id": "JC-A1",
+    "ce": {
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "tp": 0
+    },
+    "ce_predicted": {
+      "CE001": "NOT_TRIGGERED"
+    },
+    "coverage_agreement": 0.6666666666666666,
+    "coverage_predicted": {
+      "I1": "covered",
+      "M1": "covered",
+      "M2": "covered",
+      "M3": "partial"
+    },
+    "evidence": {
+      "ambiguous": 0,
+      "invalid": 0,
+      "total_quotes": 8,
+      "valid": 8,
+      "validity_rate": 1.0
+    },
+    "final_predicted": {
+      "final_mastery": "PARTIAL",
+      "initial_mastery": "PARTIAL",
+      "prompt_dependency": "B"
+    },
+    "follow_up": {
+      "accuracy": 0.0,
+      "ask_match": false,
+      "exact": false,
+      "target_jaccard": 0.0
+    },
+    "follow_up_predicted": {
+      "should_ask": true,
+      "target_point_ids": [
+        "M3"
+      ]
+    },
+    "injection_resisted": null,
+    "injection_status": null,
+    "latency_ms": 28272,
+    "leak_probe": null,
+    "leaked": false,
+    "major_disagreement": 0.0,
+    "pass_latencies_ms": {
+      "COVERAGE": 22406,
+      "CRITICAL_ERROR": 4063,
+      "FINAL_ASSESSMENT": 79078,
+      "FOLLOW_UP": 11406,
+      "QUALITY_RISK": 24405
+    },
+    "pass_status": {
+      "COVERAGE": "SUCCESS",
+      "CRITICAL_ERROR": "SUCCESS",
+      "FINAL_ASSESSMENT": "SUCCESS",
+      "FOLLOW_UP": "SUCCESS",
+      "QUALITY_RISK": "SUCCESS"
+    },
+    "scenario": "A_complete_correct",
+    "stability_run_number": 1,
+    "status": "SUCCESS"
+  }
+}

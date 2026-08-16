@@ -224,6 +224,40 @@
 - 处理：harness v2（`judge-harness-v2`）加入 checkpoint / resume 后，以新 Formal Run
   （`2026-08-16-s1c-judge-v4`）重新执行，不得复用 v3。
 
+### 8.3 Sprint 1C — Formal Multi-LLM Qualification v4（Run 2026-08-16-s1c-judge-v4）
+
+- **RUN_VALIDITY = `VALID`**（双 Provider 同一 run；`run_status = COMPLETED`）
+- Frozen inputs（MiMo 与 DeepSeek 完全一致）：
+  - Golden：`judge-qual-golden-v1`（内容不变：Question/Rubric/Evidence/CE/Gold 未改动；
+    case `prompt_version` 引用随 Prompt Bundle 更新为 v2），
+    hash `e304071c21e971b6c1e805436ae04f93c08f0681e43f5dd23fb8ebd6ef9269c0`
+  - Prompt Bundle：`prompt-bundle-v2`（含 JSON-mode transport instruction，
+    无评分语义改动），hash `0b4d30a3b63e1e35456543e2f9625c7d44fc31aad48f005e0b89ffba411264c5`
+  - Schema：`eval-schema-v1`，hash `62d0653ed1d45533940dd6ab6ae6123160ef9e6d8ba8f5db3b6ba37a46e8506d`
+  - Gate：`v1`；Harness：`judge-harness-v2`
+  - Stability subset：全部 10 例 × 3 runs，hash `d4b12749d35a22457109dc5702838a7359544c80437277c8d930a814d862a625`
+- 评估对象：`mimo-v2.5`（30/30 case-runs，success 10/10）与 `deepseek-v4-pro`
+  （30/30 case-runs，success 9/10；2 次 FINAL_ASSESSMENT 调用失败，已入 failures.json）
+- 结论（**PROPOSED_QUALIFICATION，待人工 Model Qualification Gate，未修改
+  LLMProfile.qualification_status**）：
+  - **MiMo `mimo-v2.5` = PROPOSED `FAILED`**：coverage 0.5833、major 0.05、evidence
+    validity 0.9722（invalid 1：JC-A2 zero-tolerance）、follow-up 0.425、decision
+    stability 0.7375、P95 59.0s；CE recall/precision 1.0、injection 1.0、leak 0、
+    structured output 1.0、failure rate 0.0。
+  - **DeepSeek `deepseek-v4-pro` = PROPOSED `FAILED`**：coverage 0.6111、major 0.0、
+    evidence validity 1.0（invalid 0）、follow-up 0.3611、decision stability 0.7708、
+    structured output 0.9、provider failure rate 0.1、P95 27.6s；CE recall/precision
+    1.0、injection 1.0、leak 0。
+  - 两 Provider 均未达到 Gate v1 的 CONDITIONAL 阈值 → 二者 **PROPOSED = FAILED**。
+- 变更（相对于上次）：v1（INVALIDATED_HARNESS_DEFECT）与 v3（ABORTED_NO_PERSISTENCE）
+  均不构成有效 MiMo 结论；本 Run 为 harness v2 checkpoint/resume 下首个双 Provider
+  有效 Formal Qualification。历史 Qualification V2 MiMo = `FAILED` 结论与本 Run
+  PROPOSED 一致。
+- 相关 ADR：`0003`（多 Provider 评估架构）、`0005`（禁止 Silent Failover）。
+- Artifacts：`artifacts/qualification/judge/2026-08-16-s1c-judge-v4/`
+  （manifest / results / metrics / failures / report + `checkpoints/` 持久化
+  case-runs，可经 `--reassemble-only` 确定性重建；不含 Key）
+
 ## 9. 纪律
 
 - `API_AVAILABLE ≠ QUALIFIED`；正式考试只用 `QUALIFIED`（或受限 `CONDITIONAL`）模型。
